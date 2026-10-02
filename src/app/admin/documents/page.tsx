@@ -188,7 +188,7 @@ export default function AdminDocumentsPage() {
               <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono">
                 <select
                   value={doc.status}
-                  onChange={(e) => updateDocumentStatus(doc.id, e.target.value as any)}
+                  onChange={(e) => updateDocumentStatus(doc.id, e.target.value as ProjectDocument['status'])}
                   className="bg-[#070b14] border border-white/10 rounded-lg px-2 py-1 text-[11px] text-sky-300 focus:outline-none"
                 >
                   <option value="Draft">Draft</option>
@@ -259,7 +259,7 @@ export default function AdminDocumentsPage() {
                   <label className="block text-xs font-mono text-slate-400 mb-1">Category</label>
                   <select
                     value={category}
-                    onChange={(e) => setCategory(e.target.value as any)}
+                    onChange={(e) => setCategory(e.target.value as DocumentCategory)}
                     className="w-full p-2.5 rounded-xl bg-[#070b14] border border-white/10 text-white text-xs font-mono focus:outline-none"
                   >
                     {CATEGORIES.map((c) => (

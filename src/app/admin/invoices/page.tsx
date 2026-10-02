@@ -348,7 +348,7 @@ export default function AdminInvoicesPage() {
                 </label>
                 <select
                   value={paymentMethod}
-                  onChange={(e) => setPaymentMethod(e.target.value as any)}
+                  onChange={(e) => setPaymentMethod(e.target.value as 'NEFT' | 'RTGS' | 'UPI' | 'Cheque')}
                   className="w-full p-2.5 rounded-xl bg-[#070b14] border border-white/10 text-white text-xs font-mono focus:outline-none"
                 >
                   <option value="NEFT">NEFT Direct Bank Wire</option>

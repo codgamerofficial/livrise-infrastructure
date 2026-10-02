@@ -33,7 +33,9 @@ export default function AdminSettingsPage() {
   const [youtube, setYoutube] = useState(siteSettings.youtube || '');
 
   // Synchronize when store state is hydrated
-  useEffect(() => {
+  const [prevSettings, setPrevSettings] = useState(siteSettings);
+  if (prevSettings !== siteSettings) {
+    setPrevSettings(siteSettings);
     if (siteSettings) {
       setCompanyName(siteSettings.companyName || 'LivRise Infrastructure');
       setDisplayName(siteSettings.displayName || 'LivRise Infrastructure');
@@ -46,7 +48,7 @@ export default function AdminSettingsPage() {
       setInstagram(siteSettings.instagram || '');
       setYoutube(siteSettings.youtube || '');
     }
-  }, [siteSettings]);
+  }
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();

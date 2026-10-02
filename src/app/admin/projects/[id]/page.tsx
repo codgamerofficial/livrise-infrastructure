@@ -115,7 +115,7 @@ export default function AdminProjectControlCenter() {
         ].map((tab) => (
           <button
             key={tab.key}
-            onClick={() => setActiveTab(tab.key as any)}
+            onClick={() => setActiveTab(tab.key as 'milestones' | 'documents' | 'financials')}
             className={`pb-3 px-4 text-xs font-mono font-medium border-b-2 flex items-center gap-2 transition-all ${
               activeTab === tab.key
                 ? 'border-sky-400 text-sky-400 font-bold'
@@ -307,7 +307,7 @@ export default function AdminProjectControlCenter() {
                 <label className="block text-xs font-mono text-slate-400 mb-1">Status</label>
                 <select
                   value={editStatus}
-                  onChange={(e) => setEditStatus(e.target.value as any)}
+                  onChange={(e) => setEditStatus(e.target.value as Milestone['status'])}
                   className="w-full p-2.5 rounded-xl bg-[#070b14] border border-white/10 text-white text-xs font-mono focus:outline-none"
                 >
                   <option value="Upcoming">Upcoming</option>

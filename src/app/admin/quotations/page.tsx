@@ -237,7 +237,7 @@ export default function AdminQuotationsPage() {
               <div className="pt-3 border-t border-white/5 flex items-center justify-between text-xs font-mono">
                 <select
                   value={q.status}
-                  onChange={(e) => updateQuotationStatus(q.id, e.target.value as any)}
+                  onChange={(e) => updateQuotationStatus(q.id, e.target.value as Quotation['status'])}
                   className="bg-[#070b14] border border-white/10 rounded-lg px-2 py-1 text-[11px] text-purple-300 focus:outline-none"
                 >
                   <option value="Draft">Draft</option>

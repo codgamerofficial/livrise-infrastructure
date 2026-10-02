@@ -66,7 +66,7 @@ export default function AdminCMSPage() {
           return (
             <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key as any)}
+              onClick={() => setActiveTab(tab.key as 'stats' | 'services' | 'awards' | 'team')}
               className={`pb-3 px-4 text-xs font-mono font-medium border-b-2 flex items-center gap-2 transition-all ${
                 activeTab === tab.key
                   ? 'border-amber-400 text-amber-400 font-bold'

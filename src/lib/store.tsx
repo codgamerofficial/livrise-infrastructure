@@ -178,6 +178,7 @@ export function LivRiseStoreProvider({ children }: { children: React.ReactNode }
   const [siteSettings, setSiteSettings] = useState<SiteSettings>(SITE_SETTINGS);
 
   // Load from localStorage on mount
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     try {
       const load = <T,>(key: string, fallback: T): T => {
@@ -208,6 +209,7 @@ export function LivRiseStoreProvider({ children }: { children: React.ReactNode }
       console.error('Failed to load local storage state:', e);
     }
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const saveToLocal = (key: string, val: unknown) => {
     try {

@@ -28,9 +28,11 @@ export function LivRiseNavbar({ onOpenEnquiry }: LivRiseNavbarProps) {
   }, []);
 
   // Close mobile menu on route change
-  useEffect(() => {
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setMobileMenuOpen(false);
-  }, [pathname]);
+  }
 
   const navLinks = [
     { label: 'About', href: '/about' },
