@@ -3,6 +3,7 @@ import './globals.css';
 import { LivRiseStoreProvider } from '@/lib/store';
 import { FloatingContact } from '@/components/ui/FloatingContact';
 import { SITE_SETTINGS } from '@/lib/site-settings';
+import { Analytics } from '@vercel/analytics/next';
 
 export const viewport: Viewport = {
   themeColor: '#c5a059',
@@ -115,6 +116,7 @@ export default function RootLayout({
           <div className="flex-1 flex flex-col">{children}</div>
           <FloatingContact />
         </LivRiseStoreProvider>
+        <Analytics />
       </body>
     </html>
   );
