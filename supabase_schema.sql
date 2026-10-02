@@ -544,8 +544,17 @@ ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.meetings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.service_categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.services ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.team_members ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.awards ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.offices ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.site_statistics ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
 
 -- Public can read active public services, portfolio projects, team members, awards, testimonials, site stats
+CREATE POLICY "Public can view active service categories" ON public.service_categories FOR SELECT USING (true);
 CREATE POLICY "Public can view active services" ON public.services FOR SELECT USING (is_active = true);
 CREATE POLICY "Public can view public projects" ON public.projects FOR SELECT USING (is_public_portfolio = true);
 CREATE POLICY "Public can view team members" ON public.team_members FOR SELECT USING (is_active = true);
@@ -553,11 +562,14 @@ CREATE POLICY "Public can view awards" ON public.awards FOR SELECT USING (true);
 CREATE POLICY "Public can view verified testimonials" ON public.testimonials FOR SELECT USING (is_verified = true);
 CREATE POLICY "Public can view offices" ON public.offices FOR SELECT USING (true);
 CREATE POLICY "Public can view site stats" ON public.site_statistics FOR SELECT USING (is_verified = true);
+CREATE POLICY "Public can view site settings" ON public.site_settings FOR SELECT USING (true);
 
 -- Leads: Anyone can submit an enquiry; only admins/consultants can read
 CREATE POLICY "Anonymous can insert lead enquiry" ON public.leads FOR INSERT WITH CHECK (true);
 
--- Clients can only see their own projects, quotations, invoices, documents, and messages
+-- Clients can only see their own profile, projects, quotations, invoices, documents, and messages
+CREATE POLICY "Clients can view own client profile" ON public.clients FOR SELECT USING (profile_id = auth.uid());
+
 CREATE POLICY "Clients can view own projects" ON public.projects FOR SELECT USING (
     client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid())
 );
