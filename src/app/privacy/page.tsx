@@ -31,7 +31,7 @@ export default function PrivacyPolicyPage() {
                 1. Commitment to Technical Data Confidentiality
               </h2>
               <p>
-                At LivRise Infrastructure, accessible from <strong className="text-white">https://livriseinfrastructure.com</strong>, the confidentiality of client engineering specifications, architectural drawings, structural calculations, and financial documentation is paramount.
+                At LivRise Infrastructure, accessible from <strong className="text-white">https://livrise.in</strong>, the confidentiality of client engineering specifications, architectural drawings, structural calculations, and financial documentation is paramount.
               </p>
             </section>
 

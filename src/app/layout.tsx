@@ -23,10 +23,10 @@ export const metadata: Metadata = {
     'Project Delivery Platform',
     'Building Ideas Into Reality',
   ],
-  authors: [{ name: 'LivRise Infrastructure', url: 'https://livriseinfrastructure.com' }],
+  authors: [{ name: 'LivRise Infrastructure', url: 'https://livrise.in' }],
   creator: 'LivRise Infrastructure',
   publisher: 'LivRise Infrastructure',
-  metadataBase: new URL('https://livriseinfrastructure.com'),
+  metadataBase: new URL('https://livrise.in'),
   manifest: '/manifest.json',
   icons: {
     icon: '/favicon.ico',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'LivRise Infrastructure | Engineering • Architecture • Infrastructure',
     description: 'LivRise Infrastructure brings engineering, architecture and infrastructure together through a modern project delivery experience. Building Ideas Into Reality.',
-    url: 'https://livriseinfrastructure.com',
+    url: 'https://livrise.in',
     siteName: 'LivRise Infrastructure',
     images: [
       {
@@ -75,7 +75,7 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: SITE_SETTINGS.companyName,
-              url: 'https://livriseinfrastructure.com',
+              url: 'https://livrise.in',
               email: SITE_SETTINGS.contactEmail,
               telephone: SITE_SETTINGS.displayWhatsApp,
               description: `${SITE_SETTINGS.descriptor}. ${SITE_SETTINGS.tagline}`,

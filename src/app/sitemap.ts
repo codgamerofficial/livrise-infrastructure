@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { SEED_SERVICES } from '@/lib/seed-data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://livriseinfrastructure.com';
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://livrise.in';
 
   const staticPages = [
     '',
