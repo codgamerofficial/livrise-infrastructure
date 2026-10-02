@@ -1,5 +1,5 @@
 -- =============================================================================
--- INFRAVA DIGITAL ENGINEERING PLATFORM
+-- LIVRISE DIGITAL ENGINEERING PLATFORM
 -- Production Supabase PostgreSQL Schema
 -- Engineering • Architecture • Infrastructure
 -- Tagline: Building Ideas Into Reality.
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 
 CREATE TABLE IF NOT EXISTS public.leads (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    enquiry_number VARCHAR(50) UNIQUE NOT NULL, -- e.g. INFRAVA-ENQ-2026-00101
+    enquiry_number VARCHAR(50) UNIQUE NOT NULL, -- e.g. LIV-ENQ-2026-00101
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(50) NOT NULL,

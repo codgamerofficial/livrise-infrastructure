@@ -1,8 +1,9 @@
 // LivRise Infrastructure Service Worker
-const CACHE_NAME = 'livrise-shell-v1';
+const CACHE_NAME = 'livrise-shell-v2';
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
+  '/offline',
   '/images/logo-dark.png',
   '/images/logo-light.png'
 ];
@@ -34,21 +35,55 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Security critical: NEVER cache API, Supabase, portal, or admin requests
+  // Security critical: NEVER cache private client data, API, Supabase, app portal, or admin requests
   if (
     url.pathname.startsWith('/api') ||
-    url.pathname.startsWith('/portal') ||
+    url.pathname.startsWith('/app') ||
     url.pathname.startsWith('/admin') ||
+    url.pathname.startsWith('/portal') ||
     url.hostname.includes('supabase') ||
     event.request.method !== 'GET'
   ) {
     return;
   }
 
-  // Network-first for dynamic navigation, cache fallback for static assets
+  // Handle navigation requests (pages)
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(async () => {
+        const cache = await caches.open(CACHE_NAME);
+        const cachedResponse = await cache.match(event.request);
+        if (cachedResponse) return cachedResponse;
+        const offlineFallback = await cache.match('/offline');
+        return offlineFallback || new Response('Offline', { status: 503, statusText: 'Offline' });
+      })
+    );
+    return;
+  }
+
+  // Cache fallback for static assets
   event.respondWith(
-    fetch(event.request).catch(() => {
-      return caches.match(event.request);
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(event.request).then((response) => {
+        // Cache successful image or font assets
+        if (
+          response &&
+          response.status === 200 &&
+          (url.pathname.startsWith('/images/') || url.pathname.endsWith('.png') || url.pathname.endsWith('.ico'))
+        ) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseClone);
+          });
+        }
+        return response;
+      });
+    }).catch(() => {
+      // If asset fetch fails, return empty or fallback
+      return new Response('', { status: 408, statusText: 'Request Timeout' });
     })
   );
 });

@@ -2,13 +2,15 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { LivRiseStoreProvider } from '@/lib/store';
 import { FloatingContact } from '@/components/ui/FloatingContact';
+import { PwaInstallPrompt } from '@/components/ui/PwaInstallPrompt';
 import { SITE_SETTINGS } from '@/lib/site-settings';
 
 export const viewport: Viewport = {
-  themeColor: '#c5a059',
+  themeColor: '#000000',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
+  viewportFit: 'cover',
 };
 
 export const metadata: Metadata = {
@@ -114,6 +116,7 @@ export default function RootLayout({
         <LivRiseStoreProvider>
           <div className="flex-1 flex flex-col">{children}</div>
           <FloatingContact />
+          <PwaInstallPrompt />
         </LivRiseStoreProvider>
       </body>
     </html>

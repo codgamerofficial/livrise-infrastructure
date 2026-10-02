@@ -32,6 +32,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/start-a-project',
+        destination: '/start-project',
+        permanent: true,
+      },
+      {
         source: '/team',
         destination: '/about',
         permanent: true,

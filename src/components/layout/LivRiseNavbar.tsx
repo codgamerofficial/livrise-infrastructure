@@ -92,6 +92,15 @@ export function LivRiseNavbar({ onOpenEnquiry }: LivRiseNavbarProps) {
             Contact
           </Link>
 
+          {/* Client Portal Link */}
+          <Link
+            href="/app"
+            className="hidden sm:inline-flex text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-500/30 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 transition-all items-center gap-1.5"
+          >
+            <Shield className="w-3 h-3" />
+            <span>Client Portal</span>
+          </Link>
+
           {/* Mobile WhatsApp Action Button */}
           <a
             href={siteSettings?.whatsappUrl || 'https://wa.me/916296603868'}
@@ -188,6 +197,15 @@ export function LivRiseNavbar({ onOpenEnquiry }: LivRiseNavbarProps) {
             </div>
 
             <div className="pt-3 border-t border-white/10 flex flex-col gap-2">
+              <Link
+                href="/app"
+                className="w-full text-center bg-amber-400 text-slate-950 py-2.5 rounded-lg text-sm font-semibold hover:bg-amber-300 transition-colors shadow-sm flex items-center justify-center gap-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Shield className="w-4 h-4 text-slate-950" />
+                <span>Client App Portal</span>
+              </Link>
+
               <Link
                 href="/start-project"
                 className="w-full text-center bg-white text-black py-2.5 rounded-lg text-sm font-semibold hover:bg-zinc-100 transition-colors"
