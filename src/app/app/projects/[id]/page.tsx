@@ -358,9 +358,9 @@ export default function ClientProjectDetailPage() {
 
       {/* TAB: MESSAGES */}
       {activeTab === 'messages' && (
-        <div className="liquid-glass rounded-3xl border border-white/10 flex flex-col h-[520px] overflow-hidden animate-in fade-in duration-200">
+        <div className="liquid-glass rounded-3xl border border-white/10 flex flex-col h-130 overflow-hidden animate-in fade-in duration-200">
           {/* Header */}
-          <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/[0.02]">
+          <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/2">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
               <span className="text-xs font-semibold text-white">Engineering Project Chat</span>

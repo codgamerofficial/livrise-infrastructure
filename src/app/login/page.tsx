@@ -38,7 +38,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-[#090d16] flex flex-col justify-center py-12 sm:px-6 lg:px-8 blueprint-grid relative">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center space-y-3">
         <Link href="/" className="inline-block mx-auto">
-          <LivRiseLogo size="md" />
+          <LivRiseLogo size="md" asLink={false} />
         </Link>
         <h2 className="text-2xl font-extrabold text-white">Access Digital Platform</h2>
         <p className="text-xs text-slate-400">Engineering Operations & Admin Workspace</p>

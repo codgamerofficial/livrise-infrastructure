@@ -22,9 +22,9 @@ export interface EnquiryNotificationPayload {
 }
 
 export async function sendEnquiryNotificationEmail(payload: EnquiryNotificationPayload) {
-  const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || 'livriseinfrastructure@gmail.com';
+  const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || process.env.NOTIFICATION_RECIPIENT_EMAIL || 'livriseinfrastructure@gmail.com';
   const emailFrom = process.env.EMAIL_FROM || 'LivRise Infrastructure <notifications@livrise.in>';
-  const provider = process.env.EMAIL_PROVIDER || 'resend';
+  const provider = process.env.EMAIL_PROVIDER || process.env.EMAIL_SERVICE_PROVIDER || 'resend';
   const resendApiKey = process.env.RESEND_API_KEY;
 
   const subject = `New Project Enquiry: ${payload.fullName} [${payload.projectType}]`;

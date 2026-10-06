@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLivRiseStore } from '@/lib/store';
 import { LivRiseLogo } from '@/components/ui/LivRiseLogo';
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import {
   LayoutDashboard,
   Users,
@@ -57,28 +58,33 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#070b14] flex flex-col md:flex-row text-slate-100">
+    <div className="min-h-screen bg-(--bg-primary) text-(--text-primary) flex flex-col md:flex-row transition-colors duration-200">
       {/* Desktop Admin Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 bg-[#0a0f1d] border-r border-white/5 shrink-0 justify-between">
+      <aside className="hidden md:flex flex-col w-64 bg-(--surface-primary) border-r border-(--border-subtle) shrink-0 justify-between">
         <div>
           {/* Logo Header */}
-          <div className="h-16 flex items-center justify-between px-6 border-b border-white/5">
+          <div className="h-16 flex items-center justify-between px-5 border-b border-(--border-subtle)">
             <Link href="/" className="block">
-              <LivRiseLogo size="sm" />
+              <LivRiseLogo size="sm" asLink={false} />
             </Link>
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">
-              ADMIN
-            </span>
+            <div className="flex items-center gap-1.5">
+              <ThemeToggle />
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-lg bg-indigo-500/10 text-brand-indigo dark:text-brand-blue font-bold border border-indigo-500/20">
+                ADMIN
+              </span>
+            </div>
           </div>
 
           {/* Admin User Badge */}
-          <div className="p-3 mx-3 my-3 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-amber-400 text-slate-950 font-bold flex items-center justify-center font-mono text-xs">
+          <div className="p-3 mx-3 my-3 rounded-2xl bg-(--surface-secondary) border border-(--border-subtle) flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-linear-to-tr from-brand-indigo to-brand-blue text-white font-bold flex items-center justify-center font-mono text-xs">
               {currentUser.name.charAt(0)}
             </div>
             <div className="truncate text-xs">
-              <p className="font-bold text-white truncate">{currentUser.name}</p>
-              <p className="text-[10px] text-amber-400 font-mono">{currentUser.role.toUpperCase()}</p>
+              <p className="font-bold text-(--text-primary) truncate">{currentUser.name}</p>
+              <p className="text-[10px] text-brand-indigo dark:text-brand-blue font-mono font-semibold">
+                {currentUser.role.toUpperCase()}
+              </p>
             </div>
           </div>
 
@@ -91,10 +97,10 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                  className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
                     isActive
-                      ? 'bg-amber-400 text-slate-950 font-bold shadow-md shadow-amber-400/20'
-                      : 'text-slate-400 hover:text-white hover:bg-white/5'
+                      ? 'bg-linear-to-r from-brand-indigo to-brand-blue text-white font-bold shadow-md shadow-brand-indigo/20'
+                      : 'text-(--text-secondary) hover:text-(--text-primary) hover:bg-(--surface-secondary)'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
@@ -102,7 +108,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                     <span>{item.label}</span>
                   </div>
                   {item.badge && item.badge > 0 ? (
-                    <span className="w-4 h-4 rounded-full bg-amber-500 text-slate-950 font-mono text-[9px] flex items-center justify-center font-bold">
+                    <span className="w-4 h-4 rounded-full bg-brand-indigo text-white font-mono text-[9px] flex items-center justify-center font-bold">
                       {item.badge}
                     </span>
                   ) : null}
@@ -113,10 +119,10 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Footer Actions */}
-        <div className="p-4 border-t border-white/5 space-y-2">
+        <div className="p-4 border-t border-(--border-subtle) space-y-2">
           <Link
             href="/app"
-            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-amber-300 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-all"
+            className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-brand-indigo dark:text-brand-blue bg-indigo-500/10 border border-indigo-500/20 hover:bg-indigo-500/20 transition-all"
           >
             <div className="flex items-center gap-2">
               <Shield className="w-3.5 h-3.5" />
@@ -127,7 +133,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
           <Link
             href="/"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs text-(--text-muted) hover:text-(--text-primary) hover:bg-(--surface-secondary) transition-colors"
           >
             <ExternalLink className="w-3.5 h-3.5" />
             <span>View Public Website</span>
@@ -138,22 +144,23 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main Content Viewport */}
       <div className="flex-1 flex flex-col min-w-0 pb-16 md:pb-0">
         {/* Mobile Header */}
-        <header className="md:hidden h-14 bg-[#0a0f1d] border-b border-white/10 flex items-center justify-between px-4 sticky top-0 z-30 pt-safe">
+        <header className="md:hidden h-14 bg-(--surface-primary) border-b border-(--border-subtle) flex items-center justify-between px-4 sticky top-0 z-30 pt-safe">
           <Link href="/admin" className="block">
-            <LivRiseLogo size="sm" />
+            <LivRiseLogo size="sm" asLink={false} />
           </Link>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link
               href="/app"
-              className="text-[10px] font-mono px-2.5 py-1 rounded-lg bg-amber-500/10 text-amber-300 border border-amber-500/20"
+              className="text-[10px] font-mono font-semibold px-2.5 py-1 rounded-lg bg-indigo-500/10 text-brand-indigo dark:text-brand-blue border border-indigo-500/20"
             >
               Client View
             </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 rounded-lg text-slate-300 hover:text-white bg-white/5 border border-white/10"
+              className="p-1.5 rounded-lg text-(--text-primary) bg-(--surface-secondary) border border-(--border-subtle)"
               aria-label="Toggle admin menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -163,13 +170,15 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
         {/* Mobile Drawer Overlay */}
         {mobileMenuOpen && (
-          <div className="md:hidden fixed inset-0 z-40 bg-black/95 p-5 pt-20 overflow-y-auto space-y-3 animate-in fade-in duration-200">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <span className="text-xs font-mono text-amber-400 uppercase">Admin Navigation Menu</span>
+          <div className="md:hidden fixed inset-0 z-40 bg-(--bg-primary)/95 backdrop-blur-2xl p-5 pt-20 overflow-y-auto space-y-3 animate-in fade-in duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-(--border-subtle)">
+              <span className="text-xs font-mono font-bold text-brand-indigo dark:text-brand-blue uppercase">
+                Admin Navigation Menu
+              </span>
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-1 rounded-lg text-zinc-400 hover:text-white"
+                className="p-1 rounded-lg text-(--text-muted) hover:text-(--text-primary)"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -184,10 +193,10 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center justify-between p-3 rounded-xl text-xs font-medium ${
+                    className={`flex items-center justify-between p-3 rounded-xl text-xs font-semibold ${
                       isActive
-                        ? 'bg-amber-400 text-black font-bold'
-                        : 'text-zinc-300 hover:bg-white/5'
+                        ? 'bg-linear-to-r from-brand-indigo to-brand-blue text-white'
+                        : 'text-(--text-secondary) hover:bg-(--surface-secondary)'
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -195,7 +204,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                       <span>{item.label}</span>
                     </div>
                     {item.badge && item.badge > 0 ? (
-                      <span className="w-4 h-4 rounded-full bg-amber-500 text-black font-mono text-[9px] flex items-center justify-center font-bold">
+                      <span className="w-4 h-4 rounded-full bg-brand-indigo text-white font-mono text-[9px] flex items-center justify-center font-bold">
                         {item.badge}
                       </span>
                     ) : null}
@@ -206,66 +215,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           </div>
         )}
 
-        {/* Page Content */}
-        <div className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-8">
+        {/* Child Page Content Container */}
+        <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto">
           {children}
-        </div>
+        </main>
       </div>
-
-      {/* Mobile Admin Quick Bottom Navigation */}
-      <nav
-        aria-label="Admin mobile quick navigation"
-        className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-[#0a0f1d]/95 backdrop-blur-xl border-t border-white/10 flex items-center justify-around h-14 pb-safe"
-      >
-        <Link
-          href="/admin"
-          className={`flex flex-col items-center justify-center flex-1 py-1 text-[10px] ${
-            pathname === '/admin' ? 'text-amber-400 font-bold' : 'text-zinc-400'
-          }`}
-        >
-          <LayoutDashboard className="w-4 h-4" />
-          <span>Dashboard</span>
-        </Link>
-
-        <Link
-          href="/admin/leads"
-          className={`flex flex-col items-center justify-center flex-1 py-1 text-[10px] ${
-            pathname.startsWith('/admin/leads') ? 'text-amber-400 font-bold' : 'text-zinc-400'
-          }`}
-        >
-          <Users className="w-4 h-4" />
-          <span>Leads</span>
-        </Link>
-
-        <Link
-          href="/admin/projects"
-          className={`flex flex-col items-center justify-center flex-1 py-1 text-[10px] ${
-            pathname.startsWith('/admin/projects') ? 'text-amber-400 font-bold' : 'text-zinc-400'
-          }`}
-        >
-          <FolderKanban className="w-4 h-4" />
-          <span>Projects</span>
-        </Link>
-
-        <Link
-          href="/admin/invoices"
-          className={`flex flex-col items-center justify-center flex-1 py-1 text-[10px] ${
-            pathname.startsWith('/admin/invoices') ? 'text-amber-400 font-bold' : 'text-zinc-400'
-          }`}
-        >
-          <Receipt className="w-4 h-4" />
-          <span>Invoices</span>
-        </Link>
-
-        <button
-          type="button"
-          onClick={() => setMobileMenuOpen(true)}
-          className="flex flex-col items-center justify-center flex-1 py-1 text-[10px] text-zinc-400"
-        >
-          <Menu className="w-4 h-4" />
-          <span>More</span>
-        </button>
-      </nav>
     </div>
   );
 }

@@ -125,7 +125,7 @@ export default function ClientProjectsPage() {
                     <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
                       <div
                         style={{ width: `${progress}%` }}
-                        className="h-full bg-gradient-to-r from-amber-500 to-amber-300 rounded-full"
+                        className="h-full bg-linear-to-r from-amber-500 to-amber-300 rounded-full"
                       />
                     </div>
                   </div>

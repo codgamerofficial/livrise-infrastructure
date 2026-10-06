@@ -1,12 +1,14 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { LivRiseStoreProvider } from '@/lib/store';
+import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { FloatingContact } from '@/components/ui/FloatingContact';
 import { PwaInstallPrompt } from '@/components/ui/PwaInstallPrompt';
+import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
 import { SITE_SETTINGS } from '@/lib/site-settings';
 
 export const viewport: Viewport = {
-  themeColor: '#000000',
+  themeColor: '#635BFF',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -14,15 +16,17 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'LivRise Infrastructure | Engineering • Architecture • Infrastructure',
-  description: 'LivRise Infrastructure brings engineering, architecture and infrastructure together through a modern project delivery experience. Building Ideas Into Reality.',
+  title: 'LivRise Infrastructure | Anime × Architecture • Building Ideas Into Reality',
+  description: 'LivRise Infrastructure brings modern architectural floor plans, photorealistic 3D elevations, interior design, and turnkey construction together into a vibrant digital experience. Building Ideas Into Reality.',
   keywords: [
     'LivRise Infrastructure',
     'LivRise',
-    'Structural Engineering',
+    'House Plan',
+    '3D Elevation',
+    'Interior Design',
+    'Residential Construction',
     'Architectural Design',
-    'Infrastructure Consultancy',
-    'Project Delivery Platform',
+    'Turnkey Construction',
     'Building Ideas Into Reality',
   ],
   authors: [{ name: 'LivRise Infrastructure', url: 'https://livrise.in' }],
@@ -36,12 +40,12 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'LivRise Infrastructure | Engineering • Architecture • Infrastructure',
-    description: 'LivRise Infrastructure brings engineering, architecture and infrastructure together through a modern project delivery experience. Building Ideas Into Reality.',
+    description: 'LivRise brings modern architectural planning, 3D home design, and construction together into a vibrant digital product experience. Imagine it. See it. Build it.',
     url: 'https://livrise.in',
     siteName: 'LivRise Infrastructure',
     images: [
       {
-        url: 'https://images.unsplash.com/photo-1541888946425-d0fbb186156f?q=80&w=1200&auto=format&fit=crop',
+        url: '/images/anime/anime-dream-home.png',
         width: 1200,
         height: 630,
         alt: 'LivRise Infrastructure — Building Ideas Into Reality',
@@ -53,8 +57,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'LivRise Infrastructure | Engineering • Architecture • Infrastructure',
-    description: 'Building Ideas Into Reality. Structured engineering, architecture and infrastructure project delivery.',
-    images: ['https://images.unsplash.com/photo-1541888946425-d0fbb186156f?q=80&w=1200&auto=format&fit=crop'],
+    description: 'Building Ideas Into Reality. Modern architectural planning, 3D home design, and construction.',
+    images: ['/images/anime/anime-dream-home.png'],
   },
 };
 
@@ -64,11 +68,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth">
+    <html lang="en" suppressHydrationWarning className="scroll-smooth" data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
         <link rel="manifest" href="/manifest.json" />
         <script
           type="application/ld+json"
@@ -112,12 +119,15 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-black text-white min-h-screen flex flex-col antialiased selection:bg-white selection:text-black font-sans">
-        <LivRiseStoreProvider>
-          <div className="flex-1 flex flex-col">{children}</div>
-          <FloatingContact />
-          <PwaInstallPrompt />
-        </LivRiseStoreProvider>
+      <body className="bg-(--bg-primary) text-(--text-primary) min-h-screen flex flex-col antialiased selection:bg-brand-indigo selection:text-white transition-colors duration-200 pb-16 md:pb-0 font-sans">
+        <ThemeProvider>
+          <LivRiseStoreProvider>
+            <div className="flex-1 flex flex-col">{children}</div>
+            <MobileBottomNav />
+            <FloatingContact />
+            <PwaInstallPrompt />
+          </LivRiseStoreProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

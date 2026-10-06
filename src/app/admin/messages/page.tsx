@@ -45,7 +45,7 @@ export default function AdminMessagesHubPage() {
       </div>
 
       {/* Chat Pane */}
-      <div className="liquid-glass rounded-3xl border border-white/10 overflow-hidden flex flex-col md:flex-row h-[600px]">
+      <div className="liquid-glass rounded-3xl border border-white/10 overflow-hidden flex flex-col md:flex-row h-150">
         {/* Project Channels Sidebar */}
         <div className="w-full md:w-80 border-b md:border-b-0 md:border-r border-white/10 flex flex-col bg-black/40">
           <div className="p-3 border-b border-white/10">
@@ -101,7 +101,7 @@ export default function AdminMessagesHubPage() {
         {/* Conversation Right Pane */}
         <div className="flex-1 flex flex-col bg-black/60 min-w-0">
           {/* Header */}
-          <div className="p-4 border-b border-white/10 bg-white/[0.02] flex items-center justify-between">
+          <div className="p-4 border-b border-white/10 bg-white/2 flex items-center justify-between">
             <div>
               <h2 className="text-sm font-semibold text-white">
                 {currentProject?.title}

@@ -20,7 +20,7 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-md space-y-6">
         <div className="text-center space-y-3">
           <Link href="/" className="inline-block mx-auto">
-            <LivRiseLogo size="md" />
+            <LivRiseLogo size="md" asLink={false} />
           </Link>
           <h1 className="text-2xl font-bold text-white font-mono">Password Recovery</h1>
           <p className="text-xs text-slate-400">

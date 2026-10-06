@@ -26,12 +26,12 @@ export function MobileHeader({
         {/* Left: Logo or Page Title */}
         <div className="flex items-center gap-3">
           {title ? (
-            <h1 className="text-base font-semibold text-white tracking-tight truncate max-w-[200px]">
+            <h1 className="text-base font-semibold text-white tracking-tight truncate max-w-50">
               {title}
             </h1>
           ) : (
             <Link href="/app" className="flex items-center">
-              <LivRiseLogo size="sm" />
+              <LivRiseLogo size="sm" asLink={false} />
             </Link>
           )}
         </div>

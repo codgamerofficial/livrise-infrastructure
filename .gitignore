@@ -43,6 +43,7 @@ next-env.d.ts
 
 # archived modules
 .portal_archived
+.data/
 
 .vercel
 .env*.local

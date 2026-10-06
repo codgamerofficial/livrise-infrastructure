@@ -114,7 +114,7 @@ export default function ClientHomePage() {
             </Link>
           </div>
 
-          <div className="arch-card p-5 sm:p-7 rounded-3xl border border-white/15 bg-gradient-to-b from-white/[0.07] to-transparent relative overflow-hidden group">
+          <div className="arch-card p-5 sm:p-7 rounded-3xl border border-white/15 bg-linear-to-b from-white/[0.07] to-transparent relative overflow-hidden group">
             {/* Background architectural glow */}
             <div className="absolute top-0 right-0 w-72 h-72 bg-amber-500/10 rounded-full blur-[80px] pointer-events-none" />
 
@@ -149,7 +149,7 @@ export default function ClientHomePage() {
                 <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden p-0.5">
                   <div
                     style={{ width: `${progressPct}%` }}
-                    className="h-full bg-gradient-to-r from-amber-500 via-amber-400 to-white rounded-full transition-all duration-500"
+                    className="h-full bg-linear-to-r from-amber-500 via-amber-400 to-white rounded-full transition-all duration-500"
                   />
                 </div>
                 <div className="flex justify-between text-[11px] text-zinc-400 font-mono">

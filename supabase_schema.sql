@@ -55,36 +55,59 @@ CREATE TABLE IF NOT EXISTS public.profiles (
 
 CREATE TABLE IF NOT EXISTS public.leads (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    enquiry_number VARCHAR(50) UNIQUE NOT NULL, -- e.g. LIV-ENQ-2026-00101
+    reference_id VARCHAR(50) UNIQUE NOT NULL, -- e.g. LIV-2026-48277
+    enquiry_number VARCHAR(50) UNIQUE NOT NULL, -- Synchronized with reference_id
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(50) NOT NULL,
+    company VARCHAR(255),
+    company_name VARCHAR(255),
     preferred_contact_method VARCHAR(50) DEFAULT 'email', -- 'email', 'phone', 'whatsapp'
     
-    -- Multi-step enquiry details
-    service_required VARCHAR(100) NOT NULL, -- Architecture, Structural Engineering, Interior, etc.
-    project_type VARCHAR(100) NOT NULL, -- Residential, Commercial, Industrial, Infrastructure, etc.
+    -- Project Parameters
+    project_name VARCHAR(255),
+    project_type VARCHAR(100) NOT NULL, -- Residential Villa, Commercial Office Complex, etc.
+    service VARCHAR(100),
+    service_required VARCHAR(100) NOT NULL, -- Architecture, Structural Engineering, Infrastructure, etc.
     country VARCHAR(100) DEFAULT 'India',
     state VARCHAR(100),
     city VARCHAR(100),
     pin_code VARCHAR(20),
+    location VARCHAR(255),
     
     plot_area VARCHAR(100),
     built_up_area VARCHAR(100),
     number_of_floors VARCHAR(50),
     current_stage VARCHAR(100), -- Concept, Land Acquired, Planning, Ready to Build
+    budget VARCHAR(100),
     estimated_budget VARCHAR(100),
+    timeline VARCHAR(100),
+    start_date VARCHAR(100),
     expected_start_date DATE,
-    requirements TEXT,
+    description TEXT,
+    requirements TEXT NOT NULL,
+    additional_requirements TEXT,
+    attachments JSONB DEFAULT '[]'::jsonb, -- Array of uploaded drawing documents
     
-    -- CRM Pipeline Status
-    status VARCHAR(50) DEFAULT 'New Leads', -- 'New Leads', 'Contacted', 'Qualified', 'Meeting', 'Quotation', 'Negotiation', 'Won', 'Lost', 'Archived'
+    -- CRM Pipeline Status & Tracking
+    status VARCHAR(50) DEFAULT 'New', -- 'New', 'Contacted', 'Qualified', 'Meeting', 'Quotation', 'Negotiation', 'Won', 'Lost', 'Archived'
     assigned_to UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
     estimated_value NUMERIC(15, 2),
     source VARCHAR(100) DEFAULT 'Website Enquiry',
+    whatsapp_opened_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Indexes for lightning-fast CRM and public queries
+CREATE UNIQUE INDEX IF NOT EXISTS idx_leads_reference_id ON public.leads (reference_id);
+CREATE INDEX IF NOT EXISTS idx_leads_enquiry_number ON public.leads (enquiry_number);
+CREATE INDEX IF NOT EXISTS idx_leads_status ON public.leads (status);
+CREATE INDEX IF NOT EXISTS idx_leads_created_at ON public.leads (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_leads_email ON public.leads (email);
+
+-- Enquiries view alias for unified API integration
+CREATE OR REPLACE VIEW public.enquiries AS SELECT * FROM public.leads;
 
 CREATE TABLE IF NOT EXISTS public.lead_notes (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import { LivRiseNavbar } from '@/components/layout/LivRiseNavbar';
 import { LivRiseFooter } from '@/components/layout/LivRiseFooter';
-import { EmailContactButton } from '@/components/ui/EmailContactButton';
 import {
   Compass,
   Layers,
@@ -18,178 +17,167 @@ import {
   ArrowRight,
   Sparkles,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const CAPABILITIES = [
   {
-    title: 'Architecture',
-    desc: 'Volumetric massing, spatial planning, statutory municipal drawings, and contextual environmental orientation.',
+    title: 'Architecture & Master Planning',
+    desc: 'Volumetric massing, spatial planning, statutory municipal sanction drawings, and contextual environmental orientation.',
     icon: Compass,
-    slug: 'architecture',
-    tier: 'Core Discipline',
+    slug: 'house-plan',
+    tier: 'Core Architecture',
+    color: 'text-indigo-500 bg-indigo-500/10',
   },
   {
     title: 'Structural Engineering',
-    desc: 'Reinforced concrete frames, structural steel systems, foundation piling schemes, and dynamic seismic resilience.',
+    desc: 'Reinforced concrete frames (RCC), structural steel systems, foundation piling schemes, and dynamic seismic resilience.',
     icon: Layers,
-    slug: 'structural-engineering',
-    tier: 'Core Discipline',
+    slug: 'construction',
+    tier: 'Structural Engineering',
+    color: 'text-sky-500 bg-sky-500/10',
   },
   {
-    title: 'Infrastructure',
+    title: 'Civil & Infrastructure Planning',
     desc: 'Road alignments, stormwater drainage networks, utility distribution corridors, and civil site grading.',
     icon: Building,
-    slug: 'infrastructure',
-    tier: 'Core Discipline',
+    slug: 'construction',
+    tier: 'Civil Works',
+    color: 'text-emerald-500 bg-emerald-500/10',
   },
   {
-    title: 'Project Management',
-    desc: 'Critical path scheduling (CPM), contractor technical oversight, quality audits, and milestone governance.',
-    icon: CheckSquare,
-    slug: 'project-management',
-    tier: 'Lifecycle Governance',
-  },
-  {
-    title: 'Technical Consultancy',
-    desc: 'Independent second-opinion vetting, peer reviews, statutory interpretations, and structural safety audits.',
-    icon: ShieldCheck,
-    slug: 'structural-engineering',
-    tier: 'Advisory & Peer Review',
-  },
-  {
-    title: 'Estimation & Cost Consultancy',
-    desc: 'Detailed itemized bill of quantities (BOQ), rate analysis, value engineering, and financial feasibility modeling.',
-    icon: Calculator,
-    slug: 'estimation-cost-consultancy',
-    tier: 'Commercial Feasibility',
-  },
-  {
-    title: 'Interior & Spatial Design',
-    desc: 'Space planning, reflected ceiling plans (RCP), bespoke millwork detailing, and acoustic comfort planning.',
-    icon: Grid,
-    slug: 'interior-spatial-design',
-    tier: 'Spatial Architecture',
-  },
-  {
-    title: 'Engineering Analysis',
-    desc: 'High-level computational finite element modeling (FEA), high-rise lateral drift, and thermal stress calculations.',
+    title: 'Finite Element Analysis (FEA)',
+    desc: 'Advanced non-linear FEA, lateral drift calculations, thermal stress gradients, and mesh convergence simulations.',
     icon: Activity,
-    slug: 'engineering-analysis',
+    slug: 'construction',
     tier: 'Computational Physics',
+    color: 'text-purple-500 bg-purple-500/10',
   },
   {
-    title: 'Retrofitting & Rehabilitation',
-    desc: 'Non-destructive testing (NDT), carbon fiber (CFRP) wrapping, column jacketing, and structural life extension.',
+    title: 'Dynamic Seismic Engineering',
+    desc: 'Response spectrum modeling, IS 1893 seismic compliance, shear wall ductility detailing, and base shear optimization.',
+    icon: Layers,
+    slug: 'construction',
+    tier: 'Codal Mechanics',
+    color: 'text-amber-500 bg-amber-500/10',
+  },
+  {
+    title: '3D Elevation & Visualization',
+    desc: 'Photorealistic exterior 4K renders, daylight study, evening architectural lighting simulation, and cladding specifications.',
+    icon: Sparkles,
+    slug: '3d-elevation',
+    tier: 'Visualization',
+    color: 'text-cyan-500 bg-cyan-500/10',
+  },
+  {
+    title: 'Interior Design & Joinery',
+    desc: 'Bespoke modular layouts, reflected ceiling plans (RCP), furniture ergonomics, and material mood boards.',
+    icon: Grid,
+    slug: 'interior-design',
+    tier: 'Spatial Design',
+    color: 'text-pink-500 bg-pink-500/10',
+  },
+  {
+    title: 'Itemized BOQ & Cost Estimation',
+    desc: 'Detailed itemized bill of quantities (BOQ), market rate analysis, value engineering, and financial feasibility modeling.',
+    icon: Calculator,
+    slug: 'house-plan',
+    tier: 'Cost Governance',
+    color: 'text-rose-500 bg-rose-500/10',
+  },
+  {
+    title: 'Turnkey Project Execution',
+    desc: 'Critical path scheduling (CPM), contractor technical oversight, on-site quality testing, and handover governance.',
     icon: HardHat,
-    slug: 'retrofitting-rehabilitation',
-    tier: 'Asset Longevity',
+    slug: 'construction',
+    tier: 'Execution',
+    color: 'text-teal-500 bg-teal-500/10',
   },
 ];
 
 export default function CapabilitiesPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white selection:bg-white selection:text-black">
+    <div className="min-h-screen flex flex-col bg-(--bg-primary) text-(--text-primary) transition-colors duration-200">
       <LivRiseNavbar />
 
-      <main className="flex-1 pt-32 pb-24">
+      <main className="flex-1 pt-28 sm:pt-32 pb-24">
         {/* Header Hero */}
-        <section className="py-20 px-6 md:px-12 lg:px-16 border-b border-white/10 relative overflow-hidden bg-black text-center">
-          <div className="max-w-4xl mx-auto space-y-6">
-            <span className="text-xs uppercase tracking-[0.25em] text-zinc-400 font-medium block">
-              Disciplinary Rigor
+        <section className="py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-(--border-subtle) text-center relative overflow-hidden">
+          <div className="max-w-4xl mx-auto space-y-4">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 text-brand-indigo dark:text-brand-blue border border-indigo-500/20 text-xs font-bold uppercase tracking-widest">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Technical & Disciplinary Rigor</span>
             </span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white">
-              Engineering & Architectural Capabilities
+
+            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-(--text-primary)">
+              Engineering & Architecture Capabilities
             </h1>
-            <p className="text-sm md:text-base text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed">
-              Every project undertaken by LivRise Infrastructure benefits from integrated cross-disciplinary validation, codal compliance, and precision lifecycle execution.
+
+            <p className="text-sm sm:text-base text-(--text-secondary) max-w-2xl mx-auto leading-relaxed">
+              Finite Element Analysis, Seismic Modeling, Bespoke Architecture, and Turnkey Civil Execution united under LivRise Infrastructure.
             </p>
 
             <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/start-project"
-                className="bg-white text-black px-6 py-2.5 rounded-lg text-xs font-semibold hover:bg-zinc-100 transition-colors"
-              >
-                Initiate Project Brief
-              </Link>
-              <EmailContactButton
-                label="Email Technical Lead"
-                variant="outline"
-                className="py-2.5 px-6 text-xs"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Capabilities Grid */}
-        <section className="py-20 px-6 md:px-12 lg:px-16 max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {CAPABILITIES.map((cap) => {
-              const Icon = cap.icon;
-              return (
-                <div
-                  key={cap.title}
-                  className="liquid-glass border border-white/10 hover:border-white/30 rounded-2xl p-7 flex flex-col justify-between group transition-all duration-300"
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white group-hover:scale-110 transition-transform">
-                        <Icon className="w-5 h-5 text-zinc-300" />
-                      </div>
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 px-2 py-0.5 rounded bg-white/5 border border-white/10">
-                        {cap.tier}
-                      </span>
-                    </div>
-
-                    <h3 className="text-lg font-medium text-white group-hover:text-zinc-200 transition-colors">
-                      {cap.title}
-                    </h3>
-
-                    <p className="text-xs text-zinc-400 font-light leading-relaxed">
-                      {cap.desc}
-                    </p>
-                  </div>
-
-                  <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between">
-                    <Link
-                      href={`/services/${cap.slug}`}
-                      className="text-xs font-medium text-white hover:text-zinc-300 flex items-center gap-1.5 group/link"
-                    >
-                      <span>Explore Practice</span>
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-link-hover:translate-x-1" />
-                    </Link>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* CTA Banner */}
-        <section className="py-16 px-6 md:px-12 lg:px-16 max-w-5xl mx-auto text-center border-t border-white/10">
-          <div className="liquid-glass border border-white/15 rounded-3xl p-8 sm:p-12 space-y-6">
-            <div className="w-12 h-12 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center mx-auto text-white">
-              <Sparkles className="w-6 h-6" />
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-normal text-white">
-              Need multidisciplinary engineering oversight?
-            </h2>
-            <p className="text-xs sm:text-sm text-zinc-400 max-w-xl mx-auto font-light leading-relaxed">
-              From statutory municipal sanctions to advanced non-linear structural finite element modeling, our engineering desk is ready to review your parameters.
-            </p>
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Link
-                href="/start-project"
-                className="w-full sm:w-auto bg-white text-black px-7 py-3 rounded-lg text-xs font-semibold hover:bg-zinc-100 transition-colors"
+                className="bg-linear-to-r from-brand-indigo to-brand-blue text-white px-7 py-3 rounded-2xl text-xs font-bold uppercase tracking-wider hover:shadow-lg transition-all"
               >
                 Start a Project
               </Link>
               <Link
                 href="/contact"
-                className="w-full sm:w-auto liquid-glass border border-white/20 text-white px-7 py-3 rounded-lg text-xs font-medium hover:bg-white/10 transition-colors"
+                className="border border-(--border-strong) bg-(--surface-primary) px-6 py-3 rounded-2xl text-xs font-semibold text-(--text-primary) hover:bg-(--surface-secondary) transition-all"
               >
-                Contact Technical Desk
+                Contact Engineering Desk
               </Link>
             </div>
+          </div>
+        </section>
+
+        {/* Capabilities Grid */}
+        <section className="py-16 px-4 sm:px-6 md:px-10 lg:px-12 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {CAPABILITIES.map((cap, idx) => {
+              const Icon = cap.icon;
+              return (
+                <motion.div
+                  key={cap.title}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: idx * 0.04 }}
+                  className="rounded-3xl border border-(--border-subtle) bg-(--surface-primary) hover:border-brand-indigo/40 p-6 flex flex-col justify-between group shadow-sm hover:shadow-xl transition-all duration-300"
+                >
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className={`p-3 rounded-2xl ${cap.color}`}>
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-(--surface-secondary) text-(--text-muted) border border-(--border-subtle)">
+                        {cap.tier}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-bold text-(--text-primary) group-hover:text-brand-indigo transition-colors">
+                        {cap.title}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-(--text-secondary) mt-2 leading-relaxed">
+                        {cap.desc}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 mt-3 border-t border-(--border-subtle)">
+                    <Link
+                      href={`/services/${cap.slug}`}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-indigo dark:text-brand-blue group-hover:underline"
+                    >
+                      <span>Explore Practice</span>
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </section>
       </main>

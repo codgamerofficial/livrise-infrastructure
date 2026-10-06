@@ -16,7 +16,7 @@ export default function OfflinePage() {
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-between p-6 md:p-12 relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute inset-0 blueprint-grid opacity-30 pointer-events-none" />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-amber-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-75 h-75 bg-amber-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       {/* Top Bar with Brand */}
       <header className="relative z-10 w-full max-w-md flex items-center justify-between pt-safe">

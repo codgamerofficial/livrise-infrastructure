@@ -21,6 +21,7 @@ export interface UserProfile {
 }
 
 export type LeadStatus =
+  | 'New'
   | 'New Leads'
   | 'Contacted'
   | 'Qualified'
@@ -33,13 +34,16 @@ export type LeadStatus =
 
 export interface Lead {
   id: string;
-  enquiryNumber: string; // e.g. LIV-YYYY-XXXXX
+  referenceId?: string; // e.g. LIV-2026-48277
+  enquiryNumber: string; // e.g. LIV-2026-48277
   fullName: string;
   name?: string;
   companyName?: string;
+  company?: string;
   email: string;
   phone: string;
   preferredContactMethod: 'email' | 'phone' | 'whatsapp';
+  projectName?: string;
   serviceRequired: string;
   servicesRequested?: string[];
   projectType: string;
@@ -47,6 +51,7 @@ export interface Lead {
   state: string;
   city: string;
   pinCode: string;
+  location?: { country: string; state: string; city: string; pinCode: string };
   plotArea?: string;
   builtUpArea?: string;
   numberOfFloors?: string;
@@ -54,18 +59,20 @@ export interface Lead {
   estimatedBudget?: string;
   expectedStartDate?: string;
   requirements: string;
+  additionalRequirements?: string;
   status: LeadStatus;
   assignedTo?: string; // profileId
   assignedToName?: string;
   assignedStaff?: { id: string; name: string; assignedAt: string };
-  location?: { country: string; state: string; city: string; pinCode: string };
   details?: { plotArea?: string; builtUpArea?: string; floors?: string; currentStage?: string; estimatedBudget?: string; expectedStartDate?: string };
   notes?: { id: string; author: string; content: string; createdAt: string }[];
   estimatedValue?: number;
   source: string;
   createdAt: string;
   updatedAt: string;
-  uploadedFiles?: { name: string; size: string; type: string; url: string }[];
+  whatsappOpenedAt?: string;
+  uploadedFiles?: { name: string; size: string; type?: string; url?: string; path?: string }[];
+  attachments?: { name: string; size: string; type?: string; url?: string; path?: string }[];
 }
 
 export interface LeadNote {

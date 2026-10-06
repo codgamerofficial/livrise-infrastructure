@@ -57,7 +57,7 @@ export default function ClientProfilePage() {
       {/* Profile Overview Card */}
       <div className="arch-card p-6 rounded-3xl border border-white/10 bg-black/60 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-black font-bold text-2xl shadow-xl shadow-amber-500/10 shrink-0">
+          <div className="w-16 h-16 rounded-2xl bg-linear-to-br from-amber-400 to-amber-600 flex items-center justify-center text-black font-bold text-2xl shadow-xl shadow-amber-500/10 shrink-0">
             {currentUser.name.charAt(0)}
           </div>
           <div>

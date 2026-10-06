@@ -77,6 +77,7 @@ export interface LivRiseStoreContextType {
 
   // Real backend workflow methods
   submitEnquiry: (enquiryData: Omit<Lead, 'id' | 'enquiryNumber' | 'status' | 'createdAt' | 'updatedAt'>) => Lead;
+  registerBackendLead: (lead: Lead) => void;
   updateLeadStatus: (leadId: string, status: LeadStatus) => void;
   assignLead: (leadId: string, staffId: string, staffName: string) => void;
   addLeadNote: (leadId: string, noteText: string) => void;
@@ -274,6 +275,46 @@ export function LivRiseStoreProvider({ children }: { children: React.ReactNode }
     return newLead;
   };
 
+  const registerBackendLead = (backendLead: Lead) => {
+    setLeads((prev) => {
+      const filtered = prev.filter(
+        (l) => l.enquiryNumber !== backendLead.enquiryNumber && l.id !== backendLead.id
+      );
+      const updated = [backendLead, ...filtered];
+      saveToLocal('leads', updated);
+      return updated;
+    });
+
+    const ref = backendLead.referenceId || backendLead.enquiryNumber;
+
+    // Create Notification
+    const newNotif: NotificationItem = {
+      id: `notif-${Date.now()}`,
+      recipientRole: 'admin',
+      title: 'New Project Enquiry Received',
+      message: `${backendLead.fullName} requested ${backendLead.serviceRequired} (${backendLead.projectType}) — ${ref}`,
+      linkUrl: `/admin/leads`,
+      type: 'enquiry',
+      isRead: false,
+      createdAt: new Date().toISOString(),
+    };
+    setNotifications((prev) => [newNotif, ...prev]);
+
+    // Create Audit Log
+    const newLog: AuditLog = {
+      id: `log-${Date.now()}`,
+      actorName: backendLead.fullName,
+      actorEmail: backendLead.email,
+      action: 'lead.submit_enquiry',
+      entity: 'leads',
+      entityId: ref,
+      metadata: { service: backendLead.serviceRequired, city: backendLead.city },
+      ipAddress: '127.0.0.1',
+      timestamp: new Date().toISOString(),
+    };
+    setAuditLogs((prev) => [newLog, ...prev]);
+  };
+
   const updateLeadStatus = (leadId: string, status: LeadStatus) => {
     setLeads((prev) => {
       const updated = prev.map((l) => (l.id === leadId ? { ...l, status, updatedAt: new Date().toISOString() } : l));
@@ -386,7 +427,7 @@ export function LivRiseStoreProvider({ children }: { children: React.ReactNode }
       nextMilestoneDue: new Date(Date.now() + 14 * 86400000).toISOString().split('T')[0],
       startDate: new Date().toISOString().split('T')[0],
       estimatedCompletion: new Date(Date.now() + 180 * 86400000).toISOString().split('T')[0],
-      coverImageUrl: 'https://images.unsplash.com/photo-1541888946425-d0fbb186156f?q=80&w=1200&auto=format&fit=crop',
+      coverImageUrl: 'https://images.unsplash.com/photo-1541971875076-8f970d573be6?q=80&w=1200&auto=format&fit=crop',
       galleryImages: [],
       isFeatured: false,
       isPublicPortfolio: false,
@@ -659,6 +700,7 @@ export function LivRiseStoreProvider({ children }: { children: React.ReactNode }
         services,
         statistics,
         submitEnquiry,
+        registerBackendLead,
         updateLeadStatus,
         assignLead,
         addLeadNote,

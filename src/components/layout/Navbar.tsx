@@ -46,7 +46,7 @@ export function Navbar({ onOpenEnquiry }: NavbarProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group focus:outline-none">
-          <LivRiseLogo size="md" />
+          <LivRiseLogo size="md" asLink={false} />
         </Link>
 
         {/* Desktop Navigation */}

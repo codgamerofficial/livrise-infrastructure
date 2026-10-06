@@ -10,32 +10,54 @@ import {
   CheckCircle2,
   ArrowRight,
   ChevronRight,
-  ShieldCheck,
-  Layers,
-  HelpCircle,
   FileCheck2,
-  ArrowLeft,
-  Building,
+  Sparkles,
+  Home,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface ServiceDetailProps {
   params: Promise<{ slug: string }>;
 }
 
+function ServiceHeroImage({ src, alt }: { src?: string; alt: string }) {
+  const [imgSrc, setImgSrc] = React.useState(src || '/images/anime/anime-dream-home.png');
+
+  return (
+    <div className="relative h-72 sm:h-96 w-full rounded-3xl overflow-hidden border border-(--border-subtle) shadow-xl bg-slate-900">
+      <Image
+        src={imgSrc}
+        alt={alt}
+        fill
+        sizes="(max-width: 1024px) 100vw, 42vw"
+        className="object-cover"
+        priority
+        onError={() => setImgSrc('/images/anime/anime-dream-home.png')}
+      />
+      <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" />
+    </div>
+  );
+}
+
 export default function ServiceDetailPage({ params }: ServiceDetailProps) {
   const resolvedParams = use(params);
-  const { services, projects } = useLivRiseStore();
+  const { services } = useLivRiseStore();
 
   const service = services.find((s) => s.slug === resolvedParams.slug);
 
   if (!service) {
     return (
-      <div className="min-h-screen bg-black text-white flex flex-col justify-between">
+      <div className="min-h-screen bg-(--bg-primary) text-(--text-primary) flex flex-col justify-between">
         <LivRiseNavbar />
         <div className="max-w-md mx-auto text-center py-40 space-y-4 px-6">
-          <h1 className="text-2xl font-normal">Service Not Found</h1>
-          <p className="text-zinc-400 text-sm">The requested engineering practice does not exist or has been relocated.</p>
-          <Link href="/services" className="inline-block px-5 py-2.5 bg-white text-black font-semibold rounded-lg text-xs">
+          <h1 className="text-2xl font-bold">Service Not Found</h1>
+          <p className="text-(--text-secondary) text-sm">
+            The requested practice does not exist or has been relocated.
+          </p>
+          <Link
+            href="/services"
+            className="inline-block px-5 py-2.5 bg-brand-indigo text-white font-bold rounded-xl text-xs"
+          >
             Return to Services Directory
           </Link>
         </div>
@@ -44,52 +66,55 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
     );
   }
 
-  const relatedProjects = projects.filter((p) =>
-    p.servicesRendered.some((s) => s.toLowerCase().includes(service.title.toLowerCase().split(' ')[0]))
-  );
-
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white selection:bg-white selection:text-black">
+    <div className="min-h-screen flex flex-col bg-(--bg-primary) text-(--text-primary) transition-colors duration-200">
       <LivRiseNavbar />
 
-      <main className="flex-1 pt-32 pb-24">
+      <main className="flex-1 pt-28 sm:pt-32 pb-24">
         {/* ===================================================================
             HERO SECTION
             =================================================================== */}
-        <section className="relative py-20 px-6 md:px-12 lg:px-16 border-b border-white/10 bg-black">
-          <div className="max-w-7xl mx-auto space-y-8">
+        <section className="relative py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-(--border-subtle) overflow-hidden">
+          {/* Subtle ambient light glow */}
+          <div className="absolute top-0 right-1/4 w-125 h-75 bg-linear-to-br from-indigo-500/10 to-sky-500/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="max-w-7xl mx-auto space-y-8 relative z-10">
             {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-xs text-zinc-400 font-mono">
-              <Link href="/services" className="hover:text-white transition-colors">
+            <div className="flex items-center gap-2 text-xs text-(--text-muted) font-mono">
+              <Link href="/services" className="hover:text-(--text-primary) transition-colors">
                 Services
               </Link>
-              <ChevronRight className="w-3.5 h-3.5 text-zinc-600" />
-              <span className="text-white">{service.title}</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+              <span className="text-brand-indigo dark:text-brand-blue font-bold">{service.title}</span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <div className="lg:col-span-7 space-y-5">
-                <span className="text-xs uppercase tracking-[0.25em] text-zinc-400 font-medium block">
-                  {service.category} Discipline
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 text-brand-indigo dark:text-brand-blue border border-indigo-500/20 text-xs font-bold uppercase tracking-widest">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{service.category} Practice</span>
                 </span>
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
+
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-(--text-primary) leading-tight">
                   {service.title}
                 </h1>
-                <p className="text-lg text-zinc-300 font-light leading-relaxed">
+
+                <p className="text-base sm:text-lg text-(--text-secondary) font-medium leading-relaxed">
                   {service.headline}
                 </p>
-                <div className="pt-2 flex flex-wrap gap-4">
+
+                <div className="pt-2 flex flex-wrap gap-3">
                   <Link
                     href="/start-project"
-                    className="bg-white text-black px-7 py-3 rounded-lg text-sm font-semibold hover:bg-zinc-100 transition-colors flex items-center gap-2"
+                    className="bg-linear-to-r from-brand-indigo to-brand-blue text-white px-7 py-3.5 rounded-2xl text-xs font-bold uppercase tracking-wider hover:shadow-lg hover:shadow-brand-indigo/30 transition-all flex items-center gap-2"
                   >
-                    <span>Enquire About {service.title}</span>
+                    <span>Get Free Quote for {service.title}</span>
                     <ArrowRight className="w-4 h-4" />
                   </Link>
 
                   <a
                     href="#capabilities"
-                    className="liquid-glass border border-white/15 px-6 py-3 rounded-lg text-sm font-medium text-white hover:bg-white/10 transition-colors"
+                    className="border border-(--border-strong) bg-(--surface-primary) px-6 py-3.5 rounded-2xl text-xs font-semibold text-(--text-primary) hover:bg-(--surface-secondary) transition-all"
                   >
                     View Scope
                   </a>
@@ -97,16 +122,7 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
               </div>
 
               <div className="lg:col-span-5">
-                <div className="relative h-80 sm:h-96 w-full rounded-2xl overflow-hidden border border-white/15 liquid-glass">
-                  <Image
-                    src={service.coverImage}
-                    alt={service.title}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent" />
-                </div>
+                <ServiceHeroImage src={service.coverImage} alt={service.title} />
               </div>
             </div>
           </div>
@@ -115,17 +131,17 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
         {/* ===================================================================
             OVERVIEW
             =================================================================== */}
-        <section className="py-20 px-6 md:px-12 lg:px-16 border-b border-white/10 bg-black/95">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div className="lg:col-span-4 space-y-3">
-              <span className="text-xs uppercase tracking-[0.25em] text-zinc-400 font-medium block">
-                Technical Overview
+        <section className="py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-(--border-subtle) bg-(--surface-secondary)/40">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            <div className="lg:col-span-4 space-y-2">
+              <span className="text-xs uppercase tracking-widest text-brand-indigo font-bold block">
+                Practice Overview
               </span>
-              <h2 className="text-2xl sm:text-3xl font-normal text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-(--text-primary) tracking-tight">
                 Discipline Summary
               </h2>
             </div>
-            <div className="lg:col-span-8 text-zinc-300 font-light text-base sm:text-lg leading-relaxed space-y-4">
+            <div className="lg:col-span-8 text-(--text-secondary) font-normal text-sm sm:text-base leading-relaxed space-y-4">
               <p>{service.description}</p>
             </div>
           </div>
@@ -134,25 +150,30 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
         {/* ===================================================================
             CAPABILITIES
             =================================================================== */}
-        <section id="capabilities" className="py-20 px-6 md:px-12 lg:px-16 border-b border-white/10 bg-black">
-          <div className="max-w-7xl mx-auto space-y-12">
-            <div className="space-y-3">
-              <span className="text-xs uppercase tracking-[0.25em] text-zinc-400 font-medium block">
+        <section
+          id="capabilities"
+          className="py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-(--border-subtle)"
+        >
+          <div className="max-w-7xl mx-auto space-y-10">
+            <div className="space-y-2">
+              <span className="text-xs uppercase tracking-widest text-brand-indigo font-bold block">
                 Practice Scope
               </span>
-              <h2 className="text-2xl sm:text-3xl font-normal text-white tracking-tight">
-                Core Capabilities & Engineering Modules
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-(--text-primary) tracking-tight">
+                Core Capabilities & Deliverables
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {service.capabilities.map((cap) => (
                 <div
                   key={cap}
-                  className="liquid-glass border border-white/10 rounded-2xl p-6 flex items-start gap-4"
+                  className="rounded-2xl border border-(--border-subtle) bg-(--surface-primary) p-5 flex items-start gap-3.5 shadow-xs hover:border-brand-indigo/40 transition-colors"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-white shrink-0 mt-0.5" />
-                  <span className="text-sm text-zinc-200 font-light leading-relaxed">{cap}</span>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                  <span className="text-xs sm:text-sm text-(--text-primary) font-medium leading-relaxed">
+                    {cap}
+                  </span>
                 </div>
               ))}
             </div>
@@ -160,30 +181,34 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
         </section>
 
         {/* ===================================================================
-            PROCESS
+            PROCESS WORKFLOW
             =================================================================== */}
-        <section className="py-20 px-6 md:px-12 lg:px-16 border-b border-white/10 bg-black/95">
-          <div className="max-w-7xl mx-auto space-y-12">
-            <div className="space-y-3">
-              <span className="text-xs uppercase tracking-[0.25em] text-zinc-400 font-medium block">
+        <section className="py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-(--border-subtle) bg-(--surface-secondary)/40">
+          <div className="max-w-7xl mx-auto space-y-10">
+            <div className="space-y-2">
+              <span className="text-xs uppercase tracking-widest text-brand-indigo font-bold block">
                 Methodology
               </span>
-              <h2 className="text-2xl sm:text-3xl font-normal text-white tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-(--text-primary) tracking-tight">
                 Execution Workflow
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {service.processSteps.map((step) => (
                 <div
                   key={step.step}
-                  className="liquid-glass border border-white/10 rounded-2xl p-7 space-y-4"
+                  className="rounded-2xl border border-(--border-subtle) bg-(--surface-primary) p-6 space-y-3 shadow-xs"
                 >
-                  <span className="text-2xl font-mono text-zinc-500 block">
+                  <span className="text-xl font-mono font-black text-brand-indigo block">
                     0{step.step}
                   </span>
-                  <h3 className="text-base font-medium text-white">{step.title}</h3>
-                  <p className="text-xs text-zinc-400 font-light leading-relaxed">{step.desc}</p>
+                  <h3 className="text-base font-bold text-(--text-primary)">
+                    {step.title}
+                  </h3>
+                  <p className="text-xs text-(--text-secondary) leading-relaxed">
+                    {step.desc}
+                  </p>
                 </div>
               ))}
             </div>
@@ -193,33 +218,33 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
         {/* ===================================================================
             DELIVERABLES & SECTORS
             =================================================================== */}
-        <section className="py-20 px-6 md:px-12 lg:px-16 border-b border-white/10 bg-black">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <section className="py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-(--border-subtle)">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Deliverables */}
-            <div className="liquid-glass border border-white/10 rounded-2xl p-8 space-y-6">
-              <h3 className="text-xl font-medium text-white tracking-tight">
-                Contractual Deliverables
+            <div className="rounded-3xl border border-(--border-subtle) bg-(--surface-primary) p-6 sm:p-8 space-y-5 shadow-xs">
+              <h3 className="text-xl font-bold text-(--text-primary) tracking-tight">
+                Included Deliverables
               </h3>
               <div className="space-y-3">
                 {service.deliverables.map((deliv) => (
-                  <div key={deliv} className="flex items-start gap-3 text-sm text-zinc-300 font-light">
-                    <FileCheck2 className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
-                    <span>{deliv}</span>
+                  <div key={deliv} className="flex items-start gap-3 text-xs sm:text-sm text-(--text-secondary)">
+                    <FileCheck2 className="w-4 h-4 text-brand-indigo shrink-0 mt-0.5" />
+                    <span className="text-(--text-primary) font-medium">{deliv}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Relevant Sectors */}
-            <div className="liquid-glass border border-white/10 rounded-2xl p-8 space-y-6">
-              <h3 className="text-xl font-medium text-white tracking-tight">
-                Relevant Asset Classes
+            {/* Target Sectors */}
+            <div className="rounded-3xl border border-(--border-subtle) bg-(--surface-primary) p-6 sm:p-8 space-y-5 shadow-xs">
+              <h3 className="text-xl font-bold text-(--text-primary) tracking-tight">
+                Suitable For
               </h3>
-              <div className="flex flex-wrap gap-2.5">
+              <div className="flex flex-wrap gap-2">
                 {service.targetIndustries.map((ind) => (
                   <span
                     key={ind}
-                    className="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs text-zinc-300 font-light"
+                    className="px-3.5 py-1.5 rounded-xl bg-(--surface-secondary) border border-(--border-subtle) text-xs text-(--text-secondary) font-medium"
                   >
                     {ind}
                   </span>
@@ -230,55 +255,28 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
         </section>
 
         {/* ===================================================================
-            FAQ
+            FINAL CTA
             =================================================================== */}
-        {service.faqs && service.faqs.length > 0 && (
-          <section className="py-20 px-6 md:px-12 lg:px-16 border-b border-white/10 bg-black/95">
-            <div className="max-w-4xl mx-auto space-y-10">
-              <div className="space-y-3 text-center">
-                <span className="text-xs uppercase tracking-[0.25em] text-zinc-400 font-medium block">
-                  Frequently Answered
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-normal text-white tracking-tight">
-                  Technical Clarifications
-                </h2>
-              </div>
-
-              <div className="space-y-4">
-                {service.faqs.map((faq, idx) => (
-                  <div key={idx} className="liquid-glass border border-white/10 rounded-xl p-6 space-y-2">
-                    <h4 className="text-sm sm:text-base font-medium text-white">{faq.q}</h4>
-                    <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed">{faq.a}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* ===================================================================
-            CTA SECTION
-            =================================================================== */}
-        <section className="py-24 px-6 md:px-12 lg:px-16 text-center bg-black">
-          <div className="max-w-3xl mx-auto space-y-6">
-            <h2 className="text-3xl sm:text-4xl font-normal text-white tracking-tight">
-              Ready to scope your {service.title.toLowerCase()} requirements?
+        <section className="py-20 px-4 sm:px-6 md:px-10 lg:px-12 text-center">
+          <div className="max-w-3xl mx-auto space-y-5 rounded-3xl p-8 sm:p-12 bg-linear-to-r from-brand-indigo to-brand-blue text-white shadow-xl">
+            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
+              Ready to begin your {service.title.toLowerCase()}?
             </h2>
-            <p className="text-sm text-zinc-400 font-light max-w-xl mx-auto leading-relaxed">
-              Submit your project brief to receive a structured technical breakdown, schedule, and fee proposal from our engineering desk.
+            <p className="text-xs sm:text-base text-white/90 max-w-xl mx-auto">
+              Tell us your requirements to receive a structured consultation, timeline, and quote.
             </p>
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/start-project"
-                className="bg-white text-black px-8 py-3 rounded-lg text-sm font-semibold hover:bg-zinc-100 transition-colors"
+                className="bg-white text-brand-dark px-7 py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-zinc-100 transition-colors"
               >
-                Start a Project
+                Get Free Quote
               </Link>
               <Link
                 href="/contact"
-                className="liquid-glass border border-white/15 text-white px-8 py-3 rounded-lg text-sm font-medium hover:bg-white/10 transition-colors"
+                className="bg-white/15 text-white border border-white/25 px-7 py-3 rounded-xl text-xs font-semibold hover:bg-white/25 transition-colors"
               >
-                Contact Us
+                Contact Team
               </Link>
             </div>
           </div>

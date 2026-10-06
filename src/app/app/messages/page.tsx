@@ -110,7 +110,7 @@ export default function ClientMessagesPage() {
         {/* Chat Conversation Pane */}
         <div className="flex-1 flex flex-col liquid-glass rounded-3xl border border-white/10 overflow-hidden bg-black/60">
           {/* Channel Top Info */}
-          <div className="p-3.5 sm:p-4 border-b border-white/10 bg-white/[0.02] flex items-center justify-between shrink-0">
+          <div className="p-3.5 sm:p-4 border-b border-white/10 bg-white/2 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
                 <Briefcase className="w-4 h-4" />

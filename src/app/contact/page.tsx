@@ -6,14 +6,15 @@ import { LivRiseNavbar } from '@/components/layout/LivRiseNavbar';
 import { LivRiseFooter } from '@/components/layout/LivRiseFooter';
 import { useLivRiseStore } from '@/lib/store';
 import { SITE_SETTINGS, getWhatsAppLink, getGmailComposeLink } from '@/lib/site-settings';
-import { EmailContactButton } from '@/components/ui/EmailContactButton';
 import {
   Mail,
   Send,
   CheckCircle2,
   ArrowRight,
-  ExternalLink,
+  Phone,
+  Sparkles,
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function ContactPage() {
   const { submitEnquiry, siteSettings = SITE_SETTINGS } = useLivRiseStore();
@@ -24,7 +25,7 @@ export default function ContactPage() {
     email: '',
     phone: '',
     company: '',
-    projectType: 'Commercial',
+    projectType: 'New Home',
     location: '',
     message: '',
     budget: '',
@@ -37,7 +38,6 @@ export default function ContactPage() {
 
     setIsSubmitting(true);
 
-    // 1. Save enquiry to database/store
     const createdLead = submitEnquiry({
       fullName: formData.name,
       email: formData.email,
@@ -56,7 +56,6 @@ export default function ContactPage() {
       source: 'LivRise Contact Form',
     });
 
-    // 2. Dispatch transactional email notification via backend API route (does NOT open client mailto)
     try {
       await fetch('/api/contact', {
         method: 'POST',
@@ -79,7 +78,6 @@ export default function ContactPage() {
       console.error('[ContactPage] Notification dispatch error:', err);
     } finally {
       setIsSubmitting(false);
-      // 3. Show success confirmation
       setSubmitted(true);
     }
   };
@@ -94,332 +92,205 @@ export default function ContactPage() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white selection:bg-white selection:text-black">
+    <div className="min-h-screen flex flex-col bg-(--bg-primary) text-(--text-primary) transition-colors duration-200">
       <LivRiseNavbar />
 
-      <main className="flex-1 pt-32 pb-24">
+      <main className="flex-1 pt-28 sm:pt-32 pb-24">
         {/* Header */}
-        <section className="py-20 px-6 md:px-12 lg:px-16 border-b border-white/10 bg-black text-center">
-          <div className="max-w-4xl mx-auto space-y-6">
-            <span className="text-xs uppercase tracking-[0.25em] text-zinc-400 font-medium block">
-              Direct Contact & Engineering Desk
+        <section className="py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-(--border-subtle) text-center relative overflow-hidden">
+          <div className="max-w-4xl mx-auto space-y-4">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 text-brand-indigo dark:text-brand-blue border border-indigo-500/20 text-xs font-bold uppercase tracking-widest">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Official Coordinates</span>
             </span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white leading-tight">
-              Let&apos;s build what&apos;s next.
+
+            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-(--text-primary)">
+              Direct Architectural Desk
             </h1>
-            <p className="text-sm md:text-base text-zinc-400 max-w-2xl mx-auto font-light leading-relaxed">
-              Connect directly with LivRise Infrastructure for structural engineering, architectural planning, and infrastructure consultation.
+
+            <p className="text-sm sm:text-base text-(--text-secondary) max-w-2xl mx-auto leading-relaxed">
+              Connect directly with LivRise Infrastructure for house plans, 3D exterior elevations, interior layout schemes, and turnkey civil execution.
             </p>
           </div>
         </section>
 
         {/* Content Section */}
-        <section className="py-16 px-6 md:px-12 lg:px-16">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            {/* Left Column: Official Contact Section */}
+        <section className="py-16 px-4 sm:px-6 md:px-10 lg:px-12">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            {/* Left Column: Official Contact Coordinates */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="liquid-glass border border-white/15 rounded-3xl p-8 sm:p-10 space-y-8 shadow-2xl relative overflow-hidden">
-                {/* Accent glow */}
-                <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
-
-                {/* Company & Positioning */}
-                <div className="space-y-3">
-                  <span className="text-[11px] uppercase tracking-widest text-zinc-400 font-mono block">
-                    Official Contact
+              <div className="rounded-3xl border border-(--border-subtle) bg-(--surface-primary) p-6 sm:p-8 space-y-6 shadow-xl relative overflow-hidden">
+                <div className="space-y-2">
+                  <span className="text-xs uppercase tracking-widest text-brand-indigo font-bold block">
+                    Verified Coordinates
                   </span>
-                  <h2 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight">
+                  <h2 className="text-2xl font-extrabold text-(--text-primary)">
                     {siteSettings?.companyName || SITE_SETTINGS.companyName}
                   </h2>
-                  <p className="text-xs uppercase tracking-wider text-amber-300/90 font-medium">
+                  <p className="text-xs font-semibold text-(--text-muted) uppercase tracking-wider">
                     {siteSettings?.descriptor || SITE_SETTINGS.descriptor}
                   </p>
-                  <p className="text-sm text-zinc-300 font-light italic">
+                  <p className="text-xs text-(--text-secondary) italic">
                     &ldquo;{siteSettings?.tagline || SITE_SETTINGS.tagline}&rdquo;
                   </p>
                 </div>
 
-                {/* Approved Coordinates */}
-                <div className="space-y-5 pt-4 border-t border-white/10 text-sm">
-                  {/* WhatsApp */}
-                  <div className="flex items-start gap-3.5">
-                    <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shrink-0">
-                      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.074-2.121-.527-1.745-.734-2.852-2.545-2.937-2.66-.086-.115-.705-.939-.705-1.791 0-.853.447-1.272.607-1.446.16-.174.349-.217.465-.217.117 0 .233.002.334.007.106.005.249-.04.39.298.144.348.491 1.199.534 1.286.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.303c-.087.087-.178.182-.076.357.101.174.453.748.971 1.21.668.595 1.232.78 1.406.867.174.086.275.072.376-.044.102-.115.434-.506.55-.679.115-.174.231-.145.39-.087.159.058 1.009.477 1.182.564.173.086.289.13.332.202.043.072.043.419-.101.824z" />
-                      </svg>
+                <div className="space-y-4 pt-2 border-t border-(--border-subtle) text-xs">
+                  <div className="flex items-center justify-between p-3.5 rounded-2xl bg-(--surface-secondary) border border-(--border-subtle)">
+                    <div>
+                      <div className="font-mono text-[10px] text-(--text-muted) uppercase">
+                        Official WhatsApp
+                      </div>
+                      <div className="font-bold text-sm text-(--text-primary) mt-0.5">
+                        {currentWhatsApp}
+                      </div>
                     </div>
-                    <div className="space-y-1">
-                      <span className="text-xs uppercase font-mono tracking-wider text-zinc-400 block">
-                        WhatsApp
-                      </span>
-                      <a
-                        href={currentWhatsAppUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-medium text-white hover:text-emerald-400 transition-colors text-base flex items-center gap-1.5"
-                      >
-                        <span>{currentWhatsApp}</span>
-                        <ExternalLink className="w-3.5 h-3.5 text-zinc-400" />
-                      </a>
-                    </div>
+                    <a
+                      href={currentWhatsAppUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3.5 py-1.5 rounded-xl bg-emerald-500 text-white font-bold text-xs shadow-xs hover:bg-emerald-600 transition-colors"
+                    >
+                      Chat
+                    </a>
                   </div>
 
-                  {/* Email */}
-                  <div className="flex items-start gap-3.5">
-                    <div className="p-2.5 rounded-xl bg-white/10 border border-white/15 text-white shrink-0">
-                      <Mail className="w-5 h-5 text-zinc-300" />
+                  <div className="flex items-center justify-between p-3.5 rounded-2xl bg-(--surface-secondary) border border-(--border-subtle)">
+                    <div>
+                      <div className="font-mono text-[10px] text-(--text-muted) uppercase">
+                        Email Address
+                      </div>
+                      <div className="font-bold text-xs text-(--text-primary) mt-0.5 break-all">
+                        {currentEmail}
+                      </div>
                     </div>
-                    <div className="space-y-1">
-                      <span className="text-xs uppercase font-mono tracking-wider text-zinc-400 block">
-                        Email
-                      </span>
-                      <a
-                        href={currentGmailComposeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        title="Open Gmail Compose"
-                        className="font-medium text-white hover:text-amber-300 transition-colors text-base flex items-center gap-1.5 break-all group/email"
-                      >
-                        <span>{currentEmail}</span>
-                        <ExternalLink className="w-3.5 h-3.5 text-zinc-400 group-hover/email:text-amber-300 shrink-0" />
-                      </a>
-                    </div>
+                    <a
+                      href={currentGmailComposeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3.5 py-1.5 rounded-xl bg-brand-indigo text-white font-bold text-xs shadow-xs hover:bg-[#4F46E5] transition-colors"
+                    >
+                      Compose
+                    </a>
                   </div>
                 </div>
 
-                {/* Primary Action Buttons */}
-                <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
-                  <a
-                    href={currentWhatsAppUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-3 px-5 rounded-xl text-sm font-semibold transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/40"
-                  >
-                    <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24">
-                      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.074-2.121-.527-1.745-.734-2.852-2.545-2.937-2.66-.086-.115-.705-.939-.705-1.791 0-.853.447-1.272.607-1.446.16-.174.349-.217.465-.217.117 0 .233.002.334.007.106.005.249-.04.39.298.144.348.491 1.199.534 1.286.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.303c-.087.087-.178.182-.076.357.101.174.453.748.971 1.21.668.595 1.232.78 1.406.867.174.086.275.072.376-.044.102-.115.434-.506.55-.679.115-.174.231-.145.39-.087.159.058 1.009.477 1.182.564.173.086.289.13.332.202.043.072.043.419-.101.824z" />
-                    </svg>
-                    <span>WhatsApp Us</span>
-                  </a>
-
-                  {/* Reusable EmailContactButton opening Gmail Compose */}
-                  <EmailContactButton
-                    label="Email Us"
-                    variant="outline"
-                    className="w-full py-3 justify-center text-sm"
-                    showFallbackCopy
-                  />
-
+                <div className="p-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-xs text-(--text-secondary) space-y-1">
+                  <div className="font-bold text-brand-indigo dark:text-brand-blue">
+                    Looking for a free project quote?
+                  </div>
+                  <div>
+                    Use our interactive 7-step app onboarding to receive an instant reference ID and customized dossier.
+                  </div>
                   <Link
                     href="/start-project"
-                    className="w-full bg-white text-black py-3 px-5 rounded-xl text-sm font-semibold hover:bg-zinc-100 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-white/10"
+                    className="inline-flex items-center gap-1 text-brand-indigo dark:text-brand-blue font-bold mt-1 hover:underline"
                   >
-                    <span>Start a Project</span>
-                    <ArrowRight className="w-4 h-4 shrink-0" />
+                    <span>Start Project Flow</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Contact Form */}
+            {/* Right Column: Direct Message Form */}
             <div className="lg:col-span-7">
-              <div className="liquid-glass border border-white/15 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6">
-                <div className="border-b border-white/10 pb-5">
-                  <h3 className="text-xl font-normal text-white tracking-tight">
-                    Start a Conversation
-                  </h3>
-                  <p className="text-xs text-zinc-400 font-light mt-1">
-                    Fill out the parameters below to initiate an engineering consultation.
-                  </p>
-                </div>
-
+              <div className="rounded-3xl border border-(--border-subtle) bg-(--surface-primary) p-6 sm:p-8 shadow-xl">
                 {submitted ? (
-                  /* Section 8 & 10 Approved Success State */
-                  <div className="py-12 text-center space-y-6 animate-in fade-in zoom-in-95 duration-200">
-                    <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto">
+                  <div className="text-center py-12 space-y-4">
+                    <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mx-auto">
                       <CheckCircle2 className="w-8 h-8" />
                     </div>
-
-                    <div className="space-y-2">
-                      <h4 className="text-2xl font-medium text-white">
-                        Thank you for contacting LivRise Infrastructure.
-                      </h4>
-                      <p className="text-sm text-zinc-300 max-w-md mx-auto font-light leading-relaxed">
-                        Our team will review your enquiry and get back to you.
-                      </p>
-                    </div>
-
-                    {/* Direct Contact Buttons (WhatsApp Us & Email Us via Gmail Compose) */}
-                    <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-sm mx-auto">
-                      <a
-                        href={currentWhatsAppUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 px-6 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-2"
-                      >
-                        <svg className="w-3.5 h-3.5 fill-current shrink-0" viewBox="0 0 24 24">
-                          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.074-2.121-.527-1.745-.734-2.852-2.545-2.937-2.66-.086-.115-.705-.939-.705-1.791 0-.853.447-1.272.607-1.446.16-.174.349-.217.465-.217.117 0 .233.002.334.007.106.005.249-.04.39.298.144.348.491 1.199.534 1.286.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.303c-.087.087-.178.182-.076.357.101.174.453.748.971 1.21.668.595 1.232.78 1.406.867.174.086.275.072.376-.044.102-.115.434-.506.55-.679.115-.174.231-.145.39-.087.159.058 1.009.477 1.182.564.173.086.289.13.332.202.043.072.043.419-.101.824z" />
-                        </svg>
-                        <span>WhatsApp Us</span>
-                      </a>
-
-                      <EmailContactButton
-                        label="Email Us"
-                        variant="glass"
-                        className="w-full sm:w-auto py-2.5 px-6"
-                      />
-                    </div>
-
+                    <h3 className="text-xl font-bold text-(--text-primary)">
+                      Message Dispatched!
+                    </h3>
+                    <p className="text-xs sm:text-sm text-(--text-secondary) max-w-md mx-auto">
+                      Thank you for contacting LivRise Infrastructure. Our engineering coordinator will respond promptly via your specified channels.
+                    </p>
                     <button
                       type="button"
                       onClick={() => setSubmitted(false)}
-                      className="text-xs text-zinc-400 hover:text-white underline cursor-pointer pt-2 block mx-auto"
+                      className="px-5 py-2.5 rounded-xl bg-brand-indigo text-white text-xs font-bold"
                     >
-                      Send another message
+                      Send Another Message
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="space-y-1">
+                      <h3 className="text-xl font-extrabold text-(--text-primary)">
+                        Send a Direct Message
+                      </h3>
+                      <p className="text-xs text-(--text-secondary)">
+                        Fill in your brief to connect with our design desk.
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                       <div>
-                        <label className="block text-xs uppercase tracking-wider text-zinc-400 mb-2">
-                          Name *
+                        <label className="block text-xs font-bold text-(--text-secondary) mb-1">
+                          Full Name *
                         </label>
                         <input
                           type="text"
                           required
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          placeholder="Your Name"
-                          className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white transition-colors"
+                          className="w-full px-4 py-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) text-xs text-(--text-primary) focus:outline-none focus:border-brand-indigo"
+                          placeholder="Your name"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-xs uppercase tracking-wider text-zinc-400 mb-2">
-                          Email *
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          placeholder="name@company.com"
-                          className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-zinc-400 mb-2">
-                          Phone *
+                        <label className="block text-xs font-bold text-(--text-secondary) mb-1">
+                          Phone / WhatsApp *
                         </label>
                         <input
                           type="tel"
                           required
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          placeholder="+91 98000 00000"
-                          className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white transition-colors"
+                          className="w-full px-4 py-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) text-xs text-(--text-primary) focus:outline-none focus:border-brand-indigo"
+                          placeholder="+91 ..."
                         />
                       </div>
 
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-zinc-400 mb-2">
-                          Company
+                      <div className="sm:col-span-2">
+                        <label className="block text-xs font-bold text-(--text-secondary) mb-1">
+                          Email Address *
                         </label>
                         <input
-                          type="text"
-                          value={formData.company}
-                          onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                          placeholder="Company / Firm (Optional)"
-                          className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-zinc-400 mb-2">
-                          Project Type
-                        </label>
-                        <select
-                          value={formData.projectType}
-                          onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                          className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white transition-colors cursor-pointer"
-                        >
-                          <option value="Commercial" className="bg-zinc-900 text-white">Commercial Complex / Office</option>
-                          <option value="Residential" className="bg-zinc-900 text-white">Residential Housing / Villa</option>
-                          <option value="Industrial" className="bg-zinc-900 text-white">Industrial Plant / Warehouse</option>
-                          <option value="Infrastructure" className="bg-zinc-900 text-white">Civil Infrastructure / Bridge</option>
-                          <option value="Institutional" className="bg-zinc-900 text-white">Institutional / Campus</option>
-                          <option value="Hospitality" className="bg-zinc-900 text-white">Hospitality / Resort</option>
-                          <option value="Other" className="bg-zinc-900 text-white">Other Special Scope</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-zinc-400 mb-2">
-                          Location
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.location}
-                          onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                          placeholder="City, State"
-                          className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white transition-colors"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-zinc-400 mb-2">
-                          Estimated Budget (Optional)
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.budget}
-                          onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                          placeholder="e.g. ₹2 Crores - ₹5 Crores"
-                          className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white transition-colors"
+                          type="email"
+                          required
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) text-xs text-(--text-primary) focus:outline-none focus:border-brand-indigo"
+                          placeholder="name@example.com"
                         />
                       </div>
 
-                      <div>
-                        <label className="block text-xs uppercase tracking-wider text-zinc-400 mb-2">
-                          Timeline (Optional)
+                      <div className="sm:col-span-2">
+                        <label className="block text-xs font-bold text-(--text-secondary) mb-1">
+                          Project Brief / Requirements *
                         </label>
-                        <input
-                          type="text"
-                          value={formData.timeline}
-                          onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
-                          placeholder="e.g. Next 3 Months"
-                          className="w-full bg-black/60 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-white transition-colors"
+                        <textarea
+                          rows={4}
+                          required
+                          value={formData.message}
+                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                          className="w-full px-4 py-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) text-xs text-(--text-primary) focus:outline-none focus:border-brand-indigo"
+                          placeholder="Describe your site location, plot size, or building requirements..."
                         />
                       </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider text-zinc-400 mb-2">
-                        Message & Project Scope *
-                      </label>
-                      <textarea
-                        required
-                        rows={4}
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        placeholder="Tell us about the project, site constraints, and required engineering services..."
-                        className="w-full bg-black/60 border border-white/15 rounded-xl p-3.5 text-xs text-white focus:outline-none focus:border-white transition-colors"
-                      />
                     </div>
 
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-white text-black py-3 rounded-xl text-xs font-semibold hover:bg-zinc-100 transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-white/10 disabled:opacity-50"
+                      className="w-full py-3.5 rounded-xl bg-linear-to-r from-brand-indigo to-brand-blue text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
                     >
                       <Send className="w-3.5 h-3.5" />
-                      <span>{isSubmitting ? 'Dispatching Enquiry...' : 'Start a Conversation'}</span>
+                      <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
                     </button>
                   </form>
                 )}

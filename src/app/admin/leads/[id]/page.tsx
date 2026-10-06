@@ -2,20 +2,15 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useLivRiseStore } from '@/lib/store';
 import { LeadStatus } from '@/types';
+import { buildAdminClientWhatsAppUrl } from '@/lib/whatsapp-service';
 import {
-  Users,
   Building,
-  MapPin,
-  Calendar,
   FileText,
-  DollarSign,
-  Clock,
   ArrowLeft,
   CheckCircle,
-  FileCheck,
   Send,
   MessageSquare,
   Paperclip,
@@ -34,13 +29,11 @@ const PIPELINE_COLUMNS: LeadStatus[] = [
 
 export default function AdminLeadDetailPage() {
   const params = useParams();
-  const router = useRouter();
   const leadId = params?.id as string;
 
   const {
     leads,
     updateLeadStatus,
-    assignLead,
     addLeadNote,
     convertLeadToClientAndProject,
   } = useLivRiseStore();
@@ -105,7 +98,7 @@ export default function AdminLeadDetailPage() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">
             <span className="text-xs font-mono text-slate-400">Status:</span>
             <select
@@ -120,6 +113,22 @@ export default function AdminLeadDetailPage() {
               ))}
             </select>
           </div>
+
+          <a
+            href={buildAdminClientWhatsAppUrl({
+              clientName: lead.fullName || lead.name || 'Client',
+              clientPhone: lead.phone,
+              referenceId: lead.referenceId || lead.enquiryNumber,
+            })}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold transition-all shadow-sm"
+          >
+            <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.074-2.121-.527-1.745-.734-2.852-2.545-2.937-2.66-.086-.115-.705-.939-.705-1.791 0-.853.447-1.272.607-1.446.16-.174.349-.217.465-.217.117 0 .233.002.334.007.106.005.249-.04.39.298.144.348.491 1.199.534 1.286.043.087.072.188.014.303-.058.116-.087.188-.173.289l-.26.303c-.087.087-.178.182-.076.357.101.174.453.748.971 1.21.668.595 1.232.78 1.406.867.174.086.275.072.376-.044.102-.115.434-.506.55-.679.115-.174.231-.145.39-.087.159.058 1.009.477 1.182.564.173.086.289.13.332.202.043.072.043.419-.101.824z" />
+            </svg>
+            <span>WhatsApp Client</span>
+          </a>
 
           <button
             onClick={handleConvert}

@@ -15,7 +15,7 @@ export function Footer() {
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">
             <Link href="/" className="inline-block">
-              <LivRiseLogo size="md" />
+              <LivRiseLogo size="md" asLink={false} />
             </Link>
             <p className="font-medium text-xs tracking-wider uppercase text-amber-400/90">
               Engineering • Architecture • Infrastructure

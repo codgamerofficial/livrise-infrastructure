@@ -39,7 +39,7 @@ export function AppLoading({
 
         {/* Subtle loading bar */}
         <div className="w-36 h-0.5 bg-zinc-800 rounded-full overflow-hidden mt-1">
-          <div className="w-full h-full bg-gradient-to-r from-amber-500 via-white to-amber-500 animate-[shimmer_1.5s_infinite]" />
+          <div className="w-full h-full bg-linear-to-r from-amber-500 via-white to-amber-500 animate-[shimmer_1.5s_infinite]" />
         </div>
       </div>
     </div>

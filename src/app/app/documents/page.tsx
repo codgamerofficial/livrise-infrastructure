@@ -253,7 +253,7 @@ export default function ClientDocumentsPage() {
               </select>
             </div>
 
-            <div className="p-6 border-2 border-dashed border-white/15 rounded-2xl flex flex-col items-center justify-center text-center bg-white/[0.02]">
+            <div className="p-6 border-2 border-dashed border-white/15 rounded-2xl flex flex-col items-center justify-center text-center bg-white/2">
               <Upload className="w-7 h-7 text-zinc-400 mb-2" />
               <span className="text-xs font-medium text-zinc-300">
                 Tap to choose PDF, DWG, DXF, PNG

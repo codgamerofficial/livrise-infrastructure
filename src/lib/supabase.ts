@@ -11,8 +11,10 @@ export async function uploadProjectFile(file: File, folderPath: string) {
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
     const fullPath = `${folderPath}/${fileName}`;
 
+    const bucketName = process.env.NEXT_PUBLIC_STORAGE_BUCKET_DOCUMENTS || 'project-documents';
+
     const { data, error } = await supabase.storage
-      .from('project-documents')
+      .from(bucketName)
       .upload(fullPath, file, {
         cacheControl: '3600',
         upsert: false,
@@ -28,7 +30,7 @@ export async function uploadProjectFile(file: File, folderPath: string) {
     }
 
     const { data: urlData } = supabase.storage
-      .from('project-documents')
+      .from(bucketName)
       .getPublicUrl(data.path);
 
     return {
