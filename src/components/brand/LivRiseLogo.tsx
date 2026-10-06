@@ -41,7 +41,7 @@ export function LivRiseLogo({
           priority
         />
         {/* Subtle architectural gold shimmer overlay */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/10 via-transparent to-white/10 opacity-60 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-tr from-amber-500/10 via-transparent to-white/10 opacity-60 pointer-events-none" />
       </div>
 
       {variant !== 'monogram' && (
@@ -49,7 +49,7 @@ export function LivRiseLogo({
           {/* Wordmark: "Liv" in silver, "Rise" in warm gold */}
           <div className="flex items-baseline tracking-tight font-extrabold text-[#F5F5F3]">
             <span className="text-zinc-200">Liv</span>
-            <span className="text-[#E5B85C] ml-0.5">Rise</span>
+            <span className="text-brand-gold-bright ml-0.5">Rise</span>
           </div>
 
           {/* Subtitle: "INFRASTRUCTURE" with wide architectural tracking */}
@@ -84,7 +84,7 @@ export function LivRiseMonogram({
 }) {
   return (
     <div
-      className={`relative shrink-0 rounded-2xl overflow-hidden shadow-xl border border-amber-500/25 bg-[#0B0B0D] ${className}`}
+      className={`relative shrink-0 rounded-2xl overflow-hidden shadow-xl border border-amber-500/25 bg-brand-obsidian ${className}`}
       style={{ width: size, height: size }}
     >
       <Image
@@ -95,7 +95,7 @@ export function LivRiseMonogram({
         className="w-full h-full object-contain"
         priority
       />
-      <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/15 via-transparent to-white/10 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-tr from-amber-500/15 via-transparent to-white/10 pointer-events-none" />
     </div>
   );
 }

@@ -186,7 +186,7 @@ export default function HomePage() {
   const featuredProjects = projects ? projects.slice(0, 3) : [];
 
   return (
-    <div className="flex-1 flex flex-col bg-[#0B0B0D] text-[#F5F5F3] selection:bg-[#C9963E] selection:text-black">
+    <div className="flex-1 flex flex-col bg-brand-obsidian text-[#F5F5F3] selection:bg-brand-gold selection:text-black">
       {/* ===================================================================
           1. HERO SECTION (Master Prompt Section 16 & 17)
           =================================================================== */}
@@ -196,15 +196,15 @@ export default function HomePage() {
           2. SERVICES (Master Prompt Section 18)
           Exactly 4 cards: HOUSE PLAN, 3D ELEVATION, INTERIOR DESIGN, CONSTRUCTION
           =================================================================== */}
-      <section id="services" className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 relative overflow-hidden bg-[#0B0B0D]">
+      <section id="services" className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 relative overflow-hidden bg-brand-obsidian">
         {/* Subtle background blueprint grid */}
         <div className="absolute inset-0 blueprint-grid opacity-30 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto space-y-16 relative z-10">
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#151518] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E5B85C]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-charcoal border border-brand-gold/30 text-brand-gold-bright text-xs font-semibold tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-gold-bright" />
               <span>Core Practices</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
@@ -227,18 +227,18 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="group relative rounded-2xl p-6 border border-zinc-800/80 bg-[#151518] hover:border-[#E5B85C]/50 shadow-xl shadow-black/40 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1"
+                  className="group relative rounded-2xl p-6 border border-zinc-800/80 bg-brand-charcoal hover:border-brand-gold-bright/50 shadow-xl shadow-black/40 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1"
                 >
                   {/* Subtle top gold accent bar on hover */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#E5B85C] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-transparent via-brand-gold-bright to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                   <div className="space-y-5">
                     {/* Top Row */}
                     <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 rounded-xl bg-[#202124] border border-zinc-700/60 flex items-center justify-center text-[#E5B85C] group-hover:border-[#E5B85C]/40 group-hover:scale-105 transition-all">
+                      <div className="w-10 h-10 rounded-xl bg-brand-graphite border border-zinc-700/60 flex items-center justify-center text-brand-gold-bright group-hover:border-brand-gold-bright/40 group-hover:scale-105 transition-all">
                         <Icon className="w-5 h-5" />
                       </div>
-                      <span className="text-[10px] font-mono tracking-wider text-zinc-400 uppercase px-2.5 py-0.5 rounded-full border border-zinc-800 bg-[#0B0B0D]">
+                      <span className="text-[10px] font-mono tracking-wider text-zinc-400 uppercase px-2.5 py-0.5 rounded-full border border-zinc-800 bg-brand-obsidian">
                         {service.badge}
                       </span>
                     </div>
@@ -252,12 +252,12 @@ export default function HomePage() {
                         sizes="(max-width: 768px) 100vw, 300px"
                         className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-80 group-hover:opacity-100"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#151518] via-transparent to-transparent opacity-80" />
+                      <div className="absolute inset-0 bg-linear-to-t from-brand-charcoal via-transparent to-transparent opacity-80" />
                     </div>
 
                     {/* Content */}
                     <div>
-                      <h3 className="text-lg font-bold tracking-tight text-white group-hover:text-[#E5B85C] transition-colors">
+                      <h3 className="text-lg font-bold tracking-tight text-white group-hover:text-brand-gold-bright transition-colors">
                         {service.title}
                       </h3>
                       <p className="text-xs text-zinc-400 mt-1.5 leading-relaxed">
@@ -272,7 +272,7 @@ export default function HomePage() {
                           key={feat}
                           className="flex items-center gap-2 text-[11px] font-medium text-zinc-300"
                         >
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#E5B85C] shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-brand-gold-bright shrink-0" />
                           <span>{feat}</span>
                         </li>
                       ))}
@@ -283,7 +283,7 @@ export default function HomePage() {
                   <div className="pt-5 mt-4">
                     <Link
                       href={`/services/${service.slug}`}
-                      className="w-full inline-flex items-center justify-between px-4 py-2.5 rounded-xl bg-[#202124] hover:bg-[#E5B85C] text-zinc-200 hover:text-black border border-zinc-700/60 hover:border-[#E5B85C] text-xs font-bold transition-all duration-200 group/btn"
+                      className="w-full inline-flex items-center justify-between px-4 py-2.5 rounded-xl bg-brand-graphite hover:bg-brand-gold-bright text-zinc-200 hover:text-black border border-zinc-700/60 hover:border-brand-gold-bright text-xs font-bold transition-all duration-200 group/btn"
                     >
                       <span>Explore {service.title}</span>
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
@@ -300,12 +300,12 @@ export default function HomePage() {
           3. WHY CHOOSE US (Master Prompt Section 19)
           Exactly 4 points: End-to-End Service, Personalized Design, Clear Process, One Trusted Team
           =================================================================== */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 bg-[#151518] border-y border-zinc-800/80 relative">
+      <section className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 bg-brand-charcoal border-y border-zinc-800/80 relative">
         <div className="max-w-7xl mx-auto space-y-16">
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#202124] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E5B85C]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-graphite border border-brand-gold/30 text-brand-gold-bright text-xs font-semibold tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-gold-bright" />
               <span>The LivRise Standard</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
@@ -328,11 +328,11 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: idx * 0.1 }}
-                  className="rounded-2xl p-6 border border-zinc-800 bg-[#0B0B0D] hover:border-[#C9963E]/40 transition-all flex flex-col justify-between group shadow-lg"
+                  className="rounded-2xl p-6 border border-zinc-800 bg-brand-obsidian hover:border-brand-gold/40 transition-all flex flex-col justify-between group shadow-lg"
                 >
                   <div className="space-y-5">
                     <div className="flex items-center justify-between">
-                      <div className="w-12 h-12 rounded-xl bg-[#151518] border border-zinc-700/60 flex items-center justify-center text-[#E5B85C] group-hover:scale-105 transition-transform">
+                      <div className="w-12 h-12 rounded-xl bg-brand-charcoal border border-zinc-700/60 flex items-center justify-center text-brand-gold-bright group-hover:scale-105 transition-transform">
                         <Icon className="w-6 h-6" />
                       </div>
                       <span className="font-mono text-xs font-bold text-zinc-500">
@@ -341,7 +341,7 @@ export default function HomePage() {
                     </div>
 
                     <div>
-                      <h3 className="text-lg font-bold text-white group-hover:text-[#E5B85C] transition-colors">
+                      <h3 className="text-lg font-bold text-white group-hover:text-brand-gold-bright transition-colors">
                         {point.title}
                       </h3>
                       <p className="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed">
@@ -350,8 +350,8 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="pt-4 mt-4 border-t border-zinc-800/80 flex items-center gap-1.5 text-[11px] font-semibold text-[#E5B85C]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#E5B85C]" />
+                  <div className="pt-4 mt-4 border-t border-zinc-800/80 flex items-center gap-1.5 text-[11px] font-semibold text-brand-gold-bright">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-gold-bright" />
                     <span>Certified Quality</span>
                   </div>
                 </motion.div>
@@ -366,12 +366,12 @@ export default function HomePage() {
           01 CONSULTATION, 02 DESIGN, 03 APPROVAL, 04 CONSTRUCTION
           Architectural progress line: Gold active stage, silver inactive stages
           =================================================================== */}
-      <section id="how-it-works" className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 relative overflow-hidden bg-[#0B0B0D]">
+      <section id="how-it-works" className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 relative overflow-hidden bg-brand-obsidian">
         <div className="max-w-7xl mx-auto space-y-16">
           {/* Section Header */}
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#151518] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
-              <Clock className="w-3.5 h-3.5 text-[#E5B85C]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-charcoal border border-brand-gold/30 text-brand-gold-bright text-xs font-semibold tracking-widest uppercase">
+              <Clock className="w-3.5 h-3.5 text-brand-gold-bright" />
               <span>Architectural Timeline</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
@@ -385,7 +385,7 @@ export default function HomePage() {
           {/* 4-Step Architectural Progress Line */}
           <div className="relative">
             {/* Connecting Line (Desktop) */}
-            <div className="hidden lg:block absolute top-10 left-[12%] right-[12%] h-[2px] bg-gradient-to-r from-[#C9963E] via-zinc-700 to-zinc-800 z-0" />
+            <div className="hidden lg:block absolute top-10 left-[12%] right-[12%] h-0.5 bg-linear-to-r from-brand-gold via-zinc-700 to-zinc-800 z-0" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
               {howItWorksSteps.map((step, idx) => (
@@ -397,8 +397,8 @@ export default function HomePage() {
                   transition={{ duration: 0.5, delay: idx * 0.12 }}
                   className={`relative rounded-2xl p-6 border ${
                     step.active
-                      ? 'border-[#E5B85C] bg-[#151518] shadow-xl shadow-amber-500/10'
-                      : 'border-zinc-800 bg-[#151518]/60 hover:border-zinc-700'
+                      ? 'border-brand-gold-bright bg-brand-charcoal shadow-xl shadow-amber-500/10'
+                      : 'border-zinc-800 bg-brand-charcoal/60 hover:border-zinc-700'
                   } flex flex-col justify-between group transition-all`}
                 >
                   <div className="space-y-4">
@@ -406,8 +406,8 @@ export default function HomePage() {
                       <div
                         className={`w-10 h-10 rounded-xl flex items-center justify-center font-mono font-extrabold text-sm ${
                           step.active
-                            ? 'bg-[#E5B85C] text-black shadow-md shadow-amber-500/30'
-                            : 'bg-[#202124] text-zinc-400 border border-zinc-700/60'
+                            ? 'bg-brand-gold-bright text-black shadow-md shadow-amber-500/30'
+                            : 'bg-brand-graphite text-zinc-400 border border-zinc-700/60'
                         }`}
                       >
                         {step.icon}
@@ -418,7 +418,7 @@ export default function HomePage() {
                     </div>
 
                     <div>
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-[#E5B85C]">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-brand-gold-bright">
                         {step.subtitle}
                       </span>
                       <h3 className="text-xl font-extrabold text-white tracking-tight mt-1">
@@ -432,7 +432,7 @@ export default function HomePage() {
 
                   <div className="pt-4 mt-3 border-t border-zinc-800 flex items-center justify-between text-xs">
                     <span className="text-zinc-500 font-medium">Stage {idx + 1} of 4</span>
-                    <span className={step.active ? 'text-[#E5B85C] font-bold' : 'text-zinc-600'}>
+                    <span className={step.active ? 'text-brand-gold-bright font-bold' : 'text-zinc-600'}>
                       {idx === 0 ? 'Active' : 'Scheduled'}
                     </span>
                   </div>
@@ -442,7 +442,7 @@ export default function HomePage() {
           </div>
 
           {/* Quick upload blueprint banner */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-[#151518] border border-[#C9963E]/30 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="p-6 sm:p-8 rounded-2xl bg-brand-charcoal border border-brand-gold/30 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="space-y-1 text-center md:text-left">
               <h4 className="font-bold text-base sm:text-lg text-white">
                 Have a plot sketch or structural drawing ready?
@@ -467,11 +467,11 @@ export default function HomePage() {
           Real projects only. If none, CMS-controlled empty state.
           Never invent clients, projects, budgets or completion percentages.
           =================================================================== */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 bg-[#151518] border-t border-zinc-800/80">
+      <section className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 bg-brand-charcoal border-t border-zinc-800/80">
         <div className="max-w-7xl mx-auto space-y-14">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#202124] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-graphite border border-brand-gold/30 text-brand-gold-bright text-xs font-semibold tracking-widest uppercase">
                 <FolderOpen className="w-3.5 h-3.5" />
                 <span>Portfolio</span>
               </div>
@@ -482,7 +482,7 @@ export default function HomePage() {
 
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 text-xs font-bold text-[#E5B85C] hover:text-[#F2D39A] transition-colors"
+              className="inline-flex items-center gap-2 text-xs font-bold text-brand-gold-bright hover:text-brand-gold-champagne transition-colors"
             >
               <span>Explore All Projects</span>
               <ArrowRight className="w-4 h-4" />
@@ -494,7 +494,7 @@ export default function HomePage() {
               {featuredProjects.map((p) => (
                 <div
                   key={p.id}
-                  className="rounded-2xl border border-zinc-800 bg-[#0B0B0D] p-5 shadow-xl space-y-4 group hover:border-[#C9963E]/40 transition-all"
+                  className="rounded-2xl border border-zinc-800 bg-brand-obsidian p-5 shadow-xl space-y-4 group hover:border-brand-gold/40 transition-all"
                 >
                   <div className="relative aspect-16/10 rounded-xl overflow-hidden bg-black/80">
                     <Image
@@ -505,10 +505,10 @@ export default function HomePage() {
                     />
                   </div>
                   <div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#E5B85C]">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-brand-gold-bright">
                       {p.category}
                     </span>
-                    <h3 className="text-base font-bold text-white mt-1 group-hover:text-[#E5B85C] transition-colors">
+                    <h3 className="text-base font-bold text-white mt-1 group-hover:text-brand-gold-bright transition-colors">
                       {p.title}
                     </h3>
                     <p className="text-xs text-zinc-400 line-clamp-2 mt-1 leading-relaxed">
@@ -519,8 +519,8 @@ export default function HomePage() {
               ))}
             </div>
           ) : (
-            <div className="p-8 sm:p-14 rounded-2xl border border-dashed border-zinc-800 bg-[#0B0B0D] text-center max-w-xl mx-auto space-y-4">
-              <div className="w-14 h-14 rounded-2xl bg-[#151518] border border-amber-500/20 text-[#E5B85C] flex items-center justify-center mx-auto">
+            <div className="p-8 sm:p-14 rounded-2xl border border-dashed border-zinc-800 bg-brand-obsidian text-center max-w-xl mx-auto space-y-4">
+              <div className="w-14 h-14 rounded-2xl bg-brand-charcoal border border-amber-500/20 text-brand-gold-bright flex items-center justify-center mx-auto">
                 <FolderOpen className="w-6 h-6" />
               </div>
               <div className="space-y-1">
@@ -547,11 +547,11 @@ export default function HomePage() {
           6. CUSTOMER REVIEWS (Master Prompt Section 22)
           2-3 reviews max, only real/CMS managed
           =================================================================== */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 relative bg-[#0B0B0D]">
+      <section className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 relative bg-brand-obsidian">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center max-w-2xl mx-auto space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#151518] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
-              <Star className="w-3.5 h-3.5 fill-[#E5B85C] text-[#E5B85C]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-charcoal border border-brand-gold/30 text-brand-gold-bright text-xs font-semibold tracking-widest uppercase">
+              <Star className="w-3.5 h-3.5 fill-brand-gold-bright text-brand-gold-bright" />
               <span>Verified Homeowners</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
@@ -566,11 +566,11 @@ export default function HomePage() {
             {displayReviews.map((rev) => (
               <div
                 key={rev.id}
-                className="rounded-2xl p-7 border border-zinc-800 bg-[#151518] shadow-xl flex flex-col justify-between space-y-6 hover:border-zinc-700 transition-colors"
+                className="rounded-2xl p-7 border border-zinc-800 bg-brand-charcoal shadow-xl flex flex-col justify-between space-y-6 hover:border-zinc-700 transition-colors"
               >
                 <div className="space-y-4">
                   {/* 5 Stars */}
-                  <div className="flex items-center gap-1 text-[#E5B85C]">
+                  <div className="flex items-center gap-1 text-brand-gold-bright">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-current" />
                     ))}
@@ -582,7 +582,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex items-center gap-3 pt-5 border-t border-zinc-800">
-                  <div className="w-10 h-10 rounded-xl bg-[#202124] border border-amber-500/20 text-[#E5B85C] font-bold flex items-center justify-center text-xs">
+                  <div className="w-10 h-10 rounded-xl bg-brand-graphite border border-amber-500/20 text-brand-gold-bright font-bold flex items-center justify-center text-xs">
                     {rev.author.charAt(0)}
                   </div>
                   <div>
@@ -606,14 +606,14 @@ export default function HomePage() {
           Supporting: Tell us what you're imagining and let's turn it into reality.
           Button: GET STARTED -> /start-project
           =================================================================== */}
-      <section className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 relative overflow-hidden bg-[#0B0B0D]">
-        <div className="max-w-5xl mx-auto relative rounded-3xl p-8 sm:p-16 border border-[#C9963E]/30 bg-gradient-to-b from-[#151518] to-[#0B0B0D] shadow-2xl text-center space-y-6 overflow-hidden">
+      <section className="py-24 sm:py-32 px-4 sm:px-6 md:px-10 lg:px-12 relative overflow-hidden bg-brand-obsidian">
+        <div className="max-w-5xl mx-auto relative rounded-3xl p-8 sm:p-16 border border-brand-gold/30 bg-linear-to-b from-brand-charcoal to-brand-obsidian shadow-2xl text-center space-y-6 overflow-hidden">
           {/* Subtle gold ambient glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#C9963E]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#202124] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E5B85C]" />
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-graphite border border-brand-gold/30 text-brand-gold-bright text-xs font-semibold tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-gold-bright" />
               <span>Begin Your Journey</span>
             </span>
 
@@ -636,7 +636,7 @@ export default function HomePage() {
 
               <Link
                 href="/services"
-                className="px-6 py-4 rounded-xl bg-[#202124] hover:bg-[#2a2c31] text-zinc-200 hover:text-white font-bold text-xs sm:text-sm border border-zinc-700/80 transition-all"
+                className="px-6 py-4 rounded-xl bg-brand-graphite hover:bg-[#2a2c31] text-zinc-200 hover:text-white font-bold text-xs sm:text-sm border border-zinc-700/80 transition-all"
               >
                 Browse Services
               </Link>

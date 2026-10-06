@@ -36,9 +36,9 @@ export function LivRiseFooter() {
   ];
 
   return (
-    <footer className="bg-[#0B0B0D] border-t border-white/10 text-zinc-300 relative z-10 overflow-hidden transition-colors duration-200">
+    <footer className="bg-brand-obsidian border-t border-white/10 text-zinc-300 relative z-10 overflow-hidden transition-colors duration-200">
       {/* Decorative architectural blueprint accent line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-500/40 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-amber-500/40 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-12 pt-16 pb-12">
         {/* Top Grid */}
@@ -48,7 +48,7 @@ export function LivRiseFooter() {
             <LivRiseLogo size="lg" />
 
             <div className="space-y-1.5">
-              <p className="text-xs uppercase tracking-widest font-bold text-[#E5B85C]">
+              <p className="text-xs uppercase tracking-widest font-bold text-brand-gold-bright">
                 Engineering • Architecture • Infrastructure
               </p>
               <p className="text-sm text-zinc-400 font-normal leading-relaxed max-w-sm">
@@ -66,7 +66,7 @@ export function LivRiseFooter() {
                   href={currentWhatsAppUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-[#E5B85C] transition-colors font-semibold text-white"
+                  className="hover:text-brand-gold-bright transition-colors font-semibold text-white"
                 >
                   {currentWhatsApp}
                 </a>
@@ -85,7 +85,7 @@ export function LivRiseFooter() {
                   target="_blank"
                   rel="noopener noreferrer"
                   title="Open Gmail Compose"
-                  className="hover:text-[#E5B85C] transition-colors font-semibold text-white break-all"
+                  className="hover:text-brand-gold-bright transition-colors font-semibold text-white break-all"
                 >
                   {currentEmail}
                 </a>
@@ -114,13 +114,13 @@ export function LivRiseFooter() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-zinc-200 bg-white/5 border border-white/15 hover:bg-white/10 hover:text-white transition-all shadow-xs"
               >
-                <Mail className="w-3.5 h-3.5 text-[#E5B85C]" />
+                <Mail className="w-3.5 h-3.5 text-brand-gold-bright" />
                 <span>Email Us</span>
               </a>
 
               <Link
                 href="/app"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-[#E5B85C] bg-amber-500/10 border border-amber-500/25 hover:bg-amber-500/20 transition-all shadow-xs"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-brand-gold-bright bg-amber-500/10 border border-amber-500/25 hover:bg-amber-500/20 transition-all shadow-xs"
               >
                 <Shield className="w-3.5 h-3.5" />
                 <span>Client Portal</span>
@@ -138,7 +138,7 @@ export function LivRiseFooter() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-zinc-400 hover:text-[#E5B85C] transition-colors inline-block text-xs font-medium"
+                    className="text-zinc-400 hover:text-brand-gold-bright transition-colors inline-block text-xs font-medium"
                   >
                     {link.label}
                   </Link>
@@ -157,7 +157,7 @@ export function LivRiseFooter() {
                 <li key={srv.title}>
                   <Link
                     href={srv.href}
-                    className="text-zinc-400 hover:text-[#E5B85C] transition-colors inline-flex items-center gap-2 text-xs font-medium"
+                    className="text-zinc-400 hover:text-brand-gold-bright transition-colors inline-flex items-center gap-2 text-xs font-medium"
                   >
                     <span>{srv.symbol}</span>
                     <span>{srv.title}</span>
@@ -169,8 +169,8 @@ export function LivRiseFooter() {
 
           {/* Luxury CTA Block */}
           <div className="lg:col-span-3 space-y-4">
-            <div className="p-5 rounded-2xl bg-[#151518] border border-amber-500/25 space-y-3">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-[#E5B85C] font-bold">
+            <div className="p-5 rounded-2xl bg-brand-charcoal border border-amber-500/25 space-y-3">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-brand-gold-bright font-bold">
                 START YOUR PROJECT
               </span>
               <h5 className="text-sm font-bold text-white leading-snug">

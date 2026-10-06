@@ -85,18 +85,18 @@ const CAPABILITIES = [
 
 export default function CapabilitiesPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0B0D] text-[#F5F5F3] selection:bg-[#C9963E] selection:text-black">
+    <div className="min-h-screen flex flex-col bg-brand-obsidian text-[#F5F5F3] selection:bg-brand-gold selection:text-black">
       <LivRiseNavbar />
 
       <main className="flex-1 pt-28 sm:pt-32 pb-24">
         {/* Header Hero */}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 text-center relative overflow-hidden bg-[#0B0B0D]">
+        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 text-center relative overflow-hidden bg-brand-obsidian">
           <div className="absolute inset-0 blueprint-grid opacity-25 pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#C9963E]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-4xl mx-auto space-y-4 relative z-10">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#151518] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E5B85C]" />
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-charcoal border border-brand-gold/30 text-brand-gold-bright text-xs font-semibold tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-gold-bright" />
               <span>Technical & Disciplinary Rigor</span>
             </span>
 
@@ -117,7 +117,7 @@ export default function CapabilitiesPage() {
               </Link>
               <Link
                 href="/contact"
-                className="px-6 py-3.5 rounded-xl bg-[#202124] text-zinc-200 border border-zinc-700 hover:border-zinc-500 font-bold text-xs sm:text-sm transition-all"
+                className="px-6 py-3.5 rounded-xl bg-brand-graphite text-zinc-200 border border-zinc-700 hover:border-zinc-500 font-bold text-xs sm:text-sm transition-all"
               >
                 Contact Engineering Desk
               </Link>
@@ -136,20 +136,20 @@ export default function CapabilitiesPage() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: idx * 0.04 }}
-                  className="rounded-2xl border border-zinc-800 bg-[#151518] hover:border-[#E5B85C]/50 p-6 flex flex-col justify-between group shadow-xl transition-all duration-300 hover:-translate-y-1"
+                  className="rounded-2xl border border-zinc-800 bg-brand-charcoal hover:border-brand-gold-bright/50 p-6 flex flex-col justify-between group shadow-xl transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <div className="w-11 h-11 rounded-xl bg-[#202124] border border-zinc-700/60 flex items-center justify-center text-[#E5B85C] group-hover:scale-105 transition-transform">
+                      <div className="w-11 h-11 rounded-xl bg-brand-graphite border border-zinc-700/60 flex items-center justify-center text-brand-gold-bright group-hover:scale-105 transition-transform">
                         <Icon className="w-5 h-5" />
                       </div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#0B0B0D] text-zinc-400 border border-zinc-800">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-brand-obsidian text-zinc-400 border border-zinc-800">
                         {cap.tier}
                       </span>
                     </div>
 
                     <div>
-                      <h3 className="text-lg font-bold text-white group-hover:text-[#E5B85C] transition-colors">
+                      <h3 className="text-lg font-bold text-white group-hover:text-brand-gold-bright transition-colors">
                         {cap.title}
                       </h3>
                       <p className="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed">
@@ -161,7 +161,7 @@ export default function CapabilitiesPage() {
                   <div className="pt-4 mt-3 border-t border-zinc-800/80">
                     <Link
                       href={`/services/${cap.slug}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E5B85C] group-hover:underline"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-gold-bright group-hover:underline"
                     >
                       <span>Explore Practice</span>
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />

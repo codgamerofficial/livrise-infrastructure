@@ -122,7 +122,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-(--bg-primary) text-(--text-primary) min-h-screen flex flex-col antialiased selection:bg-[#C9963E] selection:text-black transition-colors duration-200 pb-16 md:pb-0 font-sans">
+      <body className="bg-(--bg-primary) text-(--text-primary) min-h-screen flex flex-col antialiased selection:bg-brand-gold selection:text-black transition-colors duration-200 pb-16 md:pb-0 font-sans">
         <ThemeProvider>
           <LivRiseStoreProvider>
             <LivRiseSplashScreen />

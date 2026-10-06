@@ -58,9 +58,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0B0B0D] text-[#F5F5F3] flex flex-col md:flex-row transition-colors duration-200">
+    <div className="min-h-screen bg-brand-obsidian text-[#F5F5F3] flex flex-col md:flex-row transition-colors duration-200">
       {/* Desktop Admin Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 bg-[#0B0B0D] border-r border-zinc-800 shrink-0 justify-between">
+      <aside className="hidden md:flex flex-col w-64 bg-brand-obsidian border-r border-zinc-800 shrink-0 justify-between">
         <div>
           {/* Logo Header */}
           <div className="h-16 flex items-center justify-between px-5 border-b border-zinc-800">
@@ -69,20 +69,20 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             </Link>
             <div className="flex items-center gap-1.5">
               <ThemeToggle />
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-lg bg-[#151518] text-[#E5B85C] font-bold border border-[#C9963E]/30">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-lg bg-brand-charcoal text-brand-gold-bright font-bold border border-brand-gold/30">
                 ADMIN
               </span>
             </div>
           </div>
 
           {/* Admin User Badge */}
-          <div className="p-3 mx-3 my-3 rounded-2xl bg-[#151518] border border-zinc-800 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#E5B85C] text-black font-bold flex items-center justify-center font-mono text-xs">
+          <div className="p-3 mx-3 my-3 rounded-2xl bg-brand-charcoal border border-zinc-800 flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-brand-gold-bright text-black font-bold flex items-center justify-center font-mono text-xs">
               {currentUser.name.charAt(0)}
             </div>
             <div className="truncate text-xs">
               <p className="font-bold text-white truncate">{currentUser.name}</p>
-              <p className="text-[10px] text-[#E5B85C] font-mono font-semibold">
+              <p className="text-[10px] text-brand-gold-bright font-mono font-semibold">
                 {currentUser.role.toUpperCase()}
               </p>
             </div>
@@ -99,8 +99,8 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                   href={item.href}
                   className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
                     isActive
-                      ? 'bg-[#E5B85C] text-black font-bold shadow-md shadow-amber-500/20'
-                      : 'text-zinc-400 hover:text-white hover:bg-[#151518]'
+                      ? 'bg-brand-gold-bright text-black font-bold shadow-md shadow-amber-500/20'
+                      : 'text-zinc-400 hover:text-white hover:bg-brand-charcoal'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
@@ -108,7 +108,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                     <span>{item.label}</span>
                   </div>
                   {item.badge && item.badge > 0 ? (
-                    <span className="w-4 h-4 rounded-full bg-black text-[#E5B85C] font-mono text-[9px] flex items-center justify-center font-bold">
+                    <span className="w-4 h-4 rounded-full bg-black text-brand-gold-bright font-mono text-[9px] flex items-center justify-center font-bold">
                       {item.badge}
                     </span>
                   ) : null}
@@ -122,7 +122,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         <div className="p-4 border-t border-zinc-800 space-y-2">
           <Link
             href="/app"
-            className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-[#E5B85C] bg-[#151518] border border-[#C9963E]/30 hover:bg-[#202124] transition-all"
+            className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-brand-gold-bright bg-brand-charcoal border border-brand-gold/30 hover:bg-brand-graphite transition-all"
           >
             <div className="flex items-center gap-2">
               <Shield className="w-3.5 h-3.5" />
@@ -133,7 +133,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
           <Link
             href="/"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs text-zinc-500 hover:text-white hover:bg-[#151518] transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs text-zinc-500 hover:text-white hover:bg-brand-charcoal transition-colors"
           >
             <ExternalLink className="w-3.5 h-3.5" />
             <span>View Public Website</span>
@@ -144,7 +144,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main Content Viewport */}
       <div className="flex-1 flex flex-col min-w-0 pb-16 md:pb-0">
         {/* Mobile Header */}
-        <header className="md:hidden h-14 bg-[#0B0B0D] border-b border-zinc-800 flex items-center justify-between px-4 sticky top-0 z-30 pt-safe">
+        <header className="md:hidden h-14 bg-brand-obsidian border-b border-zinc-800 flex items-center justify-between px-4 sticky top-0 z-30 pt-safe">
           <Link href="/admin" className="block">
             <LivRiseLogo size="sm" asLink={false} />
           </Link>
@@ -153,14 +153,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             <ThemeToggle />
             <Link
               href="/app"
-              className="text-[10px] font-mono font-semibold px-2.5 py-1 rounded-lg bg-[#151518] text-[#E5B85C] border border-[#C9963E]/30"
+              className="text-[10px] font-mono font-semibold px-2.5 py-1 rounded-lg bg-brand-charcoal text-brand-gold-bright border border-brand-gold/30"
             >
               Client View
             </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 rounded-lg text-white bg-[#151518] border border-zinc-800"
+              className="p-1.5 rounded-lg text-white bg-brand-charcoal border border-zinc-800"
               aria-label="Toggle admin menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -170,9 +170,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
         {/* Mobile Drawer Overlay */}
         {mobileMenuOpen && (
-          <div className="md:hidden fixed inset-0 z-40 bg-[#0B0B0D]/95 backdrop-blur-2xl p-5 pt-20 overflow-y-auto space-y-3 animate-in fade-in duration-200">
+          <div className="md:hidden fixed inset-0 z-40 bg-brand-obsidian/95 backdrop-blur-2xl p-5 pt-20 overflow-y-auto space-y-3 animate-in fade-in duration-200">
             <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
-              <span className="text-xs font-mono font-bold text-[#E5B85C] uppercase">
+              <span className="text-xs font-mono font-bold text-brand-gold-bright uppercase">
                 Admin Navigation Menu
               </span>
               <button
@@ -195,8 +195,8 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center justify-between p-3 rounded-xl text-xs font-semibold ${
                       isActive
-                        ? 'bg-[#E5B85C] text-black font-bold'
-                        : 'text-zinc-400 hover:bg-[#151518]'
+                        ? 'bg-brand-gold-bright text-black font-bold'
+                        : 'text-zinc-400 hover:bg-brand-charcoal'
                     }`}
                   >
                     <div className="flex items-center gap-3">
@@ -204,7 +204,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                       <span>{item.label}</span>
                     </div>
                     {item.badge && item.badge > 0 ? (
-                      <span className="w-4 h-4 rounded-full bg-black text-[#E5B85C] font-mono text-[9px] flex items-center justify-center font-bold">
+                      <span className="w-4 h-4 rounded-full bg-black text-brand-gold-bright font-mono text-[9px] flex items-center justify-center font-bold">
                         {item.badge}
                       </span>
                     ) : null}
@@ -216,7 +216,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         )}
 
         {/* Child Page Content Container */}
-        <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto bg-[#0B0B0D]">
+        <main className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto bg-brand-obsidian">
           {children}
         </main>
       </div>

@@ -85,8 +85,8 @@ export function LivRiseNavbar() {
         <nav
           className={`max-w-7xl mx-auto rounded-2xl flex items-center justify-between transition-all duration-300 px-4 sm:px-6 py-2.5 border ${
             isScrolled
-              ? 'bg-[#0B0B0D]/90 backdrop-blur-xl border-amber-500/20 shadow-2xl shadow-black/60'
-              : 'bg-[#0B0B0D]/75 backdrop-blur-lg border-white/10'
+              ? 'bg-brand-obsidian/90 backdrop-blur-xl border-amber-500/20 shadow-2xl shadow-black/60'
+              : 'bg-brand-obsidian/75 backdrop-blur-lg border-white/10'
           }`}
         >
           {/* Left: Master LR Logo */}
@@ -106,13 +106,13 @@ export function LivRiseNavbar() {
                   href={link.href}
                   className={`transition-all duration-200 font-medium relative py-1 text-xs xl:text-sm tracking-wide ${
                     isActive
-                      ? 'text-[#E5B85C] font-semibold'
+                      ? 'text-brand-gold-bright font-semibold'
                       : 'text-zinc-300 hover:text-white'
                   }`}
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#C9963E] to-[#E5B85C] rounded-full" />
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-brand-gold to-brand-gold-bright rounded-full" />
                   )}
                 </Link>
               );
@@ -129,7 +129,7 @@ export function LivRiseNavbar() {
               href="/app"
               className="hidden sm:inline-flex text-xs font-semibold px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-zinc-200 hover:text-white hover:bg-white/10 transition-all items-center gap-1.5"
             >
-              <Shield className="w-3.5 h-3.5 text-[#E5B85C]" />
+              <Shield className="w-3.5 h-3.5 text-brand-gold-bright" />
               <span>Client Portal</span>
             </Link>
 
@@ -173,11 +173,11 @@ export function LivRiseNavbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="fixed inset-0 z-40 bg-[#0B0B0D]/95 backdrop-blur-2xl flex flex-col pt-24 pb-20 px-4 overflow-y-auto"
+            className="fixed inset-0 z-40 bg-brand-obsidian/95 backdrop-blur-2xl flex flex-col pt-24 pb-20 px-4 overflow-y-auto"
           >
             <div className="max-w-md mx-auto w-full space-y-4">
               <div className="flex items-center justify-between px-2 pb-2 border-b border-white/10">
-                <span className="text-xs uppercase tracking-widest font-bold text-[#E5B85C]">
+                <span className="text-xs uppercase tracking-widest font-bold text-brand-gold-bright">
                   LivRise Architecture
                 </span>
                 <span className="text-[11px] text-zinc-400 font-mono">
@@ -204,11 +204,11 @@ export function LivRiseNavbar() {
                         className={`flex items-center gap-3.5 p-3 rounded-2xl border transition-all ${
                           isActive
                             ? 'bg-amber-500/10 border-amber-500/30 text-white'
-                            : 'bg-[#151518] border-white/10 text-zinc-300 hover:text-white hover:border-white/20'
+                            : 'bg-brand-charcoal border-white/10 text-zinc-300 hover:text-white hover:border-white/20'
                         }`}
                       >
                         <div className="w-9 h-9 rounded-xl bg-black/60 border border-white/10 flex items-center justify-center shrink-0">
-                          <Icon className={`w-4 h-4 ${isActive ? 'text-[#E5B85C]' : 'text-zinc-300'}`} />
+                          <Icon className={`w-4 h-4 ${isActive ? 'text-brand-gold-bright' : 'text-zinc-300'}`} />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="font-bold text-sm text-white">
@@ -242,7 +242,7 @@ export function LivRiseNavbar() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl border border-white/15 bg-white/5 text-zinc-200 text-xs font-semibold"
                   >
-                    <Shield className="w-3.5 h-3.5 text-[#E5B85C]" />
+                    <Shield className="w-3.5 h-3.5 text-brand-gold-bright" />
                     <span>Client Portal</span>
                   </Link>
 

@@ -39,20 +39,20 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0B0D] text-[#F5F5F3] selection:bg-[#C9963E] selection:text-black">
+    <div className="min-h-screen flex flex-col bg-brand-obsidian text-[#F5F5F3] selection:bg-brand-gold selection:text-black">
       <LivRiseNavbar />
 
       <main className="flex-1 pt-28 sm:pt-32 pb-24">
         {/* ===================================================================
             HERO SECTION
             =================================================================== */}
-        <section className="relative py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 overflow-hidden text-center bg-[#0B0B0D]">
+        <section className="relative py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 overflow-hidden text-center bg-brand-obsidian">
           <div className="absolute inset-0 blueprint-grid opacity-25 pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#C9963E]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-4xl mx-auto space-y-4 relative z-10">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#151518] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
-              <Compass className="w-3.5 h-3.5 text-[#E5B85C]" />
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-charcoal border border-brand-gold/30 text-brand-gold-bright text-xs font-semibold tracking-widest uppercase">
+              <Compass className="w-3.5 h-3.5 text-brand-gold-bright" />
               <span>About LivRise Infrastructure</span>
             </span>
 
@@ -69,10 +69,10 @@ export default function AboutPage() {
         {/* ===================================================================
             STORY & PHILOSOPHY
             =================================================================== */}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 bg-[#151518]">
+        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 bg-brand-charcoal">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-6 space-y-5">
-              <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#E5B85C]">
+              <span className="text-xs font-mono font-bold uppercase tracking-widest text-brand-gold-bright">
                 Our Philosophy
               </span>
               <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
@@ -105,7 +105,7 @@ export default function AboutPage() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover opacity-90"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#151518] via-transparent to-transparent opacity-60" />
+                <div className="absolute inset-0 bg-linear-to-t from-brand-charcoal via-transparent to-transparent opacity-60" />
               </div>
             </div>
           </div>
@@ -114,10 +114,10 @@ export default function AboutPage() {
         {/* ===================================================================
             CORE VALUES (4 Cards)
             =================================================================== */}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 bg-[#0B0B0D]">
+        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 bg-brand-obsidian">
           <div className="max-w-7xl mx-auto space-y-12">
             <div className="text-center max-w-2xl mx-auto space-y-2">
-              <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#E5B85C]">
+              <span className="text-xs font-mono font-bold uppercase tracking-widest text-brand-gold-bright">
                 Guiding Principles
               </span>
               <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
@@ -129,9 +129,9 @@ export default function AboutPage() {
               {values.map((val) => (
                 <div
                   key={val.title}
-                  className="rounded-2xl border border-zinc-800 bg-[#151518] p-6 space-y-4 shadow-xl hover:border-[#E5B85C]/40 transition-all"
+                  className="rounded-2xl border border-zinc-800 bg-brand-charcoal p-6 space-y-4 shadow-xl hover:border-brand-gold-bright/40 transition-all"
                 >
-                  <span className="text-2xl p-2.5 rounded-xl bg-[#202124] border border-zinc-700/60 inline-block">
+                  <span className="text-2xl p-2.5 rounded-xl bg-brand-graphite border border-zinc-700/60 inline-block">
                     {val.symbol}
                   </span>
                   <h3 className="text-base font-bold text-white">

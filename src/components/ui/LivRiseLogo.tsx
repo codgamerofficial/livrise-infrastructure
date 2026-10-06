@@ -30,7 +30,7 @@ export function LivRiseLogo({
     <div className={`inline-flex items-center gap-2.5 sm:gap-3 select-none group ${className}`}>
       {/* 3D Architectural Monogram from Official Source */}
       <div
-        className="relative shrink-0 rounded-xl overflow-hidden shadow-lg border border-amber-500/30 bg-[#0B0B0D] transition-transform duration-300 group-hover:scale-105"
+        className="relative shrink-0 rounded-xl overflow-hidden shadow-lg border border-amber-500/30 bg-brand-obsidian transition-transform duration-300 group-hover:scale-105"
         style={{ width: sizeConfig.monogram, height: sizeConfig.monogram }}
       >
         <Image
@@ -42,14 +42,14 @@ export function LivRiseLogo({
           priority
         />
         {/* Subtle architectural gold shimmer */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/10 via-transparent to-white/10 opacity-70 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-tr from-amber-500/10 via-transparent to-white/10 opacity-70 pointer-events-none" />
       </div>
 
       {/* Brand Wordmark */}
       <div className="flex flex-col leading-none">
         <div className={`font-extrabold tracking-tight ${sizeConfig.text} flex items-baseline`}>
           <span className="text-zinc-100 group-hover:text-white transition-colors">Liv</span>
-          <span className="text-[#E5B85C] ml-0.5 group-hover:text-[#F2D39A] transition-colors">Rise</span>
+          <span className="text-brand-gold-bright ml-0.5 group-hover:text-brand-gold-champagne transition-colors">Rise</span>
         </div>
         {showSubtitle && (
           <span
@@ -82,7 +82,7 @@ export function LivRiseMonogram({
 }) {
   return (
     <div
-      className={`relative shrink-0 rounded-xl overflow-hidden shadow-xl border border-amber-500/30 bg-[#0B0B0D] ${className}`}
+      className={`relative shrink-0 rounded-xl overflow-hidden shadow-xl border border-amber-500/30 bg-brand-obsidian ${className}`}
       style={{ width: size, height: size }}
     >
       <Image

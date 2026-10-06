@@ -38,18 +38,18 @@ export default function ProjectsPage() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0B0D] text-[#F5F5F3] selection:bg-[#C9963E] selection:text-black">
+    <div className="min-h-screen flex flex-col bg-brand-obsidian text-[#F5F5F3] selection:bg-brand-gold selection:text-black">
       <LivRiseNavbar />
 
       <main className="flex-1 pt-28 sm:pt-32 pb-24">
         {/* Header */}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 text-center relative overflow-hidden bg-[#0B0B0D]">
+        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 text-center relative overflow-hidden bg-brand-obsidian">
           <div className="absolute inset-0 blueprint-grid opacity-25 pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#C9963E]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-4xl mx-auto space-y-4 relative z-10">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#151518] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
-              <FolderOpen className="w-3.5 h-3.5 text-[#E5B85C]" />
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-charcoal border border-brand-gold/30 text-brand-gold-bright text-xs font-semibold tracking-widest uppercase">
+              <FolderOpen className="w-3.5 h-3.5 text-brand-gold-bright" />
               <span>Architectural Showcase</span>
             </span>
 
@@ -71,7 +71,7 @@ export default function ProjectsPage() {
                   className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     selectedFilter === flt
                       ? 'gold-button shadow-md'
-                      : 'bg-[#151518] border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'
+                      : 'bg-brand-charcoal border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700'
                   }`}
                 >
                   {flt}
@@ -92,7 +92,7 @@ export default function ProjectsPage() {
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: idx * 0.05 }}
-                    className="rounded-2xl border border-zinc-800 bg-[#151518] hover:border-[#E5B85C]/50 shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group hover:-translate-y-1"
+                    className="rounded-2xl border border-zinc-800 bg-brand-charcoal hover:border-brand-gold-bright/50 shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between group hover:-translate-y-1"
                   >
                     <div className="relative h-60 w-full overflow-hidden bg-black/80">
                       <Image
@@ -102,9 +102,9 @@ export default function ProjectsPage() {
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-85 group-hover:opacity-100"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#151518] via-transparent to-black/30" />
+                      <div className="absolute inset-0 bg-linear-to-t from-brand-charcoal via-transparent to-black/30" />
                       <div className="absolute top-4 left-4">
-                        <span className="text-[10px] font-mono uppercase tracking-widest font-bold px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md text-[#E5B85C] border border-[#C9963E]/30">
+                        <span className="text-[10px] font-mono uppercase tracking-widest font-bold px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-md text-brand-gold-bright border border-brand-gold/30">
                           {p.category}
                         </span>
                       </div>
@@ -113,10 +113,10 @@ export default function ProjectsPage() {
                     <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                       <div>
                         <div className="flex items-center gap-1.5 text-xs text-zinc-500 font-medium">
-                          <MapPin className="w-3.5 h-3.5 text-[#E5B85C]" />
+                          <MapPin className="w-3.5 h-3.5 text-brand-gold-bright" />
                           <span>{p.location}</span>
                         </div>
-                        <h3 className="text-lg font-bold text-white group-hover:text-[#E5B85C] transition-colors mt-1">
+                        <h3 className="text-lg font-bold text-white group-hover:text-brand-gold-bright transition-colors mt-1">
                           {p.title}
                         </h3>
                         <p className="text-xs text-zinc-400 mt-2 line-clamp-2 leading-relaxed">
@@ -127,7 +127,7 @@ export default function ProjectsPage() {
                       <div className="pt-4 border-t border-zinc-800/80 flex items-center justify-between">
                         <Link
                           href={`/projects/${p.slug}`}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E5B85C] group-hover:underline"
+                          className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-gold-bright group-hover:underline"
                         >
                           <span>Case Study</span>
                           <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -138,8 +138,8 @@ export default function ProjectsPage() {
                 ))}
               </div>
             ) : (
-              <div className="p-8 sm:p-14 rounded-2xl border border-dashed border-zinc-800 bg-[#151518] text-center max-w-xl mx-auto space-y-4">
-                <div className="w-14 h-14 rounded-2xl bg-[#202124] border border-[#E5B85C]/30 text-[#E5B85C] flex items-center justify-center mx-auto">
+              <div className="p-8 sm:p-14 rounded-2xl border border-dashed border-zinc-800 bg-brand-charcoal text-center max-w-xl mx-auto space-y-4">
+                <div className="w-14 h-14 rounded-2xl bg-brand-graphite border border-brand-gold-bright/30 text-brand-gold-bright flex items-center justify-center mx-auto">
                   <FolderOpen className="w-6 h-6" />
                 </div>
                 <div className="space-y-1">

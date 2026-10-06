@@ -65,10 +65,10 @@ export function LivRiseHero() {
   ];
 
   return (
-    <div className="relative w-full min-h-screen flex flex-col justify-between overflow-hidden bg-[#0B0B0D] blueprint-grid">
+    <div className="relative w-full min-h-screen flex flex-col justify-between overflow-hidden bg-brand-obsidian blueprint-grid">
       {/* Subtle luxury ambient gold and platinum architectural lighting */}
-      <div className="absolute top-12 left-1/4 w-[500px] h-[500px] bg-gradient-to-tr from-amber-500/10 via-amber-600/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-gradient-to-br from-zinc-700/10 via-amber-500/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-12 left-1/4 w-125 h-125 bg-linear-to-tr from-amber-500/10 via-amber-600/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute bottom-10 right-10 w-112.5 h-112.5 bg-linear-to-br from-zinc-700/10 via-amber-500/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
 
       {/* Floating Header */}
       <LivRiseNavbar />
@@ -85,9 +85,9 @@ export function LivRiseHero() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-amber-500/30 text-[#E5B85C] text-xs font-semibold shadow-sm"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-amber-500/30 text-brand-gold-bright text-xs font-semibold shadow-sm"
             >
-              <span className="w-2 h-2 rounded-full bg-[#E5B85C] animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-brand-gold-bright animate-pulse" />
               <span>Engineering • Architecture • Infrastructure</span>
               <span className="text-zinc-500">•</span>
               <span className="text-zinc-300">LivRise</span>
@@ -124,19 +124,19 @@ export function LivRiseHero() {
               transition={{ duration: 0.6, delay: 0.25 }}
               className="flex items-center gap-1.5 sm:gap-2 text-xs font-semibold text-zinc-400"
             >
-              <span className="px-2.5 py-1 rounded-lg bg-[#151518] border border-amber-500/25 text-[#E5B85C]">
+              <span className="px-2.5 py-1 rounded-lg bg-brand-charcoal border border-amber-500/25 text-brand-gold-bright">
                 Idea
               </span>
               <span className="text-zinc-600">→</span>
-              <span className="px-2.5 py-1 rounded-lg bg-[#151518] border border-white/10 text-zinc-300">
+              <span className="px-2.5 py-1 rounded-lg bg-brand-charcoal border border-white/10 text-zinc-300">
                 Plan
               </span>
               <span className="text-zinc-600">→</span>
-              <span className="px-2.5 py-1 rounded-lg bg-[#151518] border border-white/10 text-zinc-300">
+              <span className="px-2.5 py-1 rounded-lg bg-brand-charcoal border border-white/10 text-zinc-300">
                 Design
               </span>
               <span className="text-zinc-600">→</span>
-              <span className="px-2.5 py-1 rounded-lg bg-[#151518] border border-amber-500/30 text-[#E5B85C] font-bold">
+              <span className="px-2.5 py-1 rounded-lg bg-brand-charcoal border border-amber-500/30 text-brand-gold-bright font-bold">
                 Build
               </span>
             </motion.div>
@@ -162,7 +162,7 @@ export function LivRiseHero() {
                 href="/services"
                 className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border border-white/15 bg-white/5 hover:bg-white/10 text-zinc-200 hover:text-white text-sm font-semibold transition-all duration-200"
               >
-                <Building2 className="w-4 h-4 text-[#E5B85C]" />
+                <Building2 className="w-4 h-4 text-brand-gold-bright" />
                 <span>Explore Services</span>
               </Link>
             </motion.div>
@@ -175,15 +175,15 @@ export function LivRiseHero() {
               className="pt-2 flex items-center gap-4 sm:gap-6 text-xs text-zinc-400"
             >
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#E5B85C]" />
+                <CheckCircle2 className="w-4 h-4 text-brand-gold-bright" />
                 <span>Vastu Compliant</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#E5B85C]" />
+                <CheckCircle2 className="w-4 h-4 text-brand-gold-bright" />
                 <span>Municipal Approval</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-[#E5B85C]" />
+                <CheckCircle2 className="w-4 h-4 text-brand-gold-bright" />
                 <span>Turnkey Guarantee</span>
               </div>
             </motion.div>
@@ -199,9 +199,9 @@ export function LivRiseHero() {
             className="lg:col-span-6 relative"
           >
             {/* Main Architectural Showcase Card */}
-            <div className="relative rounded-3xl overflow-hidden border border-amber-500/25 bg-[#151518] shadow-2xl shadow-black/80">
+            <div className="relative rounded-3xl overflow-hidden border border-amber-500/25 bg-brand-charcoal shadow-2xl shadow-black/80">
               {/* Display Active Stage Image */}
-              <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] overflow-hidden bg-[#0B0B0D]">
+              <div className="relative w-full aspect-4/3 sm:aspect-16/11 overflow-hidden bg-brand-obsidian">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeStage}
@@ -219,13 +219,13 @@ export function LivRiseHero() {
                       className="object-cover object-center"
                     />
                     {/* Architectural gradient overlays */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0B0B0D] via-transparent to-black/30" />
+                    <div className="absolute inset-0 bg-linear-to-t from-brand-obsidian via-transparent to-black/30" />
                   </motion.div>
                 </AnimatePresence>
 
                 {/* Top Badge Overlay */}
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black/75 backdrop-blur-md border border-amber-500/30 text-[#E5B85C]">
+                  <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black/75 backdrop-blur-md border border-amber-500/30 text-brand-gold-bright">
                     {stages[activeStage].badge}
                   </span>
                 </div>
@@ -244,12 +244,12 @@ export function LivRiseHero() {
                 </div>
 
                 {/* Bottom Overlay Info */}
-                <div className="absolute bottom-4 left-4 right-4 z-20 p-3.5 rounded-2xl bg-[#0B0B0D]/85 backdrop-blur-md border border-white/10 space-y-1">
+                <div className="absolute bottom-4 left-4 right-4 z-20 p-3.5 rounded-2xl bg-brand-obsidian/85 backdrop-blur-md border border-white/10 space-y-1">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-bold text-white text-sm">
                       {stages[activeStage].subtitle}
                     </span>
-                    <span className="text-[#E5B85C] font-mono font-bold">
+                    <span className="text-brand-gold-bright font-mono font-bold">
                       STAGE {stages[activeStage].step}/04
                     </span>
                   </div>
@@ -260,7 +260,7 @@ export function LivRiseHero() {
               </div>
 
               {/* Architectural Stage Switcher Tabs (Idea -> Plan -> Design -> Build) */}
-              <div className="p-3 bg-[#0B0B0D] border-t border-white/10 grid grid-cols-4 gap-2">
+              <div className="p-3 bg-brand-obsidian border-t border-white/10 grid grid-cols-4 gap-2">
                 {stages.map((stg) => {
                   const isActive = activeStage === stg.id;
                   const Icon = stg.icon;
@@ -276,7 +276,7 @@ export function LivRiseHero() {
                           : 'border-white/5 bg-white/5 text-zinc-400 hover:text-white hover:border-white/15'
                       }`}
                     >
-                      <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#E5B85C]' : 'text-zinc-500'}`} />
+                      <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-brand-gold-bright' : 'text-zinc-500'}`} />
                       <span className="text-[10px] sm:text-xs font-bold leading-none tracking-tight">
                         {stg.title}
                       </span>

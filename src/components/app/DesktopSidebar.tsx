@@ -56,7 +56,7 @@ export function DesktopSidebar() {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col w-64 lg:w-72 shrink-0 border-r border-zinc-800 bg-[#0B0B0D] min-h-screen p-5 justify-between transition-colors duration-200">
+    <aside className="hidden md:flex flex-col w-64 lg:w-72 shrink-0 border-r border-zinc-800 bg-brand-obsidian min-h-screen p-5 justify-between transition-colors duration-200">
       {/* Top: Logo & Nav Links */}
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
@@ -65,7 +65,7 @@ export function DesktopSidebar() {
           </Link>
           <div className="flex items-center gap-1.5">
             <ThemeToggle />
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#151518] text-[#E5B85C] border border-[#C9963E]/30">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-charcoal text-brand-gold-bright border border-brand-gold/30">
               Client
             </span>
           </div>
@@ -85,8 +85,8 @@ export function DesktopSidebar() {
                 href={link.href}
                 className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                   isActive
-                    ? 'bg-[#E5B85C] text-black shadow-lg shadow-amber-500/20 font-bold'
-                    : 'text-zinc-400 hover:text-white hover:bg-[#151518]'
+                    ? 'bg-brand-gold-bright text-black shadow-lg shadow-amber-500/20 font-bold'
+                    : 'text-zinc-400 hover:text-white hover:bg-brand-charcoal'
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -102,8 +102,8 @@ export function DesktopSidebar() {
                   <span
                     className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                       isActive
-                        ? 'bg-black text-[#E5B85C]'
-                        : 'bg-[#202124] text-[#E5B85C] border border-[#C9963E]/30'
+                        ? 'bg-black text-brand-gold-bright'
+                        : 'bg-brand-graphite text-brand-gold-bright border border-brand-gold/30'
                     }`}
                   >
                     {link.badge}
@@ -120,7 +120,7 @@ export function DesktopSidebar() {
         {(currentUser.role === 'admin' || currentUser.role === 'super_admin') && (
           <Link
             href="/admin"
-            className="flex items-center justify-between p-2.5 rounded-xl bg-[#151518] border border-[#C9963E]/30 text-[#E5B85C] hover:bg-[#202124] transition-all text-xs font-semibold"
+            className="flex items-center justify-between p-2.5 rounded-xl bg-brand-charcoal border border-brand-gold/30 text-brand-gold-bright hover:bg-brand-graphite transition-all text-xs font-semibold"
           >
             <div className="flex items-center gap-2">
               <Shield className="w-4 h-4" />
@@ -130,9 +130,9 @@ export function DesktopSidebar() {
           </Link>
         )}
 
-        <div className="flex items-center justify-between p-3 rounded-2xl bg-[#151518] border border-zinc-800">
+        <div className="flex items-center justify-between p-3 rounded-2xl bg-brand-charcoal border border-zinc-800">
           <div className="flex items-center gap-2.5 overflow-hidden">
-            <div className="w-8 h-8 rounded-full bg-[#E5B85C] text-black flex items-center justify-center font-bold text-xs shrink-0">
+            <div className="w-8 h-8 rounded-full bg-brand-gold-bright text-black flex items-center justify-center font-bold text-xs shrink-0">
               {currentUser.name.charAt(0)}
             </div>
             <div className="flex flex-col min-w-0">
@@ -148,7 +148,7 @@ export function DesktopSidebar() {
           <Link
             href="/"
             title="Return to Public Website"
-            className="text-zinc-500 hover:text-white p-1.5 rounded-lg hover:bg-[#202124] transition-colors"
+            className="text-zinc-500 hover:text-white p-1.5 rounded-lg hover:bg-brand-graphite transition-colors"
           >
             <LogOut className="w-4 h-4" />
           </Link>

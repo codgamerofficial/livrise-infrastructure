@@ -32,7 +32,7 @@ function ServiceHeroImage({ src, alt }: { src?: string; alt: string }) {
         priority
         onError={() => setImgSrc('/brand/livrise-logo-primary.png')}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#151518] via-transparent to-transparent opacity-80" />
+      <div className="absolute inset-0 bg-linear-to-t from-brand-charcoal via-transparent to-transparent opacity-80" />
     </div>
   );
 }
@@ -45,7 +45,7 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
 
   if (!service) {
     return (
-      <div className="min-h-screen bg-[#0B0B0D] text-[#F5F5F3] flex flex-col justify-between">
+      <div className="min-h-screen bg-brand-obsidian text-[#F5F5F3] flex flex-col justify-between">
         <LivRiseNavbar />
         <div className="max-w-md mx-auto text-center py-40 space-y-4 px-6">
           <h1 className="text-2xl font-bold text-white">Service Not Found</h1>
@@ -65,31 +65,31 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0B0D] text-[#F5F5F3] selection:bg-[#C9963E] selection:text-black">
+    <div className="min-h-screen flex flex-col bg-brand-obsidian text-[#F5F5F3] selection:bg-brand-gold selection:text-black">
       <LivRiseNavbar />
 
       <main className="flex-1 pt-28 sm:pt-32 pb-24">
         {/* ===================================================================
             HERO SECTION
             =================================================================== */}
-        <section className="relative py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 overflow-hidden bg-[#0B0B0D]">
+        <section className="relative py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 overflow-hidden bg-brand-obsidian">
           <div className="absolute inset-0 blueprint-grid opacity-25 pointer-events-none" />
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C9963E]/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="max-w-7xl mx-auto space-y-8 relative z-10">
             {/* Breadcrumb */}
             <div className="flex items-center gap-2 text-xs text-zinc-500 font-mono">
-              <Link href="/services" className="hover:text-[#E5B85C] transition-colors">
+              <Link href="/services" className="hover:text-brand-gold-bright transition-colors">
                 Services
               </Link>
               <ChevronRight className="w-3.5 h-3.5 text-zinc-600" />
-              <span className="text-[#E5B85C] font-bold">{service.title}</span>
+              <span className="text-brand-gold-bright font-bold">{service.title}</span>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <div className="lg:col-span-7 space-y-5">
-                <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#151518] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
-                  <Compass className="w-3.5 h-3.5 text-[#E5B85C]" />
+                <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-charcoal border border-brand-gold/30 text-brand-gold-bright text-xs font-semibold tracking-widest uppercase">
+                  <Compass className="w-3.5 h-3.5 text-brand-gold-bright" />
                   <span>{service.category} Discipline</span>
                 </span>
 
@@ -112,7 +112,7 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
 
                   <a
                     href="#capabilities"
-                    className="border border-zinc-700 bg-[#202124] px-6 py-3.5 rounded-xl text-xs font-bold text-zinc-200 hover:border-[#E5B85C] transition-all"
+                    className="border border-zinc-700 bg-brand-graphite px-6 py-3.5 rounded-xl text-xs font-bold text-zinc-200 hover:border-brand-gold-bright transition-all"
                   >
                     View Practice Scope
                   </a>
@@ -129,10 +129,10 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
         {/* ===================================================================
             OVERVIEW
             =================================================================== */}
-        <section className="py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 bg-[#151518]">
+        <section className="py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 bg-brand-charcoal">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             <div className="lg:col-span-4 space-y-2">
-              <span className="text-xs uppercase tracking-widest text-[#E5B85C] font-mono font-bold block">
+              <span className="text-xs uppercase tracking-widest text-brand-gold-bright font-mono font-bold block">
                 Discipline Overview
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -150,11 +150,11 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
             =================================================================== */}
         <section
           id="capabilities"
-          className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 bg-[#0B0B0D]"
+          className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 bg-brand-obsidian"
         >
           <div className="max-w-7xl mx-auto space-y-10">
             <div className="space-y-2">
-              <span className="text-xs uppercase tracking-widest text-[#E5B85C] font-mono font-bold block">
+              <span className="text-xs uppercase tracking-widest text-brand-gold-bright font-mono font-bold block">
                 Practice Scope
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -166,9 +166,9 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
               {service.capabilities.map((cap) => (
                 <div
                   key={cap}
-                  className="rounded-2xl border border-zinc-800 bg-[#151518] p-5 flex items-start gap-3.5 hover:border-[#E5B85C]/40 transition-colors shadow-lg"
+                  className="rounded-2xl border border-zinc-800 bg-brand-charcoal p-5 flex items-start gap-3.5 hover:border-brand-gold-bright/40 transition-colors shadow-lg"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-[#E5B85C] shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-5 h-5 text-brand-gold-bright shrink-0 mt-0.5" />
                   <span className="text-xs sm:text-sm text-zinc-200 font-medium leading-relaxed">
                     {cap}
                   </span>
@@ -181,10 +181,10 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
         {/* ===================================================================
             PROCESS WORKFLOW
             =================================================================== */}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 bg-[#151518]">
+        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 bg-brand-charcoal">
           <div className="max-w-7xl mx-auto space-y-10">
             <div className="space-y-2">
-              <span className="text-xs uppercase tracking-widest text-[#E5B85C] font-mono font-bold block">
+              <span className="text-xs uppercase tracking-widest text-brand-gold-bright font-mono font-bold block">
                 Methodology
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
@@ -196,9 +196,9 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
               {service.processSteps.map((step) => (
                 <div
                   key={step.step}
-                  className="rounded-2xl border border-zinc-800 bg-[#0B0B0D] p-6 space-y-3 shadow-lg"
+                  className="rounded-2xl border border-zinc-800 bg-brand-obsidian p-6 space-y-3 shadow-lg"
                 >
-                  <span className="text-xl font-mono font-black text-[#E5B85C] block">
+                  <span className="text-xl font-mono font-black text-brand-gold-bright block">
                     0{step.step}
                   </span>
                   <h3 className="text-base font-bold text-white">
@@ -216,17 +216,17 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
         {/* ===================================================================
             DELIVERABLES & SECTORS
             =================================================================== */}
-        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 bg-[#0B0B0D]">
+        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 bg-brand-obsidian">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Deliverables */}
-            <div className="rounded-2xl border border-zinc-800 bg-[#151518] p-6 sm:p-8 space-y-5 shadow-xl">
+            <div className="rounded-2xl border border-zinc-800 bg-brand-charcoal p-6 sm:p-8 space-y-5 shadow-xl">
               <h3 className="text-xl font-bold text-white tracking-tight">
                 Included Deliverables
               </h3>
               <div className="space-y-3">
                 {service.deliverables.map((deliv) => (
                   <div key={deliv} className="flex items-start gap-3 text-xs sm:text-sm text-zinc-300">
-                    <FileCheck2 className="w-4 h-4 text-[#E5B85C] shrink-0 mt-0.5" />
+                    <FileCheck2 className="w-4 h-4 text-brand-gold-bright shrink-0 mt-0.5" />
                     <span className="font-medium">{deliv}</span>
                   </div>
                 ))}
@@ -234,7 +234,7 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
             </div>
 
             {/* Target Sectors */}
-            <div className="rounded-2xl border border-zinc-800 bg-[#151518] p-6 sm:p-8 space-y-5 shadow-xl">
+            <div className="rounded-2xl border border-zinc-800 bg-brand-charcoal p-6 sm:p-8 space-y-5 shadow-xl">
               <h3 className="text-xl font-bold text-white tracking-tight">
                 Suitable Project Types
               </h3>
@@ -242,7 +242,7 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
                 {service.targetIndustries.map((ind) => (
                   <span
                     key={ind}
-                    className="px-3.5 py-1.5 rounded-xl bg-[#202124] border border-zinc-700/80 text-xs text-zinc-300 font-medium"
+                    className="px-3.5 py-1.5 rounded-xl bg-brand-graphite border border-zinc-700/80 text-xs text-zinc-300 font-medium"
                   >
                     {ind}
                   </span>
@@ -255,8 +255,8 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
         {/* ===================================================================
             FINAL CTA
             =================================================================== */}
-        <section className="py-24 px-4 sm:px-6 md:px-10 lg:px-12 text-center bg-[#0B0B0D]">
-          <div className="max-w-3xl mx-auto space-y-5 rounded-3xl p-8 sm:p-14 border border-[#C9963E]/30 bg-[#151518] shadow-2xl">
+        <section className="py-24 px-4 sm:px-6 md:px-10 lg:px-12 text-center bg-brand-obsidian">
+          <div className="max-w-3xl mx-auto space-y-5 rounded-3xl p-8 sm:p-14 border border-brand-gold/30 bg-brand-charcoal shadow-2xl">
             <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
               Ready to begin your <span className="gold-gradient-text">{service.title.toLowerCase()}?</span>
             </h2>
@@ -272,7 +272,7 @@ export default function ServiceDetailPage({ params }: ServiceDetailProps) {
               </Link>
               <Link
                 href="/contact"
-                className="px-6 py-3.5 rounded-xl bg-[#202124] text-zinc-200 border border-zinc-700 hover:border-zinc-500 font-bold text-xs sm:text-sm transition-all"
+                className="px-6 py-3.5 rounded-xl bg-brand-graphite text-zinc-200 border border-zinc-700 hover:border-zinc-500 font-bold text-xs sm:text-sm transition-all"
               >
                 Contact LivRise
               </Link>

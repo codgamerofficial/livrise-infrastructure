@@ -303,7 +303,7 @@ export default function StartProjectPage() {
   const normalizedUserPhone = normalizePhone(phone) || phone;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0B0D] text-[#F5F5F3] selection:bg-[#C9963E] selection:text-black">
+    <div className="min-h-screen flex flex-col bg-brand-obsidian text-[#F5F5F3] selection:bg-brand-gold selection:text-black">
       <LivRiseNavbar />
 
       {/* Main container with safe area bottom padding to avoid mobile collisions */}
@@ -326,11 +326,11 @@ export default function StartProjectPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4 }}
-              className="rounded-3xl border border-[#C9963E]/40 bg-[#151518] p-6 sm:p-10 shadow-2xl shadow-black/80 text-center space-y-7"
+              className="rounded-3xl border border-brand-gold/40 bg-brand-charcoal p-6 sm:p-10 shadow-2xl shadow-black/80 text-center space-y-7"
             >
               {/* Official LR Monogram + Gold Checkmark badge */}
               <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
-                <div className="w-20 h-20 rounded-2xl overflow-hidden border border-[#E5B85C]/40 bg-[#0B0B0D] shadow-xl p-1 relative">
+                <div className="w-20 h-20 rounded-2xl overflow-hidden border border-brand-gold-bright/40 bg-brand-obsidian shadow-xl p-1 relative">
                   <Image
                     src="/brand/livrise-monogram.png"
                     alt="LivRise LR Monogram"
@@ -341,15 +341,15 @@ export default function StartProjectPage() {
                   />
                 </div>
                 {/* Gold Checkmark floating badge */}
-                <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-[#E5B85C] text-black flex items-center justify-center font-black shadow-lg border-2 border-[#151518]">
-                  <Check className="w-4 h-4 stroke-[3]" />
+                <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-brand-gold-bright text-black flex items-center justify-center font-black shadow-lg border-2 border-brand-charcoal">
+                  <Check className="w-4 h-4 stroke-3" />
                 </div>
               </div>
 
               {/* Title & Status */}
               <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#202124] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E5B85C]" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-graphite border border-brand-gold/30 text-brand-gold-bright text-xs font-semibold tracking-widest uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-gold-bright" />
                   <span>Enquiry Registered</span>
                 </div>
                 <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
@@ -361,12 +361,12 @@ export default function StartProjectPage() {
               </div>
 
               {/* Real Reference ID Pill */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-[#0B0B0D] border border-zinc-800 flex items-center justify-between max-w-sm mx-auto shadow-inner">
+              <div className="p-4 sm:p-5 rounded-2xl bg-brand-obsidian border border-zinc-800 flex items-center justify-between max-w-sm mx-auto shadow-inner">
                 <div className="text-left">
                   <div className="text-[10px] font-mono text-zinc-500 uppercase font-bold tracking-wider">
                     REFERENCE ID
                   </div>
-                  <div className="font-mono font-extrabold text-base sm:text-lg text-[#E5B85C] mt-0.5">
+                  <div className="font-mono font-extrabold text-base sm:text-lg text-brand-gold-bright mt-0.5">
                     {submittedEnquiry.referenceId}
                   </div>
                 </div>
@@ -374,7 +374,7 @@ export default function StartProjectPage() {
                 <button
                   type="button"
                   onClick={copyRefId}
-                  className="px-3.5 py-1.5 rounded-xl border border-zinc-700 bg-[#202124] hover:border-[#E5B85C] text-xs font-semibold text-zinc-200 flex items-center gap-1.5 transition-colors active:scale-95 cursor-pointer"
+                  className="px-3.5 py-1.5 rounded-xl border border-zinc-700 bg-brand-graphite hover:border-brand-gold-bright text-xs font-semibold text-zinc-200 flex items-center gap-1.5 transition-colors active:scale-95 cursor-pointer"
                 >
                   <Copy className="w-3.5 h-3.5" />
                   <span>{copiedRef ? 'Copied!' : 'Copy'}</span>
@@ -382,7 +382,7 @@ export default function StartProjectPage() {
               </div>
 
               {/* Ready to send WhatsApp notice */}
-              <div className="p-3.5 rounded-2xl bg-[#202124] border border-zinc-800 max-w-sm mx-auto text-xs text-zinc-400">
+              <div className="p-3.5 rounded-2xl bg-brand-graphite border border-zinc-800 max-w-sm mx-auto text-xs text-zinc-400">
                 Your enquiry is compiled. Open WhatsApp to send the full specification directly to our engineering desk.
               </div>
 
@@ -402,14 +402,14 @@ export default function StartProjectPage() {
                 <div className="grid grid-cols-2 gap-2">
                   <Link
                     href="/app"
-                    className="flex items-center justify-center gap-1.5 p-3 rounded-xl border border-zinc-700 bg-[#202124] hover:border-zinc-600 text-xs font-semibold text-zinc-200 transition-all"
+                    className="flex items-center justify-center gap-1.5 p-3 rounded-xl border border-zinc-700 bg-brand-graphite hover:border-zinc-600 text-xs font-semibold text-zinc-200 transition-all"
                   >
                     <span>View Application</span>
                   </Link>
 
                   <Link
                     href="/"
-                    className="flex items-center justify-center gap-1.5 p-3 rounded-xl border border-zinc-700 bg-[#202124] hover:border-zinc-600 text-xs font-semibold text-zinc-200 transition-all"
+                    className="flex items-center justify-center gap-1.5 p-3 rounded-xl border border-zinc-700 bg-brand-graphite hover:border-zinc-600 text-xs font-semibold text-zinc-200 transition-all"
                   >
                     <span>Return Home</span>
                   </Link>
@@ -420,11 +420,11 @@ export default function StartProjectPage() {
             /* ===================================================================
                 7-STEP ONBOARDING SHELL
                 =================================================================== */
-            <div className="rounded-3xl border border-zinc-800 bg-[#151518] p-5 sm:p-8 md:p-10 shadow-2xl space-y-6 sm:space-y-8">
+            <div className="rounded-3xl border border-zinc-800 bg-brand-charcoal p-5 sm:p-8 md:p-10 shadow-2xl space-y-6 sm:space-y-8">
               {/* Progress Header */}
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-zinc-400">
-                  <span className="text-[#E5B85C] uppercase tracking-wider font-mono">
+                  <span className="text-brand-gold-bright uppercase tracking-wider font-mono">
                     STEP {step} OF {totalSteps}
                   </span>
                   <span className="uppercase tracking-wider font-mono text-zinc-500">
@@ -433,9 +433,9 @@ export default function StartProjectPage() {
                 </div>
 
                 {/* Architectural Gold Progress Bar */}
-                <div className="w-full h-2 rounded-full bg-[#202124] overflow-hidden">
+                <div className="w-full h-2 rounded-full bg-brand-graphite overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-[#A97825] via-[#E5B85C] to-[#F2D39A] transition-all duration-300 rounded-full"
+                    className="h-full bg-linear-to-r from-brand-gold-dark via-brand-gold-bright to-brand-gold-champagne transition-all duration-300 rounded-full"
                     style={{ width: `${(step / totalSteps) * 100}%` }}
                   />
                 </div>
@@ -475,9 +475,9 @@ export default function StartProjectPage() {
                       href="https://wa.me/916296603868"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2 rounded-xl border border-zinc-700 bg-[#202124] hover:bg-[#2a2c31] text-xs font-semibold text-zinc-200 flex items-center gap-1.5 transition-all"
+                      className="px-4 py-2 rounded-xl border border-zinc-700 bg-brand-graphite hover:bg-[#2a2c31] text-xs font-semibold text-zinc-200 flex items-center gap-1.5 transition-all"
                     >
-                      <Phone className="w-3.5 h-3.5 text-[#E5B85C]" />
+                      <Phone className="w-3.5 h-3.5 text-brand-gold-bright" />
                       <span>Contact LivRise</span>
                     </a>
                   </div>
@@ -515,15 +515,15 @@ export default function StartProjectPage() {
                           onClick={() => setBuildingType(item.id)}
                           className={`p-4 rounded-2xl border text-left flex items-start gap-3.5 transition-all cursor-pointer ${
                             buildingType === item.id
-                              ? 'border-[#E5B85C] bg-[#202124] text-white shadow-lg shadow-black/50 scale-[1.01]'
-                              : 'border-zinc-800 bg-[#0B0B0D] hover:border-zinc-700 text-zinc-400'
+                              ? 'border-brand-gold-bright bg-brand-graphite text-white shadow-lg shadow-black/50 scale-[1.01]'
+                              : 'border-zinc-800 bg-brand-obsidian hover:border-zinc-700 text-zinc-400'
                           }`}
                         >
-                          <span className="text-2xl p-2.5 rounded-xl bg-[#151518] border border-zinc-700/60 shrink-0">
+                          <span className="text-2xl p-2.5 rounded-xl bg-brand-charcoal border border-zinc-700/60 shrink-0">
                             {item.symbol}
                           </span>
                           <div>
-                            <div className={`font-bold text-sm ${buildingType === item.id ? 'text-[#E5B85C]' : 'text-zinc-200'}`}>
+                            <div className={`font-bold text-sm ${buildingType === item.id ? 'text-brand-gold-bright' : 'text-zinc-200'}`}>
                               {item.label}
                             </div>
                             <div className="text-xs text-zinc-400 mt-0.5 leading-relaxed">
@@ -566,16 +566,16 @@ export default function StartProjectPage() {
                             onClick={() => toggleService(srv.id)}
                             className={`p-3.5 rounded-2xl border text-left flex items-center justify-between transition-all cursor-pointer ${
                               isSelected
-                                ? 'border-[#E5B85C] bg-[#202124] text-white shadow-md'
-                                : 'border-zinc-800 bg-[#0B0B0D] hover:border-zinc-700 text-zinc-400'
+                                ? 'border-brand-gold-bright bg-brand-graphite text-white shadow-md'
+                                : 'border-zinc-800 bg-brand-obsidian hover:border-zinc-700 text-zinc-400'
                             }`}
                           >
                             <div className="flex items-center gap-3">
-                              <span className="text-xl p-2 rounded-xl bg-[#151518] border border-zinc-700/60">
+                              <span className="text-xl p-2 rounded-xl bg-brand-charcoal border border-zinc-700/60">
                                 {srv.symbol}
                               </span>
                               <div>
-                                <div className={`font-bold text-sm ${isSelected ? 'text-[#E5B85C]' : 'text-zinc-200'}`}>
+                                <div className={`font-bold text-sm ${isSelected ? 'text-brand-gold-bright' : 'text-zinc-200'}`}>
                                   {srv.label}
                                 </div>
                                 <div className="text-xs text-zinc-400">
@@ -587,11 +587,11 @@ export default function StartProjectPage() {
                             <div
                               className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 ${
                                 isSelected
-                                  ? 'bg-[#E5B85C] border-[#E5B85C] text-black font-bold'
+                                  ? 'bg-brand-gold-bright border-brand-gold-bright text-black font-bold'
                                   : 'border-zinc-700 bg-transparent'
                               }`}
                             >
-                              {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                              {isSelected && <Check className="w-3.5 h-3.5 stroke-3" />}
                             </div>
                           </button>
                         );
@@ -629,7 +629,7 @@ export default function StartProjectPage() {
                           value={city}
                           onChange={(e) => setCity(e.target.value)}
                           placeholder="e.g. Contai, Kolkata, Siliguri"
-                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-[#0B0B0D] text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B85C]"
+                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-brand-obsidian text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand-gold-bright"
                         />
                       </div>
 
@@ -642,7 +642,7 @@ export default function StartProjectPage() {
                           value={state}
                           onChange={(e) => setState(e.target.value)}
                           placeholder="e.g. West Bengal"
-                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-[#0B0B0D] text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B85C]"
+                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-brand-obsidian text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand-gold-bright"
                         />
                       </div>
 
@@ -655,7 +655,7 @@ export default function StartProjectPage() {
                           value={pinCode}
                           onChange={(e) => setPinCode(e.target.value)}
                           placeholder="e.g. 721401"
-                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-[#0B0B0D] text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B85C]"
+                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-brand-obsidian text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand-gold-bright"
                         />
                       </div>
 
@@ -667,7 +667,7 @@ export default function StartProjectPage() {
                           type="text"
                           value={country}
                           disabled
-                          className="w-full px-4 py-3 rounded-xl border border-zinc-800 bg-[#0B0B0D]/50 text-sm text-zinc-500 cursor-not-allowed"
+                          className="w-full px-4 py-3 rounded-xl border border-zinc-800 bg-brand-obsidian/50 text-sm text-zinc-500 cursor-not-allowed"
                         />
                       </div>
                     </div>
@@ -701,8 +701,8 @@ export default function StartProjectPage() {
                           onClick={() => setBudget(opt)}
                           className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
                             budget === opt
-                              ? 'border-[#E5B85C] bg-[#202124] text-[#E5B85C] font-bold shadow-md'
-                              : 'border-zinc-800 bg-[#0B0B0D] text-zinc-300 hover:border-zinc-700'
+                              ? 'border-brand-gold-bright bg-brand-graphite text-brand-gold-bright font-bold shadow-md'
+                              : 'border-zinc-800 bg-brand-obsidian text-zinc-300 hover:border-zinc-700'
                           }`}
                         >
                           <div className="text-sm font-semibold">{opt}</div>
@@ -739,8 +739,8 @@ export default function StartProjectPage() {
                           onClick={() => setTimeline(opt)}
                           className={`p-4 rounded-2xl border text-left transition-all cursor-pointer ${
                             timeline === opt
-                              ? 'border-[#E5B85C] bg-[#202124] text-[#E5B85C] font-bold shadow-md'
-                              : 'border-zinc-800 bg-[#0B0B0D] text-zinc-300 hover:border-zinc-700'
+                              ? 'border-brand-gold-bright bg-brand-graphite text-brand-gold-bright font-bold shadow-md'
+                              : 'border-zinc-800 bg-brand-obsidian text-zinc-300 hover:border-zinc-700'
                           }`}
                         >
                           <div className="text-sm font-semibold">{opt}</div>
@@ -779,7 +779,7 @@ export default function StartProjectPage() {
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                           placeholder="e.g. Saswata Dey"
-                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-[#0B0B0D] text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B85C]"
+                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-brand-obsidian text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand-gold-bright"
                         />
                       </div>
 
@@ -792,7 +792,7 @@ export default function StartProjectPage() {
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="e.g. +91 73192 80024"
-                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-[#0B0B0D] text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B85C]"
+                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-brand-obsidian text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand-gold-bright"
                         />
                       </div>
 
@@ -805,7 +805,7 @@ export default function StartProjectPage() {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="e.g. saswatadey700@gmail.com"
-                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-[#0B0B0D] text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B85C]"
+                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-brand-obsidian text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand-gold-bright"
                         />
                       </div>
 
@@ -819,7 +819,7 @@ export default function StartProjectPage() {
                             value={company}
                             onChange={(e) => setCompany(e.target.value)}
                             placeholder="e.g. LivRise Enterprises"
-                            className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-[#0B0B0D] text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B85C]"
+                            className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-brand-obsidian text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand-gold-bright"
                           />
                         </div>
                       )}
@@ -833,7 +833,7 @@ export default function StartProjectPage() {
                           value={description}
                           onChange={(e) => setDescription(e.target.value)}
                           placeholder="e.g. Plot size 2400 sq.ft, south-facing, planning residential home in Contai..."
-                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-[#0B0B0D] text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E5B85C]"
+                          className="w-full px-4 py-3 rounded-xl border border-zinc-700 bg-brand-obsidian text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-brand-gold-bright"
                         />
                       </div>
 
@@ -842,7 +842,7 @@ export default function StartProjectPage() {
                         <label className="block text-xs font-bold text-zinc-300 mb-1.5">
                           Attach Hand Sketch or Site Layout (Optional)
                         </label>
-                        <label className="border border-dashed border-zinc-700 rounded-2xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-[#E5B85C] transition-colors bg-[#0B0B0D]">
+                        <label className="border border-dashed border-zinc-700 rounded-2xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-brand-gold-bright transition-colors bg-brand-obsidian">
                           <Upload className="w-5 h-5 text-zinc-400 mb-1" />
                           <span className="text-xs text-zinc-400 font-medium">
                             Click to upload hand sketch or PDF drawing
@@ -860,7 +860,7 @@ export default function StartProjectPage() {
                             {uploadedFiles.map((f, i) => (
                               <div
                                 key={i}
-                                className="text-xs text-[#E5B85C] font-medium flex items-center gap-1.5"
+                                className="text-xs text-brand-gold-bright font-medium flex items-center gap-1.5"
                               >
                                 <CheckCircle2 className="w-3.5 h-3.5" />
                                 <span>{f.name} ({f.size})</span>
@@ -893,7 +893,7 @@ export default function StartProjectPage() {
                     </div>
 
                     {/* Review Screen Specifications Table */}
-                    <div className="rounded-2xl border border-zinc-800 bg-[#0B0B0D] p-5 sm:p-6 space-y-3.5 shadow-inner">
+                    <div className="rounded-2xl border border-zinc-800 bg-brand-obsidian p-5 sm:p-6 space-y-3.5 shadow-inner">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 border-b border-zinc-800/80 gap-1">
                         <span className="text-xs sm:text-sm font-medium text-zinc-400">
                           Building Type
@@ -907,7 +907,7 @@ export default function StartProjectPage() {
                         <span className="text-xs sm:text-sm font-medium text-zinc-400">
                           Services
                         </span>
-                        <span className="text-sm sm:text-base font-bold text-[#E5B85C] wrap-break-word">
+                        <span className="text-sm sm:text-base font-bold text-brand-gold-bright wrap-break-word">
                           {selectedServices.join(', ')}
                         </span>
                       </div>
@@ -968,7 +968,7 @@ export default function StartProjectPage() {
                     type="button"
                     onClick={handlePrevStep}
                     disabled={isSubmitting}
-                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl border border-zinc-700 bg-[#202124] hover:border-zinc-600 text-xs font-semibold text-zinc-200 transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl border border-zinc-700 bg-brand-graphite hover:border-zinc-600 text-xs font-semibold text-zinc-200 transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Back</span>
@@ -1000,7 +1000,7 @@ export default function StartProjectPage() {
                       </>
                     ) : (
                       <>
-                        <Check className="w-3.5 h-3.5 stroke-[3]" />
+                        <Check className="w-3.5 h-3.5 stroke-3" />
                         <span>CONFIRM & SUBMIT</span>
                       </>
                     )}
@@ -1017,14 +1017,14 @@ export default function StartProjectPage() {
           Sitting safely ABOVE mobile bottom nav
           ========================================================================= */}
       {!submittedEnquiry && (
-        <div className="md:hidden fixed bottom-[calc(4rem+env(safe-area-inset-bottom,0px))] left-0 right-0 z-40 bg-[#151518]/95 backdrop-blur-xl border-t border-zinc-800 px-4 py-2.5 shadow-2xl transition-all">
+        <div className="md:hidden fixed bottom-[calc(4rem+env(safe-area-inset-bottom,0px))] left-0 right-0 z-40 bg-brand-charcoal/95 backdrop-blur-xl border-t border-zinc-800 px-4 py-2.5 shadow-2xl transition-all">
           <div className="max-w-md mx-auto flex items-center justify-between gap-3">
             {step > 1 ? (
               <button
                 type="button"
                 onClick={handlePrevStep}
                 disabled={isSubmitting}
-                className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-zinc-700 bg-[#202124] text-xs font-bold text-zinc-200 transition-all active:scale-95 disabled:opacity-50"
+                className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-zinc-700 bg-brand-graphite text-xs font-bold text-zinc-200 transition-all active:scale-95 disabled:opacity-50"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Back</span>
@@ -1056,7 +1056,7 @@ export default function StartProjectPage() {
                   </>
                 ) : (
                   <>
-                    <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    <Check className="w-3.5 h-3.5 stroke-3" />
                     <span>CONFIRM & SUBMIT</span>
                   </>
                 )}

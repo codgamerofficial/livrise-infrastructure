@@ -28,7 +28,7 @@ export function LivRiseSplashScreen() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0B0B0D] text-white select-none pointer-events-none"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-brand-obsidian text-white select-none pointer-events-none"
         >
           {/* Subtle blueprint grid overlay */}
           <div className="absolute inset-0 blueprint-grid opacity-20 pointer-events-none" />
@@ -41,7 +41,7 @@ export function LivRiseSplashScreen() {
             className="flex flex-col items-center text-center space-y-4 relative z-10"
           >
             {/* LR Monogram */}
-            <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border border-[#E5B85C]/40 bg-[#151518] shadow-2xl p-2">
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border border-brand-gold-bright/40 bg-brand-charcoal shadow-2xl p-2">
               <Image
                 src="/brand/livrise-monogram.png"
                 alt="LivRise Monogram"
@@ -50,14 +50,14 @@ export function LivRiseSplashScreen() {
                 className="w-full h-full object-contain"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#C9963E]/20 via-transparent to-white/10" />
+              <div className="absolute inset-0 bg-linear-to-tr from-brand-gold/20 via-transparent to-white/10" />
             </div>
 
             {/* Wordmark */}
             <div className="space-y-1">
               <div className="flex items-baseline justify-center text-2xl sm:text-3xl font-extrabold tracking-tight">
                 <span className="text-zinc-100">Liv</span>
-                <span className="text-[#E5B85C] ml-0.5">Rise</span>
+                <span className="text-brand-gold-bright ml-0.5">Rise</span>
               </div>
               <div className="text-[10px] sm:text-[11px] font-mono tracking-[0.28em] text-zinc-400 font-semibold uppercase">
                 INFRASTRUCTURE
@@ -69,7 +69,7 @@ export function LivRiseSplashScreen() {
               initial={{ width: 0, opacity: 0 }}
               animate={{ width: 140, opacity: 1 }}
               transition={{ delay: 0.35, duration: 0.6, ease: 'easeOut' }}
-              className="h-[1.5px] bg-gradient-to-r from-transparent via-[#E5B85C] to-transparent my-2"
+              className="h-[1.5px] bg-linear-to-r from-transparent via-brand-gold-bright to-transparent my-2"
             />
 
             {/* Tagline */}
