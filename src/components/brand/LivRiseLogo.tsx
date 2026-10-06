@@ -29,7 +29,7 @@ export function LivRiseLogo({
     <div className={`flex items-center gap-2.5 sm:gap-3 group select-none ${className}`}>
       {/* 3D Architectural LR Monogram */}
       <div
-        className="relative shrink-0 rounded-xl overflow-hidden shadow-md shadow-black/40 group-hover:scale-105 transition-transform duration-300 border border-amber-500/20 bg-[#0B0B0D]"
+        className="relative shrink-0 rounded-xl overflow-hidden shadow-md shadow-black/40 group-hover:scale-105 transition-transform duration-300 border border-amber-500/20 bg-brand-obsidian"
         style={{ width: dimensions.monogram, height: dimensions.monogram }}
       >
         <Image
