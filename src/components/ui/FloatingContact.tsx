@@ -12,8 +12,8 @@ export function FloatingContact() {
   const { siteSettings = SITE_SETTINGS } = useLivRiseStore();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Do not show on internal admin console to avoid interfering with productivity
-  if (pathname.startsWith('/admin')) {
+  // Do not show on internal admin console or start-project form to avoid UI collision
+  if (pathname.startsWith('/admin') || pathname.startsWith('/start-project')) {
     return null;
   }
 

@@ -69,17 +69,32 @@ export function MobileBottomNav() {
         })}
 
         {/* 5th Button: Start a Project / Get Free Quote */}
-        <Link
-          href="/start-project"
-          className="flex flex-col items-center justify-center min-h-12 py-1 text-brand-indigo font-semibold transition-all group"
-        >
-          <div className="p-1.5 rounded-xl bg-linear-to-tr from-brand-indigo to-brand-blue text-white shadow-md shadow-brand-indigo/30 group-hover:scale-105 transition-transform">
-            <Sparkles className="w-5 h-5" />
-          </div>
-          <span className="text-[10px] mt-0.5 tracking-tight font-bold text-brand-indigo dark:text-brand-blue">
-            Quote
-          </span>
-        </Link>
+        {(() => {
+          const isQuoteActive = pathname === '/start-project';
+          return (
+            <Link
+              href="/start-project"
+              className={`flex flex-col items-center justify-center min-h-12 py-1 transition-all rounded-xl ${
+                isQuoteActive
+                  ? 'text-brand-indigo dark:text-brand-blue font-bold'
+                  : 'text-(--text-muted) hover:text-(--text-primary)'
+              }`}
+            >
+              <div
+                className={`p-1.5 rounded-xl transition-all ${
+                  isQuoteActive
+                    ? 'bg-linear-to-tr from-brand-indigo to-brand-blue text-white shadow-md shadow-brand-indigo/30 scale-105'
+                    : 'bg-indigo-500/10 text-brand-indigo dark:text-brand-blue'
+                }`}
+              >
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] mt-0.5 tracking-tight font-bold text-brand-indigo dark:text-brand-blue">
+                Quote
+              </span>
+            </Link>
+          );
+        })()}
       </div>
     </nav>
   );

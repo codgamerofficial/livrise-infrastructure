@@ -3,12 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import { Download, X, Smartphone } from 'lucide-react';
 
+import { usePathname } from 'next/navigation';
+
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
 }
 
 export function PwaInstallPrompt() {
+  const pathname = usePathname();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isStandalone] = useState<boolean>(() => {
@@ -69,7 +72,12 @@ export function PwaInstallPrompt() {
     localStorage.setItem('livrise_pwa_dismissed', Date.now().toString());
   };
 
-  if (!showPrompt || isStandalone) {
+  if (
+    !showPrompt ||
+    isStandalone ||
+    pathname?.startsWith('/start-project') ||
+    pathname?.startsWith('/admin')
+  ) {
     return null;
   }
 

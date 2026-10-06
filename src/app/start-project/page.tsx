@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { LivRiseNavbar } from '@/components/layout/LivRiseNavbar';
 import { LivRiseFooter } from '@/components/layout/LivRiseFooter';
@@ -13,26 +13,22 @@ import {
   ArrowLeft,
   CheckCircle2,
   Phone,
-  Home,
-  Building,
-  Hammer,
-  Compass,
-  FileCheck2,
   Upload,
   AlertCircle,
   Copy,
   ExternalLink,
+  Loader2,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // =========================================================================
-// ONBOARDING OPTIONS (Per Master Prompt Section 36)
+// ONBOARDING OPTIONS
 // =========================================================================
 const BUILDING_TYPES = [
-  { id: 'New Home', label: 'New Home', icon: Home, symbol: '🏠', desc: 'Bespoke residential villa, bungalow, or duplex' },
-  { id: 'Commercial', label: 'Commercial', icon: Building, symbol: '🏢', desc: 'Office space, retail hub, or commercial studio' },
-  { id: 'Renovation', label: 'Renovation', icon: Hammer, symbol: '🏗️', desc: 'Structural extension, remodeling, or interior makeover' },
-  { id: 'Other', label: 'Other', icon: Compass, symbol: '📐', desc: 'Specialized architectural or engineering development' },
+  { id: 'New Home', label: 'New Home', symbol: '🏠', desc: 'Bespoke residential villa, bungalow, or duplex' },
+  { id: 'Commercial', label: 'Commercial', symbol: '🏢', desc: 'Office space, retail hub, or commercial studio' },
+  { id: 'Renovation', label: 'Renovation', symbol: '🏗️', desc: 'Structural extension, remodeling, or interior makeover' },
+  { id: 'Other', label: 'Other', symbol: '📐', desc: 'Specialized architectural or engineering development' },
 ];
 
 const SERVICE_REQUIREMENTS = [
@@ -60,6 +56,37 @@ const TIMELINE_OPTIONS = [
   'Concept / Planning Stage Only',
 ];
 
+// Helper to normalize location and prevent duplicates like "Contai, West Bengal, West Bengal"
+function getNormalizedLocation(city: string, state: string, country: string = 'India'): string {
+  const c = city.trim();
+  const s = state.trim();
+  if (!c && !s) return 'Not specified';
+  if (c && s && c.toLowerCase().includes(s.toLowerCase())) {
+    return c;
+  }
+  const parts = [c, s].filter(Boolean);
+  return parts.join(', ') || country;
+}
+
+// Helper to clean & normalize phone number
+function normalizePhone(raw: string): string {
+  if (!raw) return '';
+  let cleaned = raw.trim().replace(/[\s\-\(\)]/g, '');
+  if (cleaned.startsWith('0') && cleaned.length === 11) cleaned = cleaned.slice(1);
+  if (cleaned.startsWith('+91')) {
+    const digits = cleaned.slice(3).replace(/\D/g, '');
+    return `+91${digits}`;
+  }
+  if (cleaned.startsWith('91') && cleaned.length === 12) {
+    const digits = cleaned.slice(2).replace(/\D/g, '');
+    return `+91${digits}`;
+  }
+  const digits = cleaned.replace(/\D/g, '');
+  if (digits.length === 10) return `+91${digits}`;
+  if (cleaned.startsWith('+')) return `+${digits}`;
+  return digits ? `+91${digits}` : '';
+}
+
 export default function StartProjectPage() {
   const { registerBackendLead } = useLivRiseStore();
 
@@ -68,6 +95,7 @@ export default function StartProjectPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [isOffline, setIsOffline] = useState(false);
   const [copiedRef, setCopiedRef] = useState(false);
 
   const [submittedEnquiry, setSubmittedEnquiry] = useState<{
@@ -87,11 +115,11 @@ export default function StartProjectPage() {
   // Step 3: Location
   const [city, setCity] = useState('');
   const [state, setState] = useState('West Bengal');
-  const [country, setCountry] = useState('India');
+  const [country] = useState('India');
   const [pinCode, setPinCode] = useState('');
 
   // Step 4: Budget
-  const [budget, setBudget] = useState('₹50 Lakhs - ₹1 Crore');
+  const [budget, setBudget] = useState('Under ₹25 Lakhs');
 
   // Step 5: Timeline
   const [timeline, setTimeline] = useState('1 to 3 Months');
@@ -106,6 +134,18 @@ export default function StartProjectPage() {
   // Files
   const [rawFiles, setRawFiles] = useState<File[]>([]);
   const [uploadedFiles, setUploadedFiles] = useState<{ name: string; size: string }[]>([]);
+
+  // Monitor network connectivity
+  useEffect(() => {
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   const toggleService = (srv: string) => {
     if (srv === 'Complete Package') {
@@ -145,7 +185,8 @@ export default function StartProjectPage() {
         setSubmissionError('Please enter your full name (at least 2 characters).');
         return;
       }
-      if (!phone.trim() || phone.replace(/\D/g, '').length < 7) {
+      const digits = phone.replace(/\D/g, '');
+      if (!phone.trim() || digits.length < 7) {
         setSubmissionError('Please enter a valid phone number (at least 7 digits).');
         return;
       }
@@ -162,9 +203,15 @@ export default function StartProjectPage() {
     setStep((prev) => Math.max(prev - 1, 1));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (isSubmitting) return;
+
+    if (typeof navigator !== 'undefined' && !navigator.onLine) {
+      setIsOffline(true);
+      setSubmissionError('You’re offline. Reconnect to the internet and try submitting again.');
+      return;
+    }
 
     if (!fullName.trim() || !phone.trim() || !email.trim()) {
       setSubmissionError('Please provide your name, phone and email in Step 6.');
@@ -206,7 +253,7 @@ export default function StartProjectPage() {
         body: JSON.stringify({
           fullName,
           email,
-          phone,
+          phone: normalizePhone(phone) || phone,
           companyName: company || undefined,
           serviceRequired: selectedServices.join(', '),
           servicesRequested: selectedServices,
@@ -219,7 +266,7 @@ export default function StartProjectPage() {
           expectedStartDate: timeline,
           requirements: briefDescription,
           uploadedFiles: docAttachments.length > 0 ? docAttachments : uploadedFiles,
-          source: 'LivRise App Onboarding',
+          source: 'Website Start Project',
         }),
       });
 
@@ -229,7 +276,7 @@ export default function StartProjectPage() {
         setIsSubmitting(false);
         setSubmissionError(
           result.error ||
-            'Something went wrong while submitting your project enquiry. Please try again.'
+            "We couldn't save your enquiry right now. Your information has not been submitted. Please try again."
         );
         return;
       }
@@ -251,7 +298,7 @@ export default function StartProjectPage() {
       console.error('[StartProject] Submission exception:', err);
       setIsSubmitting(false);
       setSubmissionError(
-        'Something went wrong while submitting your project enquiry. Please try again.'
+        "We couldn't save your enquiry right now. Your information has not been submitted. Please try again."
       );
     }
   };
@@ -264,20 +311,24 @@ export default function StartProjectPage() {
     }
   };
 
+  const displayLocation = getNormalizedLocation(city, state, country);
+  const normalizedUserPhone = normalizePhone(phone) || phone;
+
   return (
     <div className="min-h-screen flex flex-col bg-(--bg-primary) text-(--text-primary) transition-colors duration-200">
       <LivRiseNavbar />
 
-      <main className="flex-1 pt-28 sm:pt-32 pb-20 px-4 sm:px-6 md:px-10 lg:px-12 flex flex-col justify-center">
+      {/* Main container with safe area bottom padding to avoid mobile collisions */}
+      <main className="flex-1 pt-24 sm:pt-28 pb-[calc(11rem+env(safe-area-inset-bottom,0px))] md:pb-20 px-4 sm:px-6 md:px-10 lg:px-12 flex flex-col justify-center">
         <div className="max-w-2xl mx-auto w-full">
           {/* ===================================================================
-              SUCCESS SCREEN (Per Master Prompt Section 38)
+              SUCCESS SCREEN (Per Master Prompt Section 20, 21, 51)
               =================================================================== */}
           {submittedEnquiry ? (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.4 }}
               className="rounded-3xl border border-emerald-500/30 bg-(--surface-primary) p-6 sm:p-10 shadow-2xl shadow-emerald-500/10 text-center space-y-6"
             >
               <div className="w-16 h-16 rounded-3xl bg-linear-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/30 text-3xl">
@@ -288,21 +339,21 @@ export default function StartProjectPage() {
                 <span className="text-xs font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
                   Enquiry Submitted
                 </span>
-                <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-(--text-primary)">
-                  PROJECT REGISTERED!
+                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-(--text-primary)">
+                  PROJECT ENQUIRY SUBMITTED
                 </h1>
-                <p className="text-xs sm:text-sm text-(--text-secondary)">
-                  Your project enquiry has been successfully recorded in our engineering registry.
+                <p className="text-xs sm:text-sm text-(--text-secondary) max-w-md mx-auto">
+                  Your project enquiry has been successfully registered.
                 </p>
               </div>
 
               {/* Reference ID Pill */}
-              <div className="p-4 rounded-2xl bg-(--surface-secondary) border border-(--border-subtle) flex items-center justify-between max-w-sm mx-auto">
+              <div className="p-4 rounded-2xl bg-(--surface-secondary) border border-(--border-subtle) flex items-center justify-between max-w-sm mx-auto shadow-inner">
                 <div className="text-left">
-                  <div className="text-[10px] font-mono text-(--text-muted) uppercase">
-                    Reference ID
+                  <div className="text-[10px] font-mono text-(--text-muted) uppercase font-bold tracking-wider">
+                    REFERENCE
                   </div>
-                  <div className="font-mono font-bold text-base text-brand-indigo dark:text-brand-blue">
+                  <div className="font-mono font-extrabold text-base sm:text-lg text-brand-indigo dark:text-brand-blue">
                     {submittedEnquiry.referenceId}
                   </div>
                 </div>
@@ -310,17 +361,17 @@ export default function StartProjectPage() {
                 <button
                   type="button"
                   onClick={copyRefId}
-                  className="px-3 py-1.5 rounded-lg border border-(--border-subtle) bg-(--surface-primary) hover:bg-(--surface-secondary) text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                  className="px-3 py-1.5 rounded-lg border border-(--border-subtle) bg-(--surface-primary) hover:bg-(--surface-secondary) text-xs font-semibold flex items-center gap-1.5 transition-colors active:scale-95"
                 >
                   <Copy className="w-3.5 h-3.5" />
                   <span>{copiedRef ? 'Copied!' : 'Copy'}</span>
                 </button>
               </div>
 
-              {/* Notice regarding WhatsApp send action */}
-              <p className="text-xs text-(--text-muted) max-w-md mx-auto">
-                Press the button below to open WhatsApp with your pre-filled enquiry dossier. Please press <strong>Send</strong> inside WhatsApp to finalize your dispatch.
-              </p>
+              {/* Ready to send WhatsApp notice */}
+              <div className="p-3.5 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 max-w-sm mx-auto text-xs text-(--text-secondary)">
+                Your project details are ready to send to LivRise on WhatsApp.
+              </div>
 
               {/* Action Buttons */}
               <div className="space-y-3 pt-2 max-w-sm mx-auto">
@@ -328,11 +379,11 @@ export default function StartProjectPage() {
                   href={submittedEnquiry.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-linear-to-r from-emerald-500 to-teal-600 text-white font-bold text-sm shadow-xl shadow-emerald-500/25 hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-wider"
+                  className="w-full flex items-center justify-center gap-2.5 px-6 py-4 rounded-2xl bg-linear-to-r from-emerald-500 to-teal-600 text-white font-bold text-sm shadow-xl shadow-emerald-500/25 hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-wider"
                 >
-                  <Phone className="w-4 h-4" />
+                  <Phone className="w-4 h-4 shrink-0" />
                   <span>Open WhatsApp & Send Details</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
+                  <ExternalLink className="w-3.5 h-3.5 shrink-0" />
                 </a>
 
                 <div className="grid grid-cols-2 gap-2">
@@ -340,14 +391,14 @@ export default function StartProjectPage() {
                     href="/app"
                     className="flex items-center justify-center gap-1.5 p-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) hover:bg-(--surface-primary) text-xs font-semibold text-(--text-primary) transition-all"
                   >
-                    <span>View Portal</span>
+                    <span>View Application</span>
                   </Link>
 
                   <Link
                     href="/"
                     className="flex items-center justify-center gap-1.5 p-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) hover:bg-(--surface-primary) text-xs font-semibold text-(--text-primary) transition-all"
                   >
-                    <span>Back Home</span>
+                    <span>Return Home</span>
                   </Link>
                 </div>
               </div>
@@ -356,14 +407,16 @@ export default function StartProjectPage() {
             /* ===================================================================
                 7-STEP ONBOARDING SHELL
                 =================================================================== */
-            <div className="rounded-3xl border border-(--border-subtle) bg-(--surface-primary) p-6 sm:p-10 shadow-2xl shadow-brand-indigo/5 space-y-8">
+            <div className="rounded-3xl border border-(--border-subtle) bg-(--surface-primary) p-5 sm:p-8 md:p-10 shadow-2xl shadow-brand-indigo/5 space-y-6 sm:space-y-8">
               {/* Progress Header */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between text-xs font-bold text-(--text-muted)">
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-(--text-muted)">
                   <span className="text-brand-indigo dark:text-brand-blue uppercase tracking-wider">
-                    Step {step} of {totalSteps}
+                    STEP {step} OF {totalSteps}
                   </span>
-                  <span>{Math.round((step / totalSteps) * 100)}% Complete</span>
+                  <span className="uppercase tracking-wider">
+                    {step === 7 ? '100% COMPLETE' : `${Math.round((step / totalSteps) * 100)}% COMPLETE`}
+                  </span>
                 </div>
 
                 {/* Progress Bar */}
@@ -375,12 +428,47 @@ export default function StartProjectPage() {
                 </div>
               </div>
 
-              {/* Error Alert */}
+              {/* Error Alert Card (With Retry and WhatsApp option per Prompt Section 17 & 18) */}
               {submissionError && (
-                <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                  <span>{submissionError}</span>
-                </div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.98, y: -4 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  className="p-4 sm:p-5 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-(--text-primary) space-y-3 shadow-lg shadow-rose-500/5"
+                >
+                  <div className="flex items-start gap-3">
+                    <AlertCircle className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-bold text-rose-600 dark:text-rose-400">
+                        {isOffline ? "You're offline" : "Couldn't submit your project"}
+                      </h4>
+                      <p className="text-xs text-(--text-secondary) leading-relaxed">
+                        {isOffline
+                          ? 'Reconnect to the internet and try submitting again.'
+                          : "We couldn't save your enquiry right now. Your information has not been submitted. Please try again."}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-1 pl-8">
+                    <button
+                      type="button"
+                      onClick={() => handleSubmit()}
+                      disabled={isSubmitting}
+                      className="px-4 py-2 rounded-xl bg-rose-500 text-white text-xs font-bold shadow-md hover:bg-rose-600 active:scale-95 transition-all uppercase tracking-wider"
+                    >
+                      Try Again
+                    </button>
+                    <a
+                      href="https://wa.me/916296603868"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 rounded-xl border border-(--border-subtle) bg-(--surface-primary) hover:bg-(--surface-secondary) text-xs font-semibold text-(--text-primary) flex items-center gap-1.5 transition-all"
+                    >
+                      <Phone className="w-3.5 h-3.5 text-emerald-500" />
+                      <span>Contact LivRise</span>
+                    </a>
+                  </div>
+                </motion.div>
               )}
 
               {/* =================================================================
@@ -398,7 +486,7 @@ export default function StartProjectPage() {
                     className="space-y-6"
                   >
                     <div className="space-y-1">
-                      <h2 className="text-2xl font-extrabold text-(--text-primary)">
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-(--text-primary)">
                         What are you building?
                       </h2>
                       <p className="text-xs sm:text-sm text-(--text-secondary)">
@@ -446,7 +534,7 @@ export default function StartProjectPage() {
                     className="space-y-6"
                   >
                     <div className="space-y-1">
-                      <h2 className="text-2xl font-extrabold text-(--text-primary)">
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-(--text-primary)">
                         What do you need?
                       </h2>
                       <p className="text-xs sm:text-sm text-(--text-secondary)">
@@ -510,7 +598,7 @@ export default function StartProjectPage() {
                     className="space-y-6"
                   >
                     <div className="space-y-1">
-                      <h2 className="text-2xl font-extrabold text-(--text-primary)">
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-(--text-primary)">
                         Where is your project located?
                       </h2>
                       <p className="text-xs sm:text-sm text-(--text-secondary)">
@@ -527,7 +615,7 @@ export default function StartProjectPage() {
                           type="text"
                           value={city}
                           onChange={(e) => setCity(e.target.value)}
-                          placeholder="e.g. Kolkata, Siliguri, Durgapur"
+                          placeholder="e.g. Contai, Kolkata, Siliguri"
                           className="w-full px-4 py-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) text-sm text-(--text-primary) focus:outline-none focus:border-brand-indigo"
                         />
                       </div>
@@ -553,7 +641,7 @@ export default function StartProjectPage() {
                           type="text"
                           value={pinCode}
                           onChange={(e) => setPinCode(e.target.value)}
-                          placeholder="e.g. 700091"
+                          placeholder="e.g. 721401"
                           className="w-full px-4 py-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) text-sm text-(--text-primary) focus:outline-none focus:border-brand-indigo"
                         />
                       </div>
@@ -584,7 +672,7 @@ export default function StartProjectPage() {
                     className="space-y-6"
                   >
                     <div className="space-y-1">
-                      <h2 className="text-2xl font-extrabold text-(--text-primary)">
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-(--text-primary)">
                         What is your estimated budget?
                       </h2>
                       <p className="text-xs sm:text-sm text-(--text-secondary)">
@@ -622,7 +710,7 @@ export default function StartProjectPage() {
                     className="space-y-6"
                   >
                     <div className="space-y-1">
-                      <h2 className="text-2xl font-extrabold text-(--text-primary)">
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-(--text-primary)">
                         When do you want to begin?
                       </h2>
                       <p className="text-xs sm:text-sm text-(--text-secondary)">
@@ -660,7 +748,7 @@ export default function StartProjectPage() {
                     className="space-y-6"
                   >
                     <div className="space-y-1">
-                      <h2 className="text-2xl font-extrabold text-(--text-primary)">
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-(--text-primary)">
                         Your Contact Information
                       </h2>
                       <p className="text-xs sm:text-sm text-(--text-secondary)">
@@ -677,7 +765,7 @@ export default function StartProjectPage() {
                           type="text"
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
-                          placeholder="e.g. Sourav Banerjee"
+                          placeholder="e.g. Saswata Dey"
                           className="w-full px-4 py-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) text-sm text-(--text-primary) focus:outline-none focus:border-brand-indigo"
                         />
                       </div>
@@ -690,7 +778,7 @@ export default function StartProjectPage() {
                           type="tel"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          placeholder="e.g. +91 98765 43210"
+                          placeholder="e.g. +91 73192 80024"
                           className="w-full px-4 py-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) text-sm text-(--text-primary) focus:outline-none focus:border-brand-indigo"
                         />
                       </div>
@@ -703,7 +791,7 @@ export default function StartProjectPage() {
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
-                          placeholder="e.g. sourav@example.com"
+                          placeholder="e.g. saswatadey700@gmail.com"
                           className="w-full px-4 py-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) text-sm text-(--text-primary) focus:outline-none focus:border-brand-indigo"
                         />
                       </div>
@@ -716,7 +804,7 @@ export default function StartProjectPage() {
                           rows={3}
                           value={description}
                           onChange={(e) => setDescription(e.target.value)}
-                          placeholder="e.g. Plot size 2400 sq.ft, South-facing, planning 3 floors with rooftop garden..."
+                          placeholder="e.g. Plot size 2400 sq.ft, planning residential home in Contai..."
                           className="w-full px-4 py-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) text-sm text-(--text-primary) focus:outline-none focus:border-brand-indigo"
                         />
                       </div>
@@ -757,7 +845,7 @@ export default function StartProjectPage() {
                   </motion.div>
                 )}
 
-                {/* STEP 7: Review & Submit */}
+                {/* STEP 7: Review & Submit (Per Master Prompt Section 7, 8, 9, 10) */}
                 {step === 7 && (
                   <motion.div
                     key="step-7"
@@ -767,62 +855,92 @@ export default function StartProjectPage() {
                     transition={{ duration: 0.25 }}
                     className="space-y-6"
                   >
-                    <div className="space-y-1">
-                      <h2 className="text-2xl font-extrabold text-(--text-primary)">
-                        Review Your Project Dossier
+                    <div className="space-y-1.5">
+                      <h2 className="text-2xl sm:text-3xl font-extrabold text-(--text-primary)">
+                        Review Your Project
                       </h2>
                       <p className="text-xs sm:text-sm text-(--text-secondary)">
-                        Confirm the details below before generating your reference ID and WhatsApp dispatch.
+                        Check your details before submitting your project enquiry.
                       </p>
                     </div>
 
-                    <div className="rounded-2xl border border-(--border-subtle) bg-(--surface-secondary)/60 p-5 space-y-3.5 text-xs">
-                      <div className="flex justify-between py-1 border-b border-(--border-subtle)">
-                        <span className="text-(--text-muted) font-medium">Building Type:</span>
-                        <span className="font-bold text-(--text-primary)">{buildingType}</span>
+                    {/* Clean Mobile Review Card (Per Master Prompt Section 8 & 10) */}
+                    <div className="rounded-2xl border border-(--border-subtle) bg-(--surface-secondary)/70 p-4 sm:p-6 space-y-3.5 shadow-inner">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 border-b border-(--border-subtle) gap-1">
+                        <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
+                          Building Type
+                        </span>
+                        <span className="text-sm sm:text-base font-bold text-(--text-primary) break-words">
+                          {buildingType}
+                        </span>
                       </div>
-                      <div className="flex justify-between py-1 border-b border-(--border-subtle)">
-                        <span className="text-(--text-muted) font-medium">Services Requested:</span>
-                        <span className="font-bold text-brand-indigo dark:text-brand-blue">
+
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 border-b border-(--border-subtle) gap-1">
+                        <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
+                          Services
+                        </span>
+                        <span className="text-sm sm:text-base font-bold text-brand-indigo dark:text-brand-blue break-words">
                           {selectedServices.join(', ')}
                         </span>
                       </div>
-                      <div className="flex justify-between py-1 border-b border-(--border-subtle)">
-                        <span className="text-(--text-muted) font-medium">Location:</span>
-                        <span className="font-bold text-(--text-primary)">
-                          {city || 'Not specified'}, {state}
+
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 border-b border-(--border-subtle) gap-1">
+                        <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
+                          Location
+                        </span>
+                        <span className="text-sm sm:text-base font-bold text-(--text-primary) break-words">
+                          {displayLocation}
                         </span>
                       </div>
-                      <div className="flex justify-between py-1 border-b border-(--border-subtle)">
-                        <span className="text-(--text-muted) font-medium">Budget:</span>
-                        <span className="font-bold text-(--text-primary)">{budget}</span>
-                      </div>
-                      <div className="flex justify-between py-1 border-b border-(--border-subtle)">
-                        <span className="text-(--text-muted) font-medium">Timeline:</span>
-                        <span className="font-bold text-(--text-primary)">{timeline}</span>
-                      </div>
-                      <div className="flex justify-between py-1 border-b border-(--border-subtle)">
-                        <span className="text-(--text-muted) font-medium">Client Contact:</span>
-                        <span className="font-bold text-(--text-primary)">
-                          {fullName} ({phone})
+
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 border-b border-(--border-subtle) gap-1">
+                        <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
+                          Budget
+                        </span>
+                        <span className="text-sm sm:text-base font-bold text-(--text-primary) break-words">
+                          {budget}
                         </span>
                       </div>
-                      <div className="flex justify-between py-1">
-                        <span className="text-(--text-muted) font-medium">Email:</span>
-                        <span className="font-bold text-(--text-primary)">{email}</span>
+
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 border-b border-(--border-subtle) gap-1">
+                        <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
+                          Timeline
+                        </span>
+                        <span className="text-sm sm:text-base font-bold text-(--text-primary) break-words">
+                          {timeline}
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 border-b border-(--border-subtle) gap-1">
+                        <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
+                          Contact
+                        </span>
+                        <span className="text-sm sm:text-base font-bold text-(--text-primary) break-words">
+                          {fullName ? `${fullName} (${normalizedUserPhone})` : normalizedUserPhone || 'Not specified'}
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 gap-1">
+                        <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
+                          Email
+                        </span>
+                        <span className="text-sm sm:text-base font-bold text-(--text-primary) break-all">
+                          {email || 'Not specified'}
+                        </span>
                       </div>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Navigation Controls */}
-              <div className="pt-4 flex items-center justify-between border-t border-(--border-subtle)">
+              {/* Desktop In-Card Action Buttons (Hidden on mobile) */}
+              <div className="hidden md:flex items-center justify-between pt-6 border-t border-(--border-subtle)">
                 {step > 1 ? (
                   <button
                     type="button"
                     onClick={handlePrevStep}
-                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) hover:bg-(--surface-primary) text-xs font-semibold text-(--text-primary) transition-all"
+                    disabled={isSubmitting}
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) hover:bg-(--surface-primary) text-xs font-semibold text-(--text-primary) transition-all active:scale-95 disabled:opacity-50"
                   >
                     <ArrowLeft className="w-3.5 h-3.5" />
                     <span>Back</span>
@@ -843,12 +961,15 @@ export default function StartProjectPage() {
                 ) : (
                   <button
                     type="button"
-                    onClick={handleSubmit}
+                    onClick={() => handleSubmit()}
                     disabled={isSubmitting}
                     className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-linear-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold hover:shadow-lg hover:shadow-emerald-500/30 active:scale-95 transition-all uppercase tracking-wider disabled:opacity-50"
                   >
                     {isSubmitting ? (
-                      <span>Registering...</span>
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>SUBMITTING...</span>
+                      </>
                     ) : (
                       <>
                         <Sparkles className="w-3.5 h-3.5" />
@@ -862,6 +983,60 @@ export default function StartProjectPage() {
           )}
         </div>
       </main>
+
+      {/* =========================================================================
+          STICKY MOBILE ACTION BAR (Per Master Prompt Section 11, 13, 14, 15)
+          Sitting safely ABOVE bottom navigation (fixed bottom-16 on mobile)
+          ========================================================================= */}
+      {!submittedEnquiry && (
+        <div className="md:hidden fixed bottom-[calc(4rem+env(safe-area-inset-bottom,0px))] left-0 right-0 z-40 bg-(--surface-primary)/95 backdrop-blur-xl border-t border-(--border-subtle) px-4 py-2.5 shadow-2xl transition-all">
+          <div className="max-w-md mx-auto flex items-center justify-between gap-3">
+            {step > 1 ? (
+              <button
+                type="button"
+                onClick={handlePrevStep}
+                disabled={isSubmitting}
+                className="flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) hover:bg-(--surface-primary) text-xs font-bold text-(--text-primary) transition-all active:scale-95 disabled:opacity-50"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Back</span>
+              </button>
+            ) : (
+              <div />
+            )}
+
+            {step < totalSteps ? (
+              <button
+                type="button"
+                onClick={handleNextStep}
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-linear-to-r from-brand-indigo to-brand-blue text-white text-xs font-bold shadow-md shadow-brand-indigo/25 active:scale-95 transition-all uppercase tracking-wider"
+              >
+                <span>Continue</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => handleSubmit()}
+                disabled={isSubmitting}
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-linear-to-r from-emerald-500 to-teal-500 text-white text-xs font-bold shadow-md shadow-emerald-500/25 active:scale-95 transition-all uppercase tracking-wider disabled:opacity-50"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>SUBMITTING...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Confirm & Submit</span>
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       <LivRiseFooter />
     </div>
