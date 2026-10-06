@@ -5,10 +5,11 @@ import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { FloatingContact } from '@/components/ui/FloatingContact';
 import { PwaInstallPrompt } from '@/components/ui/PwaInstallPrompt';
 import { MobileBottomNav } from '@/components/layout/MobileBottomNav';
+import { LivRiseSplashScreen } from '@/components/ui/LivRiseSplashScreen';
 import { SITE_SETTINGS } from '@/lib/site-settings';
 
 export const viewport: Viewport = {
-  themeColor: '#635BFF',
+  themeColor: '#0B0B0D',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
@@ -16,8 +17,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'LivRise Infrastructure | Anime × Architecture • Building Ideas Into Reality',
-  description: 'LivRise Infrastructure brings modern architectural floor plans, photorealistic 3D elevations, interior design, and turnkey construction together into a vibrant digital experience. Building Ideas Into Reality.',
+  title: 'LivRise Infrastructure | Engineering • Architecture • Infrastructure',
+  description:
+    'LivRise Infrastructure brings modern architectural floor plans, photorealistic 3D elevations, interior design, and turnkey construction together into a seamless digital experience. Building Ideas Into Reality.',
   keywords: [
     'LivRise Infrastructure',
     'LivRise',
@@ -35,17 +37,18 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://livrise.in'),
   manifest: '/manifest.json',
   icons: {
-    icon: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: '/brand/livrise-favicon.png',
+    apple: '/brand/livrise-apple-touch-icon.png',
   },
   openGraph: {
     title: 'LivRise Infrastructure | Engineering • Architecture • Infrastructure',
-    description: 'LivRise brings modern architectural planning, 3D home design, and construction together into a vibrant digital product experience. Imagine it. See it. Build it.',
+    description:
+      'Building Ideas Into Reality. Architectural floor plans, photorealistic 3D home elevations, interior design, and turnkey construction.',
     url: 'https://livrise.in',
     siteName: 'LivRise Infrastructure',
     images: [
       {
-        url: '/images/anime/anime-dream-home.png',
+        url: '/brand/livrise-logo-primary.png',
         width: 1200,
         height: 630,
         alt: 'LivRise Infrastructure — Building Ideas Into Reality',
@@ -57,8 +60,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'LivRise Infrastructure | Engineering • Architecture • Infrastructure',
-    description: 'Building Ideas Into Reality. Modern architectural planning, 3D home design, and construction.',
-    images: ['/images/anime/anime-dream-home.png'],
+    description: 'Building Ideas Into Reality. Architectural floor plans, 3D home design, and construction.',
+    images: ['/brand/livrise-logo-primary.png'],
   },
 };
 
@@ -68,7 +71,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="scroll-smooth" data-scroll-behavior="smooth">
+    <html lang="en" suppressHydrationWarning className="scroll-smooth dark" data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -119,9 +122,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-(--bg-primary) text-(--text-primary) min-h-screen flex flex-col antialiased selection:bg-brand-indigo selection:text-white transition-colors duration-200 pb-16 md:pb-0 font-sans">
+      <body className="bg-(--bg-primary) text-(--text-primary) min-h-screen flex flex-col antialiased selection:bg-[#C9963E] selection:text-black transition-colors duration-200 pb-16 md:pb-0 font-sans">
         <ThemeProvider>
           <LivRiseStoreProvider>
+            <LivRiseSplashScreen />
             <div className="flex-1 flex flex-col">{children}</div>
             <MobileBottomNav />
             <FloatingContact />

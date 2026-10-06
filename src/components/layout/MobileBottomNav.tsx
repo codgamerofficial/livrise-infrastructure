@@ -20,7 +20,7 @@ export function MobileBottomNav() {
   // If inside client portal or admin portal, let their dedicated shells handle navigation
   if (isClientPortal || isAdminPortal) return null;
 
-  // Public Mobile Bottom Nav (Per Master Prompt Section 24)
+  // Public Mobile Bottom Nav (Per Master Prompt Section 14)
   // HOME, SERVICES, PROJECTS, ABOUT, QUOTE
   const publicItems = [
     { label: 'Home', href: '/', icon: Home },
@@ -32,7 +32,7 @@ export function MobileBottomNav() {
   return (
     <nav
       aria-label="Public Mobile Navigation"
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-(--surface-primary)/90 backdrop-blur-xl border-t border-(--border-subtle) pb-safe transition-all shadow-lg"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0B0B0D]/95 backdrop-blur-2xl border-t border-amber-500/20 pb-safe transition-all shadow-2xl"
     >
       <div className="grid grid-cols-5 h-16 max-w-md mx-auto items-center px-1">
         {publicItems.map((item) => {
@@ -48,14 +48,14 @@ export function MobileBottomNav() {
               href={item.href}
               className={`flex flex-col items-center justify-center min-h-12 py-1 transition-all rounded-xl ${
                 isActive
-                  ? 'text-brand-indigo dark:text-brand-blue font-bold'
-                  : 'text-(--text-muted) hover:text-(--text-primary)'
+                  ? 'text-[#E5B85C] font-bold'
+                  : 'text-zinc-400 hover:text-white'
               }`}
             >
               <div
                 className={`p-1.5 rounded-xl transition-all ${
                   isActive
-                    ? 'bg-indigo-500/15 text-brand-indigo dark:text-brand-blue shadow-sm'
+                    ? 'bg-amber-500/15 text-[#E5B85C] shadow-sm'
                     : 'text-current'
                 }`}
               >
@@ -76,20 +76,20 @@ export function MobileBottomNav() {
               href="/start-project"
               className={`flex flex-col items-center justify-center min-h-12 py-1 transition-all rounded-xl ${
                 isQuoteActive
-                  ? 'text-brand-indigo dark:text-brand-blue font-bold'
-                  : 'text-(--text-muted) hover:text-(--text-primary)'
+                  ? 'text-[#E5B85C] font-bold'
+                  : 'text-zinc-400 hover:text-white'
               }`}
             >
               <div
                 className={`p-1.5 rounded-xl transition-all ${
                   isQuoteActive
-                    ? 'bg-linear-to-tr from-brand-indigo to-brand-blue text-white shadow-md shadow-brand-indigo/30 scale-105'
-                    : 'bg-indigo-500/10 text-brand-indigo dark:text-brand-blue'
+                    ? 'gold-button scale-105 shadow-md shadow-amber-500/30'
+                    : 'bg-amber-500/15 text-[#E5B85C]'
                 }`}
               >
                 <Sparkles className="w-5 h-5" />
               </div>
-              <span className="text-[10px] mt-0.5 tracking-tight font-bold text-brand-indigo dark:text-brand-blue">
+              <span className="text-[10px] mt-0.5 tracking-tight font-bold text-[#E5B85C]">
                 Quote
               </span>
             </Link>

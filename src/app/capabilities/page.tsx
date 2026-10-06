@@ -8,8 +8,6 @@ import {
   Compass,
   Layers,
   Building,
-  CheckSquare,
-  ShieldCheck,
   Calculator,
   Grid,
   Activity,
@@ -26,7 +24,6 @@ const CAPABILITIES = [
     icon: Compass,
     slug: 'house-plan',
     tier: 'Core Architecture',
-    color: 'text-indigo-500 bg-indigo-500/10',
   },
   {
     title: 'Structural Engineering',
@@ -34,7 +31,6 @@ const CAPABILITIES = [
     icon: Layers,
     slug: 'construction',
     tier: 'Structural Engineering',
-    color: 'text-sky-500 bg-sky-500/10',
   },
   {
     title: 'Civil & Infrastructure Planning',
@@ -42,7 +38,6 @@ const CAPABILITIES = [
     icon: Building,
     slug: 'construction',
     tier: 'Civil Works',
-    color: 'text-emerald-500 bg-emerald-500/10',
   },
   {
     title: 'Finite Element Analysis (FEA)',
@@ -50,7 +45,6 @@ const CAPABILITIES = [
     icon: Activity,
     slug: 'construction',
     tier: 'Computational Physics',
-    color: 'text-purple-500 bg-purple-500/10',
   },
   {
     title: 'Dynamic Seismic Engineering',
@@ -58,7 +52,6 @@ const CAPABILITIES = [
     icon: Layers,
     slug: 'construction',
     tier: 'Codal Mechanics',
-    color: 'text-amber-500 bg-amber-500/10',
   },
   {
     title: '3D Elevation & Visualization',
@@ -66,7 +59,6 @@ const CAPABILITIES = [
     icon: Sparkles,
     slug: '3d-elevation',
     tier: 'Visualization',
-    color: 'text-cyan-500 bg-cyan-500/10',
   },
   {
     title: 'Interior Design & Joinery',
@@ -74,7 +66,6 @@ const CAPABILITIES = [
     icon: Grid,
     slug: 'interior-design',
     tier: 'Spatial Design',
-    color: 'text-pink-500 bg-pink-500/10',
   },
   {
     title: 'Itemized BOQ & Cost Estimation',
@@ -82,7 +73,6 @@ const CAPABILITIES = [
     icon: Calculator,
     slug: 'house-plan',
     tier: 'Cost Governance',
-    color: 'text-rose-500 bg-rose-500/10',
   },
   {
     title: 'Turnkey Project Execution',
@@ -90,42 +80,44 @@ const CAPABILITIES = [
     icon: HardHat,
     slug: 'construction',
     tier: 'Execution',
-    color: 'text-teal-500 bg-teal-500/10',
   },
 ];
 
 export default function CapabilitiesPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-(--bg-primary) text-(--text-primary) transition-colors duration-200">
+    <div className="min-h-screen flex flex-col bg-[#0B0B0D] text-[#F5F5F3] selection:bg-[#C9963E] selection:text-black">
       <LivRiseNavbar />
 
       <main className="flex-1 pt-28 sm:pt-32 pb-24">
         {/* Header Hero */}
-        <section className="py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-(--border-subtle) text-center relative overflow-hidden">
-          <div className="max-w-4xl mx-auto space-y-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 text-brand-indigo dark:text-brand-blue border border-indigo-500/20 text-xs font-bold uppercase tracking-widest">
-              <Sparkles className="w-3.5 h-3.5" />
+        <section className="py-16 sm:py-24 px-4 sm:px-6 md:px-10 lg:px-12 border-b border-zinc-800 text-center relative overflow-hidden bg-[#0B0B0D]">
+          <div className="absolute inset-0 blueprint-grid opacity-25 pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#C9963E]/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="max-w-4xl mx-auto space-y-4 relative z-10">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#151518] border border-[#C9963E]/30 text-[#E5B85C] text-xs font-semibold tracking-widest uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#E5B85C]" />
               <span>Technical & Disciplinary Rigor</span>
             </span>
 
-            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-(--text-primary)">
-              Engineering & Architecture Capabilities
+            <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+              Engineering & Architecture <span className="gold-gradient-text">Capabilities</span>
             </h1>
 
-            <p className="text-sm sm:text-base text-(--text-secondary) max-w-2xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-base text-zinc-400 max-w-2xl mx-auto leading-relaxed">
               Finite Element Analysis, Seismic Modeling, Bespoke Architecture, and Turnkey Civil Execution united under LivRise Infrastructure.
             </p>
 
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
+            <div className="pt-6 flex flex-wrap items-center justify-center gap-4">
               <Link
                 href="/start-project"
-                className="bg-linear-to-r from-brand-indigo to-brand-blue text-white px-7 py-3 rounded-2xl text-xs font-bold uppercase tracking-wider hover:shadow-lg transition-all"
+                className="gold-button px-8 py-3.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider"
               >
                 Start a Project
               </Link>
               <Link
                 href="/contact"
-                className="border border-(--border-strong) bg-(--surface-primary) px-6 py-3 rounded-2xl text-xs font-semibold text-(--text-primary) hover:bg-(--surface-secondary) transition-all"
+                className="px-6 py-3.5 rounded-xl bg-[#202124] text-zinc-200 border border-zinc-700 hover:border-zinc-500 font-bold text-xs sm:text-sm transition-all"
               >
                 Contact Engineering Desk
               </Link>
@@ -134,7 +126,7 @@ export default function CapabilitiesPage() {
         </section>
 
         {/* Capabilities Grid */}
-        <section className="py-16 px-4 sm:px-6 md:px-10 lg:px-12 max-w-7xl mx-auto">
+        <section className="py-16 sm:py-20 px-4 sm:px-6 md:px-10 lg:px-12 max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {CAPABILITIES.map((cap, idx) => {
               const Icon = cap.icon;
@@ -144,32 +136,32 @@ export default function CapabilitiesPage() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: idx * 0.04 }}
-                  className="rounded-3xl border border-(--border-subtle) bg-(--surface-primary) hover:border-brand-indigo/40 p-6 flex flex-col justify-between group shadow-sm hover:shadow-xl transition-all duration-300"
+                  className="rounded-2xl border border-zinc-800 bg-[#151518] hover:border-[#E5B85C]/50 p-6 flex flex-col justify-between group shadow-xl transition-all duration-300 hover:-translate-y-1"
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <div className={`p-3 rounded-2xl ${cap.color}`}>
-                        <Icon className="w-6 h-6" />
+                      <div className="w-11 h-11 rounded-xl bg-[#202124] border border-zinc-700/60 flex items-center justify-center text-[#E5B85C] group-hover:scale-105 transition-transform">
+                        <Icon className="w-5 h-5" />
                       </div>
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-(--surface-secondary) text-(--text-muted) border border-(--border-subtle)">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#0B0B0D] text-zinc-400 border border-zinc-800">
                         {cap.tier}
                       </span>
                     </div>
 
                     <div>
-                      <h3 className="text-lg font-bold text-(--text-primary) group-hover:text-brand-indigo transition-colors">
+                      <h3 className="text-lg font-bold text-white group-hover:text-[#E5B85C] transition-colors">
                         {cap.title}
                       </h3>
-                      <p className="text-xs sm:text-sm text-(--text-secondary) mt-2 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed">
                         {cap.desc}
                       </p>
                     </div>
                   </div>
 
-                  <div className="pt-4 mt-3 border-t border-(--border-subtle)">
+                  <div className="pt-4 mt-3 border-t border-zinc-800/80">
                     <Link
                       href={`/services/${cap.slug}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-indigo dark:text-brand-blue group-hover:underline"
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#E5B85C] group-hover:underline"
                     >
                       <span>Explore Practice</span>
                       <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />

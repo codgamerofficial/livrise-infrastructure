@@ -55,7 +55,7 @@ export function BottomNavigation() {
   return (
     <nav
       aria-label="App Navigation"
-      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-(--surface-primary)/90 backdrop-blur-xl border-t border-(--border-subtle) pb-safe shadow-lg transition-colors duration-200"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0B0B0D]/95 backdrop-blur-xl border-t border-zinc-800 pb-safe shadow-2xl transition-colors duration-200"
     >
       <div className="flex items-center justify-around h-14 px-2">
         {navItems.map((item) => {
@@ -70,18 +70,18 @@ export function BottomNavigation() {
               href={item.href}
               className={`relative flex flex-col items-center justify-center flex-1 h-full py-1 transition-all touch-target ${
                 isActive
-                  ? 'text-brand-indigo dark:text-brand-blue'
-                  : 'text-(--text-muted) hover:text-(--text-primary)'
+                  ? 'text-[#E5B85C]'
+                  : 'text-zinc-500 hover:text-zinc-300'
               }`}
             >
               <div className="relative">
                 <Icon
                   className={`w-5 h-5 transition-transform duration-200 ${
-                    isActive ? 'scale-110 text-brand-indigo dark:text-brand-blue' : ''
+                    isActive ? 'scale-110 text-[#E5B85C]' : ''
                   }`}
                 />
                 {item.badge !== undefined && item.badge > 0 && (
-                  <span className="absolute -top-1.5 -right-2.5 min-w-4 h-4 px-1 rounded-full bg-brand-indigo text-white text-[9px] font-bold flex items-center justify-center shadow-xs">
+                  <span className="absolute -top-1.5 -right-2.5 min-w-4 h-4 px-1 rounded-full bg-[#E5B85C] text-black text-[9px] font-bold flex items-center justify-center shadow-xs">
                     {item.badge}
                   </span>
                 )}
@@ -89,15 +89,15 @@ export function BottomNavigation() {
 
               <span
                 className={`text-[10px] mt-0.5 tracking-tight transition-colors ${
-                  isActive ? 'font-bold text-brand-indigo dark:text-brand-blue' : 'font-medium'
+                  isActive ? 'font-bold text-[#E5B85C]' : 'font-medium'
                 }`}
               >
                 {item.label}
               </span>
 
-              {/* Active dot indicator */}
+              {/* Gold active dot indicator */}
               {isActive && (
-                <div className="absolute bottom-1 w-1 h-1 rounded-full bg-brand-indigo dark:bg-brand-blue" />
+                <div className="absolute bottom-1 w-1 h-1 rounded-full bg-[#E5B85C]" />
               )}
             </Link>
           );

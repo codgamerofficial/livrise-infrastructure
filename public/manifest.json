@@ -1,25 +1,31 @@
 {
   "name": "LivRise Infrastructure",
   "short_name": "LivRise",
-  "description": "Anime × Architecture • Building Ideas Into Reality",
+  "description": "Engineering • Architecture • Infrastructure — Building Ideas Into Reality",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F8F9FE",
-  "theme_color": "#635BFF",
+  "background_color": "#0B0B0D",
+  "theme_color": "#C9963E",
   "icons": [
     {
-      "src": "/images/anime/anime-dream-home.png",
+      "src": "/brand/livrise-pwa-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "/images/anime/anime-dream-home.png",
+      "src": "/brand/livrise-pwa-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/brand/livrise-maskable-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "categories": ["business", "productivity", "utilities", "design"],
+  "categories": ["business", "design", "utilities", "construction"],
   "orientation": "portrait-primary"
 }

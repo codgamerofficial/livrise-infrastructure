@@ -47,16 +47,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/vex',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/infrava',
-        destination: '/',
-        permanent: true,
-      },
-      {
         source: '/portal',
         destination: '/',
         permanent: true,

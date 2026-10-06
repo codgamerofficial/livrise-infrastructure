@@ -1,10 +1,13 @@
+'use client';
+
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface LivRiseLogoProps {
   className?: string;
   showSubtitle?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   asLink?: boolean;
   href?: string;
 }
@@ -16,75 +19,43 @@ export function LivRiseLogo({
   asLink = true,
   href = '/',
 }: LivRiseLogoProps) {
-  const sizeClasses = {
-    sm: {
-      brand: 'text-lg font-bold tracking-tight',
-      sub: 'text-[9px] tracking-[0.2em] font-semibold',
-      mark: 'w-7 h-7 rounded-lg',
-      icon: 'w-4 h-4',
-    },
-    md: {
-      brand: 'text-xl font-bold tracking-tight',
-      sub: 'text-[10px] tracking-[0.24em] font-semibold',
-      mark: 'w-8 h-8 rounded-xl',
-      icon: 'w-5 h-5',
-    },
-    lg: {
-      brand: 'text-2xl font-extrabold tracking-tight',
-      sub: 'text-[11px] tracking-[0.28em] font-semibold',
-      mark: 'w-10 h-10 rounded-2xl',
-      icon: 'w-6 h-6',
-    },
+  const sizeConfig = {
+    sm: { monogram: 30, text: 'text-sm', sub: 'text-[8.5px]' },
+    md: { monogram: 38, text: 'text-base', sub: 'text-[9.5px]' },
+    lg: { monogram: 48, text: 'text-xl', sub: 'text-[11px]' },
+    xl: { monogram: 60, text: 'text-2xl', sub: 'text-xs' },
   }[size];
 
   const content = (
-    <div className={`inline-flex items-center gap-2.5 select-none ${className}`}>
-      {/* Anime Architectural Geometric Monogram Mark */}
+    <div className={`inline-flex items-center gap-2.5 sm:gap-3 select-none group ${className}`}>
+      {/* 3D Architectural Monogram from Official Source */}
       <div
-        className={`relative flex items-center justify-center bg-linear-to-tr from-brand-indigo via-brand-blue to-brand-cyan shadow-md shadow-brand-indigo/25 border border-white/20 transition-transform group-hover:scale-105 ${sizeClasses.mark}`}
+        className="relative shrink-0 rounded-xl overflow-hidden shadow-lg border border-amber-500/30 bg-[#0B0B0D] transition-transform duration-300 group-hover:scale-105"
+        style={{ width: sizeConfig.monogram, height: sizeConfig.monogram }}
       >
-        <svg
-          viewBox="0 0 32 32"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className={sizeClasses.icon}
-        >
-          {/* L & R interlocking architectural geometric lines */}
-          <path
-            d="M8 8V24H18"
-            stroke="white"
-            strokeWidth="2.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M14 14L24 24"
-            stroke="white"
-            strokeWidth="2.8"
-            strokeLinecap="round"
-          />
-          <path
-            d="M14 8H20C22.2091 8 24 9.79086 24 12C24 14.2091 22.2091 16 20 16H14"
-            stroke="white"
-            strokeWidth="2.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        <Image
+          src="/brand/livrise-monogram.png"
+          alt="LivRise LR Architectural Monogram"
+          width={sizeConfig.monogram * 2}
+          height={sizeConfig.monogram * 2}
+          className="w-full h-full object-contain"
+          priority
+        />
+        {/* Subtle architectural gold shimmer */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-amber-500/10 via-transparent to-white/10 opacity-70 pointer-events-none" />
       </div>
 
       {/* Brand Wordmark */}
       <div className="flex flex-col leading-none">
-        <span
-          className={`font-sans tracking-tight text-(--text-primary) group-hover:text-brand-indigo transition-colors ${sizeClasses.brand}`}
-        >
-          LIVRISE
-        </span>
+        <div className={`font-extrabold tracking-tight ${sizeConfig.text} flex items-baseline`}>
+          <span className="text-zinc-100 group-hover:text-white transition-colors">Liv</span>
+          <span className="text-[#E5B85C] ml-0.5 group-hover:text-[#F2D39A] transition-colors">Rise</span>
+        </div>
         {showSubtitle && (
           <span
-            className={`uppercase font-sans mt-0.5 text-(--text-muted) ${sizeClasses.sub}`}
+            className={`uppercase tracking-[0.24em] font-semibold text-zinc-400 group-hover:text-zinc-300 mt-1 transition-colors ${sizeConfig.sub}`}
           >
-            Infrastructure
+            INFRASTRUCTURE
           </span>
         )}
       </div>
@@ -93,11 +64,35 @@ export function LivRiseLogo({
 
   if (asLink) {
     return (
-      <Link href={href} className="focus:outline-none group inline-block">
+      <Link href={href} className="focus:outline-none inline-block">
         {content}
       </Link>
     );
   }
 
   return content;
+}
+
+export function LivRiseMonogram({
+  size = 40,
+  className = '',
+}: {
+  size?: number;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`relative shrink-0 rounded-xl overflow-hidden shadow-xl border border-amber-500/30 bg-[#0B0B0D] ${className}`}
+      style={{ width: size, height: size }}
+    >
+      <Image
+        src="/brand/livrise-monogram.png"
+        alt="LivRise Monogram"
+        width={size * 2}
+        height={size * 2}
+        className="w-full h-full object-contain"
+        priority
+      />
+    </div>
+  );
 }
