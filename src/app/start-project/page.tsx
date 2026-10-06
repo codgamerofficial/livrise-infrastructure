@@ -796,6 +796,21 @@ export default function StartProjectPage() {
                         />
                       </div>
 
+                      {buildingType === 'Commercial' && (
+                        <div className="sm:col-span-2">
+                          <label className="block text-xs font-bold text-(--text-secondary) mb-1.5">
+                            Company / Enterprise Name (Optional)
+                          </label>
+                          <input
+                            type="text"
+                            value={company}
+                            onChange={(e) => setCompany(e.target.value)}
+                            placeholder="e.g. LivRise Enterprises"
+                            className="w-full px-4 py-3 rounded-xl border border-(--border-subtle) bg-(--surface-secondary) text-sm text-(--text-primary) focus:outline-none focus:border-brand-indigo"
+                          />
+                        </div>
+                      )}
+
                       <div className="sm:col-span-2">
                         <label className="block text-xs font-bold text-(--text-secondary) mb-1.5">
                           Project Description / Plot Details (Optional)
@@ -870,7 +885,7 @@ export default function StartProjectPage() {
                         <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
                           Building Type
                         </span>
-                        <span className="text-sm sm:text-base font-bold text-(--text-primary) break-words">
+                        <span className="text-sm sm:text-base font-bold text-(--text-primary) wrap-break-word">
                           {buildingType}
                         </span>
                       </div>
@@ -879,7 +894,7 @@ export default function StartProjectPage() {
                         <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
                           Services
                         </span>
-                        <span className="text-sm sm:text-base font-bold text-brand-indigo dark:text-brand-blue break-words">
+                        <span className="text-sm sm:text-base font-bold text-brand-indigo dark:text-brand-blue wrap-break-word">
                           {selectedServices.join(', ')}
                         </span>
                       </div>
@@ -888,7 +903,7 @@ export default function StartProjectPage() {
                         <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
                           Location
                         </span>
-                        <span className="text-sm sm:text-base font-bold text-(--text-primary) break-words">
+                        <span className="text-sm sm:text-base font-bold text-(--text-primary) wrap-break-word">
                           {displayLocation}
                         </span>
                       </div>
@@ -897,7 +912,7 @@ export default function StartProjectPage() {
                         <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
                           Budget
                         </span>
-                        <span className="text-sm sm:text-base font-bold text-(--text-primary) break-words">
+                        <span className="text-sm sm:text-base font-bold text-(--text-primary) wrap-break-word">
                           {budget}
                         </span>
                       </div>
@@ -906,7 +921,7 @@ export default function StartProjectPage() {
                         <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
                           Timeline
                         </span>
-                        <span className="text-sm sm:text-base font-bold text-(--text-primary) break-words">
+                        <span className="text-sm sm:text-base font-bold text-(--text-primary) wrap-break-word">
                           {timeline}
                         </span>
                       </div>
@@ -915,7 +930,7 @@ export default function StartProjectPage() {
                         <span className="text-xs sm:text-sm font-medium text-(--text-muted)">
                           Contact
                         </span>
-                        <span className="text-sm sm:text-base font-bold text-(--text-primary) break-words">
+                        <span className="text-sm sm:text-base font-bold text-(--text-primary) wrap-break-word">
                           {fullName ? `${fullName} (${normalizedUserPhone})` : normalizedUserPhone || 'Not specified'}
                         </span>
                       </div>
