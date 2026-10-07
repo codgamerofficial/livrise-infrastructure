@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useLivRiseStore } from '@/lib/store';
+import { useAuth } from '@/lib/auth-context';
 import { LivRiseLogo } from '@/components/ui/LivRiseLogo';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import {
@@ -25,6 +26,9 @@ import {
   X,
   CreditCard,
   UserCheck,
+  LogOut,
+  Loader2,
+  Lock,
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -33,8 +37,16 @@ interface AdminLayoutProps {
 
 export function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
-  const { currentUser, leads, messages } = useLivRiseStore();
+  const router = useRouter();
+  const { user, supabaseUser, isLoading, isAdmin, signOut } = useAuth();
+  const { leads, messages } = useLivRiseStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading && !supabaseUser) {
+      router.push('/login?redirect=/admin');
+    }
+  }, [isLoading, supabaseUser, router]);
 
   const newLeadsCount = leads.filter((l) => l.status === 'New Leads').length;
   const unreadMessagesCount = messages.filter((m) => !m.isRead).length;
@@ -57,6 +69,51 @@ export function AdminLayout({ children }: AdminLayoutProps) {
     { label: 'System Settings', href: '/admin/settings', icon: Settings },
   ];
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-brand-obsidian flex flex-col items-center justify-center p-4">
+        <div className="w-12 h-12 rounded-2xl bg-brand-charcoal border border-brand-gold/30 flex items-center justify-center text-brand-gold-bright shadow-xl mb-4 animate-pulse">
+          <Loader2 className="w-6 h-6 animate-spin" />
+        </div>
+        <p className="text-xs font-mono tracking-widest text-zinc-400 uppercase">
+          Verifying Operations Credentials...
+        </p>
+      </div>
+    );
+  }
+
+  // RBAC Access Control Guard: Prevent Clients from Accessing Admin Routes
+  if (supabaseUser && !isAdmin) {
+    return (
+      <div className="min-h-screen bg-brand-obsidian flex flex-col items-center justify-center p-6 text-center">
+        <div className="w-16 h-16 rounded-3xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 mb-5 shadow-2xl">
+          <Lock className="w-8 h-8" />
+        </div>
+        <h1 className="text-xl sm:text-2xl font-bold text-white font-mono uppercase tracking-wider">
+          Access Restricted
+        </h1>
+        <p className="text-xs sm:text-sm text-zinc-400 max-w-md mt-2 leading-relaxed">
+          The LivRise Operations Console is restricted to internal engineers, administrators, and project managers. Your account is recognized as an external Client account.
+        </p>
+        <div className="flex items-center gap-3 mt-6">
+          <Link
+            href="/portal"
+            className="px-5 py-2.5 rounded-xl bg-amber-400 text-slate-950 font-bold text-xs hover:bg-amber-300 transition-colors shadow-lg shadow-amber-400/20"
+          >
+            Go to Client Portal
+          </Link>
+          <button
+            type="button"
+            onClick={() => signOut()}
+            className="px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-zinc-400 hover:text-white text-xs font-mono transition-colors"
+          >
+            Sign Out
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-brand-obsidian text-[#F5F5F3] flex flex-col md:flex-row transition-colors duration-200">
       {/* Desktop Admin Sidebar */}
@@ -76,16 +133,26 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           </div>
 
           {/* Admin User Badge */}
-          <div className="p-3 mx-3 my-3 rounded-2xl bg-brand-charcoal border border-zinc-800 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-brand-gold-bright text-black font-bold flex items-center justify-center font-mono text-xs">
-              {currentUser.name.charAt(0)}
+          <div className="p-3 mx-3 my-3 rounded-2xl bg-brand-charcoal border border-zinc-800 flex items-center justify-between">
+            <div className="flex items-center gap-3 overflow-hidden">
+              <div className="w-8 h-8 rounded-full bg-brand-gold-bright text-black font-bold flex items-center justify-center font-mono text-xs shrink-0">
+                {(user?.fullName || 'A').charAt(0)}
+              </div>
+              <div className="truncate text-xs">
+                <p className="font-bold text-white truncate">{user?.fullName || 'LivRise Admin'}</p>
+                <p className="text-[10px] text-brand-gold-bright font-mono font-semibold uppercase">
+                  {user?.role || 'ADMIN'}
+                </p>
+              </div>
             </div>
-            <div className="truncate text-xs">
-              <p className="font-bold text-white truncate">{currentUser.name}</p>
-              <p className="text-[10px] text-brand-gold-bright font-mono font-semibold">
-                {currentUser.role.toUpperCase()}
-              </p>
-            </div>
+            <button
+              type="button"
+              onClick={() => signOut()}
+              title="Sign Out"
+              className="text-zinc-500 hover:text-rose-400 p-1 rounded-lg transition-colors"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
           </div>
 
           {/* Navigation Links */}
@@ -121,7 +188,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         {/* Footer Actions */}
         <div className="p-4 border-t border-zinc-800 space-y-2">
           <Link
-            href="/app"
+            href="/portal"
             className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-brand-gold-bright bg-brand-charcoal border border-brand-gold/30 hover:bg-brand-graphite transition-all"
           >
             <div className="flex items-center gap-2">

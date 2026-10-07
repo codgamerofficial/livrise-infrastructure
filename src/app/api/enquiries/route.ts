@@ -6,12 +6,8 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 
-// Production Supabase fallback credentials to guarantee zero downtime even across serverless cold starts
-const DEFAULT_SUPABASE_URL = 'https://qjmwxenblhkkaubndlpp.supabase.co';
-const DEFAULT_SUPABASE_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFqbXd4ZW5ibGhra2F1Ym5kbHBwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyODAyMjAsImV4cCI6MjEwNjg1NjIyMH0.6fTjOVnIBhrwclV2ID3dMLFTLSJ975p--NsN9RdE1sc';
-const DEFAULT_SUPABASE_SERVICE_ROLE_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFqbXd4ZW5ibGhra2F1Ym5kbHBwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MTI4MDIyMCwiZXhwIjoyMTA2ODU2MjIwfQ.YGJDMlqu-i4fQFp4SKtcvZ4ys2Ch0lLTkDjDn_TG_g8';
+// Production Supabase endpoint
+const DEFAULT_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://qjmwxenblhkkaubndlpp.supabase.co';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -253,9 +249,7 @@ export async function POST(request: Request) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL;
     const candidateKeys = [
       process.env.SUPABASE_SERVICE_ROLE_KEY,
-      DEFAULT_SUPABASE_SERVICE_ROLE_KEY,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      DEFAULT_SUPABASE_ANON_KEY,
     ].filter(Boolean) as string[];
 
     let dbSaveSuccess = false;

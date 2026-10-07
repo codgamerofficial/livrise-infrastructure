@@ -91,9 +91,15 @@ export function Footer() {
             <h4 className="text-white font-semibold text-sm mb-4 tracking-wider uppercase">Platform</h4>
             <ul className="space-y-2.5 text-xs">
               <li>
+                <Link href="/portal" className="text-amber-400 hover:text-amber-300 flex items-center gap-1">
+                  <span>Client Portal</span>
+                  <Shield className="w-3 h-3" />
+                </Link>
+              </li>
+              <li>
                 <Link href="/admin" className="text-slate-300 hover:text-white flex items-center gap-1">
                   <span>Admin Console</span>
-                  <Shield className="w-3 h-3 text-amber-400" />
+                  <Shield className="w-3 h-3 text-slate-500" />
                 </Link>
               </li>
               <li>

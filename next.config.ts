@@ -46,16 +46,6 @@ const nextConfig: NextConfig = {
         destination: '/about',
         permanent: true,
       },
-      {
-        source: '/portal',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/portal/:path*',
-        destination: '/',
-        permanent: true,
-      },
     ];
   },
 };

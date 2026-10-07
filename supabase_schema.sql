@@ -15,11 +15,23 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE IF NOT EXISTS public.roles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(50) UNIQUE NOT NULL, -- 'super_admin', 'admin', 'project_manager', 'consultant', 'client', 'lead', 'visitor'
+    name VARCHAR(50) UNIQUE NOT NULL, -- 'super_admin', 'admin', 'project_manager', 'engineer', 'designer', 'finance', 'support', 'client'
     description TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Seed canonical roles
+INSERT INTO public.roles (name, description) VALUES
+    ('super_admin', 'LivRise Super Administrator with full system control'),
+    ('admin', 'Operations & Project Administrator'),
+    ('project_manager', 'Project Manager with assigned project & client control'),
+    ('engineer', 'Civil & Structural Engineering Specialist'),
+    ('designer', 'Architectural & 3D Visualization Specialist'),
+    ('finance', 'Financial Controller for Quotations, Invoices & Payments'),
+    ('support', 'Client Relations & Enquiry Support'),
+    ('client', 'Verified Project Homeowner / Enterprise Client')
+ON CONFLICT (name) DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS public.permissions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -90,7 +102,7 @@ CREATE TABLE IF NOT EXISTS public.leads (
     attachments JSONB DEFAULT '[]'::jsonb, -- Array of uploaded drawing documents
     
     -- CRM Pipeline Status & Tracking
-    status VARCHAR(50) DEFAULT 'New', -- 'New', 'Contacted', 'Qualified', 'Meeting', 'Quotation', 'Negotiation', 'Won', 'Lost', 'Archived'
+    status VARCHAR(50) DEFAULT 'New', -- 'New', 'Contacted', 'Qualified', 'Consultation', 'Proposal', 'Negotiation', 'Won', 'Lost', 'Archived'
     assigned_to UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
     estimated_value NUMERIC(15, 2),
     source VARCHAR(100) DEFAULT 'Website Enquiry',
@@ -121,7 +133,7 @@ CREATE TABLE IF NOT EXISTS public.lead_activities (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     lead_id UUID REFERENCES public.leads(id) ON DELETE CASCADE,
     actor_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
-    activity_type VARCHAR(50) NOT NULL, -- 'status_change', 'note_added', 'assigned', 'meeting_scheduled', 'quotation_sent'
+    activity_type VARCHAR(50) NOT NULL, -- 'status_change', 'note_added', 'assigned', 'meeting_scheduled', 'quotation_sent', 'converted'
     description TEXT NOT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -134,7 +146,7 @@ CREATE TABLE IF NOT EXISTS public.clients (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     profile_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
     lead_id UUID REFERENCES public.leads(id) ON DELETE SET NULL,
-    client_code VARCHAR(50) UNIQUE NOT NULL, -- e.g. INF-CL-2026-0042
+    client_code VARCHAR(50) UNIQUE NOT NULL, -- e.g. LIV-CL-2026-0042
     company_name VARCHAR(255),
     gst_vat_number VARCHAR(100),
     billing_address TEXT,
@@ -157,7 +169,7 @@ CREATE TABLE IF NOT EXISTS public.clients (
 
 CREATE TABLE IF NOT EXISTS public.service_categories (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(100) UNIQUE NOT NULL, -- 'Engineering', 'Architecture', 'Infrastructure', 'Consultancy & R&D'
+    name VARCHAR(100) UNIQUE NOT NULL,
     slug VARCHAR(100) UNIQUE NOT NULL,
     description TEXT,
     display_order INT DEFAULT 0,
@@ -192,11 +204,11 @@ CREATE TABLE IF NOT EXISTS public.services (
 
 CREATE TABLE IF NOT EXISTS public.projects (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    project_code VARCHAR(50) UNIQUE NOT NULL, -- e.g. INF-PRJ-2026-001
+    project_code VARCHAR(50) UNIQUE NOT NULL, -- e.g. LIV-PRJ-2026-001
     title VARCHAR(255) NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
     client_id UUID REFERENCES public.clients(id) ON DELETE SET NULL,
-    category VARCHAR(100) NOT NULL, -- 'Residential', 'Commercial', 'Industrial', 'Infrastructure', 'Government', 'Institutional', 'Research', 'Award Winning'
+    category VARCHAR(100) NOT NULL, -- 'Residential', 'Commercial', 'Industrial', 'Infrastructure', 'Institutional'
     location VARCHAR(255) NOT NULL,
     city VARCHAR(100),
     state VARCHAR(100),
@@ -212,7 +224,8 @@ CREATE TABLE IF NOT EXISTS public.projects (
     engineering_approach TEXT,
     
     -- Project Management State
-    status VARCHAR(50) DEFAULT 'Planning', -- 'Planning', 'Design', 'Review', 'Client Approval', 'Execution', 'Delivered', 'Completed'
+    status VARCHAR(50) DEFAULT 'Planning', -- 'Planning', 'Design', 'Approval', 'Construction', 'On Hold', 'Completed', 'Cancelled'
+    stage VARCHAR(50) DEFAULT 'CONSULTATION', -- 'CONSULTATION', 'DESIGN', 'APPROVAL', 'CONSTRUCTION', 'COMPLETED'
     progress_percentage INT DEFAULT 0,
     start_date DATE,
     estimated_completion DATE,
@@ -231,7 +244,7 @@ CREATE TABLE IF NOT EXISTS public.project_members (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     project_id UUID REFERENCES public.projects(id) ON DELETE CASCADE,
     profile_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
-    project_role VARCHAR(100) NOT NULL, -- 'Project Manager', 'Lead Structural Engineer', 'Architect', 'Consultant', 'Client Representative'
+    project_role VARCHAR(100) NOT NULL, -- 'Project Manager', 'Lead Structural Engineer', 'Architect', 'Civil Engineer', 'Client Representative'
     assigned_at TIMESTAMPTZ DEFAULT NOW(),
     UNIQUE(project_id, profile_id)
 );
@@ -258,10 +271,14 @@ CREATE TABLE IF NOT EXISTS public.project_tasks (
     project_id UUID REFERENCES public.projects(id) ON DELETE CASCADE,
     title VARCHAR(255) NOT NULL,
     description TEXT,
-    status VARCHAR(50) DEFAULT 'Todo', -- 'Todo', 'In Progress', 'Review', 'Done'
+    status VARCHAR(50) DEFAULT 'Todo', -- 'Todo', 'In Progress', 'Review', 'Completed', 'Blocked'
     priority VARCHAR(50) DEFAULT 'Medium', -- 'Low', 'Medium', 'High', 'Urgent'
     assigned_to UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
     due_date DATE,
+    requires_client_action BOOLEAN DEFAULT FALSE,
+    client_action_type VARCHAR(100), -- 'Approve Floor Plan', 'Review 3D Elevation', 'Approve Quotation', 'Upload Document'
+    client_action_status VARCHAR(50) DEFAULT 'Pending', -- 'Pending', 'In Review', 'Approved', 'Rejected', 'Completed'
+    completed_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -276,6 +293,21 @@ CREATE TABLE IF NOT EXISTS public.project_activities (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS public.project_change_requests (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    project_id UUID REFERENCES public.projects(id) ON DELETE CASCADE,
+    client_id UUID REFERENCES public.clients(id) ON DELETE CASCADE,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    status VARCHAR(50) DEFAULT 'Submitted', -- 'Submitted', 'Under Review', 'Quoted', 'Approved', 'Rejected', 'Completed'
+    estimated_cost NUMERIC(15, 2),
+    estimated_delay_days INT DEFAULT 0,
+    attachment_url TEXT,
+    admin_notes TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- =============================================================================
 -- 6. DOCUMENT MANAGEMENT & VERSIONING
 -- =============================================================================
@@ -283,7 +315,7 @@ CREATE TABLE IF NOT EXISTS public.project_activities (
 CREATE TABLE IF NOT EXISTS public.documents (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     project_id UUID REFERENCES public.projects(id) ON DELETE CASCADE,
-    folder VARCHAR(100) NOT NULL, -- 'Architecture', 'Structural', 'Drawings', 'Reports', 'Estimation', 'Contracts', 'Approvals', 'Invoices', 'Other'
+    folder VARCHAR(100) NOT NULL, -- 'Architecture', 'Structural', 'Drawings', 'Reports', 'Estimation', 'Contracts', 'Approvals', 'Invoices', 'Receipts', 'Other'
     name VARCHAR(255) NOT NULL,
     description TEXT,
     current_version VARCHAR(20) DEFAULT 'REV01',
@@ -291,7 +323,7 @@ CREATE TABLE IF NOT EXISTS public.documents (
     file_size_bytes BIGINT,
     mime_type VARCHAR(100),
     file_extension VARCHAR(20),
-    status VARCHAR(50) DEFAULT 'Draft', -- 'Draft', 'Under Review', 'Approved', 'Rejected', 'Archived'
+    status VARCHAR(50) DEFAULT 'Approved', -- 'Draft', 'Under Review', 'Approved', 'Rejected', 'Archived'
     uploaded_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
     is_client_accessible BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMPTZ DEFAULT NOW(),
@@ -315,7 +347,7 @@ CREATE TABLE IF NOT EXISTS public.document_versions (
 
 CREATE TABLE IF NOT EXISTS public.quotations (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    quotation_number VARCHAR(100) UNIQUE NOT NULL, -- e.g. INF-QT-2026-0089
+    quotation_number VARCHAR(100) UNIQUE NOT NULL, -- e.g. LIV-QT-2026-0089
     client_id UUID REFERENCES public.clients(id) ON DELETE CASCADE,
     project_id UUID REFERENCES public.projects(id) ON DELETE SET NULL,
     lead_id UUID REFERENCES public.leads(id) ON DELETE SET NULL,
@@ -331,9 +363,10 @@ CREATE TABLE IF NOT EXISTS public.quotations (
     valid_until DATE NOT NULL,
     terms_and_conditions TEXT,
     notes TEXT,
-    status VARCHAR(50) DEFAULT 'Draft', -- 'Draft', 'Sent', 'Viewed', 'Revision Requested', 'Accepted', 'Rejected', 'Expired'
+    status VARCHAR(50) DEFAULT 'Sent', -- 'Draft', 'Sent', 'Viewed', 'Accepted', 'Rejected', 'Expired'
     client_action_note TEXT,
     accepted_at TIMESTAMPTZ,
+    accepted_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
     created_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     updated_at TIMESTAMPTZ DEFAULT NOW()
@@ -356,7 +389,7 @@ CREATE TABLE IF NOT EXISTS public.quotation_items (
 
 CREATE TABLE IF NOT EXISTS public.invoices (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    invoice_number VARCHAR(100) UNIQUE NOT NULL, -- e.g. INF-INV-2026-0045
+    invoice_number VARCHAR(100) UNIQUE NOT NULL, -- e.g. LIV-INV-2026-0045
     client_id UUID REFERENCES public.clients(id) ON DELETE CASCADE,
     project_id UUID REFERENCES public.projects(id) ON DELETE SET NULL,
     quotation_id UUID REFERENCES public.quotations(id) ON DELETE SET NULL,
@@ -372,7 +405,7 @@ CREATE TABLE IF NOT EXISTS public.invoices (
     
     issue_date DATE NOT NULL DEFAULT CURRENT_DATE,
     due_date DATE NOT NULL,
-    status VARCHAR(50) DEFAULT 'Sent', -- 'Draft', 'Sent', 'Partially Paid', 'Paid', 'Overdue', 'Cancelled'
+    status VARCHAR(50) DEFAULT 'Sent', -- 'Draft', 'Issued', 'Partially Paid', 'Paid', 'Overdue', 'Cancelled'
     notes TEXT,
     payment_terms TEXT,
     created_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
@@ -399,10 +432,11 @@ CREATE TABLE IF NOT EXISTS public.payments (
     client_id UUID REFERENCES public.clients(id) ON DELETE CASCADE,
     amount NUMERIC(15, 2) NOT NULL,
     currency VARCHAR(10) DEFAULT 'INR',
-    payment_method VARCHAR(50) DEFAULT 'Bank Transfer', -- 'Bank Transfer', 'NEFT/RTGS', 'UPI', 'Cheque', 'Credit Card Gateway'
-    transaction_id VARCHAR(150),
+    payment_method VARCHAR(50) DEFAULT 'Bank Transfer', -- 'Bank Transfer', 'NEFT/RTGS', 'UPI', 'Cash', 'Other'
+    transaction_reference VARCHAR(150),
     status VARCHAR(50) DEFAULT 'Successful', -- 'Pending', 'Processing', 'Successful', 'Failed', 'Refunded'
     payment_date DATE DEFAULT CURRENT_DATE,
+    paid_at TIMESTAMPTZ DEFAULT NOW(),
     recorded_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
     notes TEXT,
     created_at TIMESTAMPTZ DEFAULT NOW()
@@ -451,7 +485,9 @@ CREATE TABLE IF NOT EXISTS public.notifications (
     title VARCHAR(255) NOT NULL,
     message TEXT NOT NULL,
     link_url TEXT,
-    notification_type VARCHAR(100), -- 'enquiry', 'lead_assigned', 'quotation', 'invoice', 'milestone', 'message', 'meeting'
+    notification_type VARCHAR(100), -- 'enquiry', 'lead_assigned', 'quotation', 'invoice', 'payment', 'milestone', 'message', 'meeting', 'document'
+    reference_type VARCHAR(50),
+    reference_id VARCHAR(100),
     is_read BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -459,8 +495,8 @@ CREATE TABLE IF NOT EXISTS public.notifications (
 CREATE TABLE IF NOT EXISTS public.audit_logs (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     actor_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
-    action VARCHAR(100) NOT NULL, -- e.g. 'lead.create', 'quotation.accept', 'invoice.paid'
-    entity VARCHAR(100) NOT NULL, -- 'leads', 'projects', 'quotations', 'invoices', 'documents'
+    action VARCHAR(100) NOT NULL, -- e.g. 'lead.convert', 'quotation.accept', 'invoice.paid'
+    entity VARCHAR(100) NOT NULL, -- 'leads', 'clients', 'projects', 'quotations', 'invoices', 'documents', 'payments'
     entity_id VARCHAR(100),
     metadata JSONB DEFAULT '{}'::jsonb,
     ip_address VARCHAR(50),
@@ -493,7 +529,7 @@ CREATE TABLE IF NOT EXISTS public.awards (
     title VARCHAR(255) NOT NULL,
     year INT NOT NULL,
     organization VARCHAR(255) NOT NULL,
-    position VARCHAR(100) NOT NULL, -- 'Winner', '2nd Position', '3rd Position'
+    position VARCHAR(100) NOT NULL,
     project_name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     image_url TEXT,
@@ -516,34 +552,6 @@ CREATE TABLE IF NOT EXISTS public.testimonials (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE IF NOT EXISTS public.offices (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    title VARCHAR(255) NOT NULL,
-    region VARCHAR(100) NOT NULL, -- 'West Bengal HQ', 'Odisha Regional Office'
-    address TEXT NOT NULL,
-    city VARCHAR(100) NOT NULL,
-    state VARCHAR(100) NOT NULL,
-    pin_code VARCHAR(20) NOT NULL,
-    country VARCHAR(100) DEFAULT 'India',
-    phone VARCHAR(50) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    is_headquarters BOOLEAN DEFAULT FALSE,
-    display_order INT DEFAULT 0,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE IF NOT EXISTS public.site_statistics (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    metric_key VARCHAR(100) UNIQUE NOT NULL,
-    label VARCHAR(255) NOT NULL,
-    value_display VARCHAR(50) NOT NULL, -- '2.5M+', '200+', '26+', '5'
-    numeric_value NUMERIC(15, 2),
-    description TEXT,
-    is_verified BOOLEAN DEFAULT TRUE,
-    display_order INT DEFAULT 0,
-    updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
 CREATE TABLE IF NOT EXISTS public.site_settings (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     key VARCHAR(100) UNIQUE NOT NULL,
@@ -551,14 +559,101 @@ CREATE TABLE IF NOT EXISTS public.site_settings (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Seed initial site settings
+INSERT INTO public.site_settings (key, value) VALUES (
+    'company_profile',
+    '{
+        "name": "LivRise Infrastructure",
+        "tagline": "Engineering • Architecture • Infrastructure | Building Ideas Into Reality.",
+        "email": "livriseinfrastructure@gmail.com",
+        "phone": "+91 6296603868",
+        "whatsapp": "+91 6296603868",
+        "currency": "INR",
+        "gstRate": 18.0,
+        "headquarters": "West Bengal, India"
+    }'::jsonb
+) ON CONFLICT (key) DO NOTHING;
+
 -- =============================================================================
--- 12. ROW LEVEL SECURITY (RLS) POLICIES
+-- 12. AUTOMATIC PROFILE TRIGGER (ON AUTH.USERS SIGNUP)
+-- =============================================================================
+
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+DECLARE
+    default_role_id UUID;
+    user_role_name VARCHAR(50);
+BEGIN
+    user_role_name := COALESCE(NEW.raw_user_meta_data->>'role', 'client');
+    SELECT id INTO default_role_id FROM public.roles WHERE name = user_role_name;
+    IF default_role_id IS NULL THEN
+        SELECT id INTO default_role_id FROM public.roles WHERE name = 'client';
+    END IF;
+
+    INSERT INTO public.profiles (
+        id,
+        role_id,
+        full_name,
+        email,
+        phone,
+        company_name,
+        is_active
+    ) VALUES (
+        NEW.id,
+        default_role_id,
+        COALESCE(NEW.raw_user_meta_data->>'full_name', NEW.raw_user_meta_data->>'name', split_part(NEW.email, '@', 1)),
+        NEW.email,
+        NEW.raw_user_meta_data->>'phone',
+        NEW.raw_user_meta_data->>'company_name',
+        TRUE
+    )
+    ON CONFLICT (id) DO UPDATE SET
+        full_name = EXCLUDED.full_name,
+        phone = COALESCE(EXCLUDED.phone, public.profiles.phone),
+        updated_at = NOW();
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+CREATE TRIGGER on_auth_user_created
+    AFTER INSERT OR UPDATE ON auth.users
+    FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- =============================================================================
+-- 13. REALTIME REPLICATION PUBLICATION
+-- =============================================================================
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_publication WHERE pubname = 'supabase_realtime') THEN
+        CREATE PUBLICATION supabase_realtime;
+    END IF;
+END $$;
+
+ALTER PUBLICATION supabase_realtime ADD TABLE 
+    public.messages,
+    public.notifications,
+    public.project_milestones,
+    public.project_tasks,
+    public.documents,
+    public.quotations,
+    public.invoices,
+    public.payments;
+
+-- =============================================================================
+-- 14. ROW LEVEL SECURITY (RLS) POLICIES
 -- =============================================================================
 
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.leads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.clients ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.project_members ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.project_milestones ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.project_tasks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.project_change_requests ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.quotations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
@@ -567,60 +662,107 @@ ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.meetings ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.service_categories ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.services ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.team_members ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.awards ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.testimonials ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.offices ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.site_statistics ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
 
--- Public can read active public services, portfolio projects, team members, awards, testimonials, site stats
-CREATE POLICY "Public can view active service categories" ON public.service_categories FOR SELECT USING (true);
-CREATE POLICY "Public can view active services" ON public.services FOR SELECT USING (is_active = true);
-CREATE POLICY "Public can view public projects" ON public.projects FOR SELECT USING (is_public_portfolio = true);
-CREATE POLICY "Public can view team members" ON public.team_members FOR SELECT USING (is_active = true);
-CREATE POLICY "Public can view awards" ON public.awards FOR SELECT USING (true);
-CREATE POLICY "Public can view verified testimonials" ON public.testimonials FOR SELECT USING (is_verified = true);
-CREATE POLICY "Public can view offices" ON public.offices FOR SELECT USING (true);
-CREATE POLICY "Public can view site stats" ON public.site_statistics FOR SELECT USING (is_verified = true);
-CREATE POLICY "Public can view site settings" ON public.site_settings FOR SELECT USING (true);
+-- Helper function to check if current authenticated user has an administrative role
+CREATE OR REPLACE FUNCTION public.is_admin_or_staff()
+RETURNS BOOLEAN AS $$
+BEGIN
+    RETURN EXISTS (
+        SELECT 1 FROM public.profiles p
+        JOIN public.roles r ON p.role_id = r.id
+        WHERE p.id = auth.uid()
+        AND r.name IN ('super_admin', 'admin', 'project_manager', 'engineer', 'designer', 'finance', 'support')
+    );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Leads: Anyone can submit an enquiry; only admins/consultants can read
+-- Profiles
+CREATE POLICY "Users can view own profile" ON public.profiles FOR SELECT USING (id = auth.uid() OR public.is_admin_or_staff());
+CREATE POLICY "Users can update own profile" ON public.profiles FOR UPDATE USING (id = auth.uid());
+CREATE POLICY "Admins can manage all profiles" ON public.profiles FOR ALL USING (public.is_admin_or_staff());
+
+-- Leads
 CREATE POLICY "Anonymous can insert lead enquiry" ON public.leads FOR INSERT WITH CHECK (true);
+CREATE POLICY "Staff can view all leads" ON public.leads FOR SELECT USING (public.is_admin_or_staff());
+CREATE POLICY "Staff can update leads" ON public.leads FOR UPDATE USING (public.is_admin_or_staff());
 
--- Clients can only see their own profile, projects, quotations, invoices, documents, and messages
-CREATE POLICY "Clients can view own client profile" ON public.clients FOR SELECT USING (profile_id = auth.uid());
+-- Clients
+CREATE POLICY "Clients can view own client profile" ON public.clients FOR SELECT USING (profile_id = auth.uid() OR public.is_admin_or_staff());
+CREATE POLICY "Staff can manage clients" ON public.clients FOR ALL USING (public.is_admin_or_staff());
 
+-- Projects
 CREATE POLICY "Clients can view own projects" ON public.projects FOR SELECT USING (
-    client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid())
+    (client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid()))
+    OR (id IN (SELECT project_id FROM public.project_members WHERE profile_id = auth.uid()))
+    OR public.is_admin_or_staff()
+    OR (is_public_portfolio = true)
 );
+CREATE POLICY "Staff can manage projects" ON public.projects FOR ALL USING (public.is_admin_or_staff());
 
-CREATE POLICY "Clients can view own quotations" ON public.quotations FOR SELECT USING (
-    client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid())
+-- Milestones & Tasks
+CREATE POLICY "Project stakeholders can view milestones" ON public.project_milestones FOR SELECT USING (
+    project_id IN (
+        SELECT id FROM public.projects WHERE client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid())
+    ) OR public.is_admin_or_staff()
 );
+CREATE POLICY "Staff can manage milestones" ON public.project_milestones FOR ALL USING (public.is_admin_or_staff());
 
-CREATE POLICY "Clients can view own invoices" ON public.invoices FOR SELECT USING (
-    client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid())
+CREATE POLICY "Project stakeholders can view tasks" ON public.project_tasks FOR SELECT USING (
+    project_id IN (
+        SELECT id FROM public.projects WHERE client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid())
+    ) OR public.is_admin_or_staff()
 );
-
-CREATE POLICY "Clients can view own payments" ON public.payments FOR SELECT USING (
-    client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid())
-);
-
-CREATE POLICY "Clients can view project documents" ON public.documents FOR SELECT USING (
-    is_client_accessible = true AND project_id IN (
+CREATE POLICY "Clients can update tasks requiring their action" ON public.project_tasks FOR UPDATE USING (
+    requires_client_action = true AND project_id IN (
         SELECT id FROM public.projects WHERE client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid())
     )
 );
+CREATE POLICY "Staff can manage tasks" ON public.project_tasks FOR ALL USING (public.is_admin_or_staff());
 
+-- Documents
+CREATE POLICY "Clients can view client accessible documents" ON public.documents FOR SELECT USING (
+    (is_client_accessible = true AND project_id IN (
+        SELECT id FROM public.projects WHERE client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid())
+    )) OR public.is_admin_or_staff()
+);
+CREATE POLICY "Staff can manage documents" ON public.documents FOR ALL USING (public.is_admin_or_staff());
+
+-- Quotations
+CREATE POLICY "Clients can view own quotations" ON public.quotations FOR SELECT USING (
+    client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid()) OR public.is_admin_or_staff()
+);
+CREATE POLICY "Clients can accept or request revision on quotation" ON public.quotations FOR UPDATE USING (
+    client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid())
+);
+CREATE POLICY "Staff can manage quotations" ON public.quotations FOR ALL USING (public.is_admin_or_staff());
+
+-- Invoices & Payments
+CREATE POLICY "Clients can view own invoices" ON public.invoices FOR SELECT USING (
+    client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid()) OR public.is_admin_or_staff()
+);
+CREATE POLICY "Staff can manage invoices" ON public.invoices FOR ALL USING (public.is_admin_or_staff());
+
+CREATE POLICY "Clients can view own payments" ON public.payments FOR SELECT USING (
+    client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid()) OR public.is_admin_or_staff()
+);
+CREATE POLICY "Staff can manage payments" ON public.payments FOR ALL USING (public.is_admin_or_staff());
+
+-- Messages
 CREATE POLICY "Clients can view and send project messages" ON public.messages FOR ALL USING (
     project_id IN (
         SELECT id FROM public.projects WHERE client_id IN (SELECT id FROM public.clients WHERE profile_id = auth.uid())
-    )
+    ) OR public.is_admin_or_staff()
 );
 
--- Profiles: Users can view their own profile; admins can view all
-CREATE POLICY "Users can view own profile" ON public.profiles FOR SELECT USING (id = auth.uid());
-CREATE POLICY "Users can update own profile" ON public.profiles FOR UPDATE USING (id = auth.uid());
+-- Notifications
+CREATE POLICY "Users can view own notifications" ON public.notifications FOR SELECT USING (
+    recipient_id = auth.uid() OR recipient_id IS NULL
+);
+CREATE POLICY "Users can mark own notifications as read" ON public.notifications FOR UPDATE USING (
+    recipient_id = auth.uid()
+);
+
+-- Site Settings
+CREATE POLICY "Public can view site settings" ON public.site_settings FOR SELECT USING (true);
+CREATE POLICY "Staff can manage site settings" ON public.site_settings FOR ALL USING (public.is_admin_or_staff());

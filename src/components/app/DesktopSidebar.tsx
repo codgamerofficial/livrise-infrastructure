@@ -16,43 +16,50 @@ import {
   Shield,
   ExternalLink,
   LogOut,
+  FileCheck,
 } from 'lucide-react';
 import { useLivRiseStore } from '@/lib/store';
+import { useAuth } from '@/lib/auth-context';
 
 export function DesktopSidebar() {
   const pathname = usePathname();
-  const { currentUser, messages, notifications, projects } = useLivRiseStore();
+  const { messages, notifications, projects } = useLivRiseStore();
+  const { user, signOut } = useAuth();
+
+  const isPortal = pathname.startsWith('/portal');
+  const basePath = isPortal ? '/portal' : '/app';
 
   const unreadMessagesCount = messages.filter((m) => !m.isRead).length;
   const unreadNotifsCount = notifications.filter((n) => !n.isRead).length;
   const activeProjectsCount = projects.filter((p) => p.status !== 'Completed').length;
 
   const links = [
-    { label: 'Overview', href: '/app', icon: Home, exact: true },
+    { label: 'Overview', href: `${basePath}`, icon: Home, exact: true },
     {
       label: 'Projects',
-      href: '/app/projects',
+      href: `${basePath}/projects`,
       icon: Briefcase,
       badge: activeProjectsCount > 0 ? activeProjectsCount : undefined,
       exact: false,
     },
+    { label: 'Quotations', href: `${basePath}/quotations`, icon: FileCheck, exact: false },
+    { label: 'Documents', href: `${basePath}/documents`, icon: FileText, exact: false },
+    { label: 'Invoices & Payments', href: `${basePath}/payments`, icon: CreditCard, exact: false },
     {
       label: 'Messages',
-      href: '/app/messages',
+      href: `${basePath}/messages`,
       icon: MessageSquare,
       badge: unreadMessagesCount > 0 ? unreadMessagesCount : undefined,
       exact: false,
     },
-    { label: 'Documents', href: '/app/documents', icon: FileText, exact: false },
-    { label: 'Invoices & Payments', href: '/app/payments', icon: CreditCard, exact: false },
     {
       label: 'Notifications',
-      href: '/app/notifications',
+      href: `${basePath}/notifications`,
       icon: Bell,
       badge: unreadNotifsCount > 0 ? unreadNotifsCount : undefined,
       exact: false,
     },
-    { label: 'Profile & Settings', href: '/app/profile', icon: User, exact: false },
+    { label: 'Profile & Settings', href: `${basePath}/profile`, icon: User, exact: false },
   ];
 
   return (
@@ -117,7 +124,7 @@ export function DesktopSidebar() {
 
       {/* Bottom: Client Profile Card & Admin Switcher */}
       <div className="flex flex-col gap-3 pt-4 border-t border-zinc-800">
-        {(currentUser.role === 'admin' || currentUser.role === 'super_admin') && (
+        {(user?.role === 'admin' || user?.role === 'super_admin') && (
           <Link
             href="/admin"
             className="flex items-center justify-between p-2.5 rounded-xl bg-brand-charcoal border border-brand-gold/30 text-brand-gold-bright hover:bg-brand-graphite transition-all text-xs font-semibold"
@@ -133,25 +140,26 @@ export function DesktopSidebar() {
         <div className="flex items-center justify-between p-3 rounded-2xl bg-brand-charcoal border border-zinc-800">
           <div className="flex items-center gap-2.5 overflow-hidden">
             <div className="w-8 h-8 rounded-full bg-brand-gold-bright text-black flex items-center justify-center font-bold text-xs shrink-0">
-              {currentUser.name.charAt(0)}
+              {(user?.fullName || 'C').charAt(0)}
             </div>
             <div className="flex flex-col min-w-0">
               <span className="text-xs font-bold text-white truncate">
-                {currentUser.name}
+                {user?.fullName || 'Client User'}
               </span>
               <span className="text-[10px] font-mono text-zinc-400 truncate uppercase">
-                {currentUser.role}
+                {user?.role || 'CLIENT'}
               </span>
             </div>
           </div>
 
-          <Link
-            href="/"
-            title="Return to Public Website"
-            className="text-zinc-500 hover:text-white p-1.5 rounded-lg hover:bg-brand-graphite transition-colors"
+          <button
+            type="button"
+            onClick={() => signOut()}
+            title="Log Out of Portal"
+            className="text-zinc-500 hover:text-rose-400 p-1.5 rounded-lg hover:bg-brand-graphite transition-colors"
           >
             <LogOut className="w-4 h-4" />
-          </Link>
+          </button>
         </div>
       </div>
     </aside>

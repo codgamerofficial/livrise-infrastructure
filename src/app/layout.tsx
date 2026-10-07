@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { LivRiseStoreProvider } from '@/lib/store';
+import { AuthProvider } from '@/lib/auth-context';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { FloatingContact } from '@/components/ui/FloatingContact';
 import { PwaInstallPrompt } from '@/components/ui/PwaInstallPrompt';
@@ -124,13 +125,15 @@ export default function RootLayout({
       </head>
       <body className="bg-(--bg-primary) text-(--text-primary) min-h-screen flex flex-col antialiased selection:bg-brand-gold selection:text-black transition-colors duration-200 pb-16 md:pb-0 font-sans">
         <ThemeProvider>
-          <LivRiseStoreProvider>
-            <LivRiseSplashScreen />
-            <div className="flex-1 flex flex-col">{children}</div>
-            <MobileBottomNav />
-            <FloatingContact />
-            <PwaInstallPrompt />
-          </LivRiseStoreProvider>
+          <AuthProvider>
+            <LivRiseStoreProvider>
+              <LivRiseSplashScreen />
+              <div className="flex-1 flex flex-col">{children}</div>
+              <MobileBottomNav />
+              <FloatingContact />
+              <PwaInstallPrompt />
+            </LivRiseStoreProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

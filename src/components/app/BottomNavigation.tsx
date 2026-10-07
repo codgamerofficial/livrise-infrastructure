@@ -18,35 +18,38 @@ export function BottomNavigation() {
 
   const unreadMessagesCount = messages.filter((m) => !m.isRead).length;
 
+  const isPortal = pathname.startsWith('/portal');
+  const basePath = isPortal ? '/portal' : '/app';
+
   const navItems = [
     {
       label: 'Home',
-      href: '/app',
+      href: `${basePath}`,
       icon: Home,
       exact: true,
     },
     {
       label: 'Projects',
-      href: '/app/projects',
+      href: `${basePath}/projects`,
       icon: Briefcase,
       exact: false,
     },
     {
       label: 'Messages',
-      href: '/app/messages',
+      href: `${basePath}/messages`,
       icon: MessageSquare,
       badge: unreadMessagesCount > 0 ? unreadMessagesCount : undefined,
       exact: false,
     },
     {
       label: 'Documents',
-      href: '/app/documents',
+      href: `${basePath}/documents`,
       icon: FileText,
       exact: false,
     },
     {
       label: 'Profile',
-      href: '/app/profile',
+      href: `${basePath}/profile`,
       icon: User,
       exact: false,
     },

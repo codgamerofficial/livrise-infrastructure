@@ -192,7 +192,7 @@ export default function AdminProjectControlCenter() {
                   onClick={() => {
                     setSelectedMilestone(m);
                     setEditStatus(m.status);
-                    setEditProgress(m.progress || m.progressPercentage);
+                    setEditProgress(m.progress ?? m.progressPercentage ?? 0);
                   }}
                   className="w-full py-1.5 rounded-lg text-xs font-mono font-medium bg-white/5 hover:bg-sky-400 hover:text-slate-950 transition-colors text-slate-300"
                 >

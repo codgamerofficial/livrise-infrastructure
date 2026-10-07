@@ -137,15 +137,19 @@ export interface Milestone {
   id: string;
   projectId: string;
   name: string;
+  title?: string;
   description: string;
   status: MilestoneStatus;
-  ownerName: string;
+  stage?: string;
+  ownerName?: string;
   owner?: string;
-  startDate: string;
+  startDate?: string;
   dueDate: string;
-  progressPercentage: number;
+  completedDate?: string;
+  progressPercentage?: number;
+  percentage?: number;
   progress?: number;
-  displayOrder: number;
+  displayOrder?: number;
 }
 
 export interface ProjectTask {
@@ -163,6 +167,7 @@ export interface Project {
   id: string;
   projectCode: string; // e.g. INF-PRJ-2026-004
   title: string;
+  name?: string;
   slug: string;
   clientId: string;
   clientName: string;
@@ -175,6 +180,10 @@ export interface Project {
   buildingType: string;
   servicesRendered: string[];
   services?: string[];
+  service?: string;
+  projectType?: string;
+  stage?: string;
+  description?: string;
   summary: string;
   challenge?: string;
   solution?: string;
@@ -187,6 +196,7 @@ export interface Project {
   startDate: string;
   estimatedCompletion: string;
   targetCompletion?: string;
+  targetCompletionDate?: string;
   coverImageUrl: string;
   galleryImages: string[];
   drawings?: { name: string; rev: string; date: string; url: string }[];
@@ -207,12 +217,13 @@ export interface ProjectDocument {
   version?: string;
   category?: string;
   storagePath: string;
+  signedUrl?: string;
   fileSizeBytes: number;
   fileSize?: string;
   fileType?: string;
   fileUrl?: string;
   fileExtension: string;
-  status: 'Draft' | 'Under Review' | 'Approved' | 'Rejected' | 'Archived';
+  status: 'Draft' | 'Under Review' | 'Approved' | 'Rejected' | 'Archived' | 'Review' | 'Revision Requested';
   uploadedBy: string;
   uploadedAt: string;
   isClientAccessible: boolean;
@@ -228,6 +239,7 @@ export interface QuotationItem {
   unitPrice: number;
   totalPrice: number;
   total?: number;
+  amount?: number;
 }
 
 export interface Quotation {
@@ -276,6 +288,7 @@ export interface Invoice {
   clientEmail: string;
   projectId?: string;
   projectName?: string;
+  milestoneName?: string;
   quotationNumber?: string;
   items: InvoiceItem[];
   subtotal: number;
@@ -309,7 +322,7 @@ export interface PaymentRecord {
   paymentMethod: string;
   gateway?: string;
   transactionId?: string;
-  status: 'Pending' | 'Processing' | 'Successful' | 'Failed' | 'Refunded';
+  status: 'Pending' | 'Processing' | 'Successful' | 'Failed' | 'Refunded' | 'Verified';
   paymentDate: string;
   paidAt?: string;
   notes?: string;

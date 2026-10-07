@@ -206,6 +206,17 @@ export function LivRiseStoreProvider({ children }: { children: React.ReactNode }
       if (storedUser) {
         setCurrentUser(JSON.parse(storedUser));
       }
+
+      // Automatically fetch live leads from Supabase backend
+      fetch('/api/leads')
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.success && Array.isArray(data.leads) && data.leads.length > 0) {
+            setLeads(data.leads);
+            saveToLocal('leads', data.leads);
+          }
+        })
+        .catch((err) => console.warn('[Store] Live leads fetch error:', err));
     } catch (e) {
       console.error('Failed to load local storage state:', e);
     }
@@ -321,6 +332,13 @@ export function LivRiseStoreProvider({ children }: { children: React.ReactNode }
       saveToLocal('leads', updated);
       return updated;
     });
+
+    // Persist to live Supabase backend
+    fetch('/api/leads', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: leadId, status }),
+    }).catch((err) => console.warn('[Store] Live lead status update error:', err));
 
     const targetLead = leads.find((l) => l.id === leadId);
     if (targetLead) {
@@ -441,6 +459,13 @@ export function LivRiseStoreProvider({ children }: { children: React.ReactNode }
     });
 
     updateLeadStatus(leadId, 'Won');
+
+    // Trigger real backend conversion API asynchronously
+    fetch('/api/admin/leads/convert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ leadId }),
+    }).catch((err) => console.warn('[Store] Conversion API request error:', err));
 
     return { client: newClient, project: newProject };
   };

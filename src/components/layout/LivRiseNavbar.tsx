@@ -72,7 +72,7 @@ export function LivRiseNavbar() {
     { label: 'About', href: '/about', icon: Info, desc: 'Our architecture & engineering firm' },
     { label: 'Insights', href: '/insights', icon: BookOpen, desc: 'Construction trends & guides' },
     { label: 'Contact', href: '/contact', icon: Phone, desc: 'Direct consultation' },
-    { label: 'Client Portal', href: '/app', icon: Shield, desc: 'Track your live project & files' },
+    { label: 'Client Portal', href: '/portal', icon: Shield, desc: 'Track your live project & files' },
   ];
 
   return (
@@ -126,7 +126,7 @@ export function LivRiseNavbar() {
 
             {/* Client Portal Link */}
             <Link
-              href="/app"
+              href="/portal"
               className="hidden sm:inline-flex text-xs font-semibold px-3 py-2 rounded-xl border border-white/15 bg-white/5 text-zinc-200 hover:text-white hover:bg-white/10 transition-all items-center gap-1.5"
             >
               <Shield className="w-3.5 h-3.5 text-brand-gold-bright" />

@@ -19,7 +19,9 @@ import {
   Phone,
   Mail,
   MoreVertical,
+  MessageSquare,
 } from 'lucide-react';
+import { getWhatsAppLink } from '@/lib/site-settings';
 
 const PIPELINE_COLUMNS: LeadStatus[] = [
   'New Leads',
@@ -241,7 +243,18 @@ export default function AdminLeadsPage() {
                             </button>
                           )}
 
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-1.5">
+                            {/* WhatsApp Quick Link */}
+                            <a
+                              href={getWhatsAppLink(`Hello ${lead.name || lead.fullName}, this is LivRise Infrastructure regarding your project enquiry (${lead.enquiryNumber}). How can our engineering team assist you today?`)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Chat with Lead on WhatsApp"
+                              className="p-1 rounded bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/25 transition-colors"
+                            >
+                              <MessageSquare className="w-3 h-3" />
+                            </a>
+
                             {/* Advance Stage button */}
                             {column !== 'Won' && column !== 'Lost' && (
                               <button
@@ -258,9 +271,11 @@ export default function AdminLeadsPage() {
                               </button>
                             )}
 
-                            {column === 'Won' && (
+                            {/* Convert to Client and Project */}
+                            {(column === 'Won' || column === 'Qualified') && (
                               <button
                                 onClick={() => handleConvert(lead.id)}
+                                title="Convert to Active Client & Project"
                                 className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 transition-colors"
                               >
                                 Convert
@@ -338,14 +353,23 @@ export default function AdminLeadsPage() {
                         </button>
                       )}
                     </td>
-                    <td className="py-3.5 px-4 text-right space-x-2">
+                    <td className="py-3.5 px-4 text-right space-x-1.5">
+                      <a
+                        href={getWhatsAppLink(`Hello ${lead.name || lead.fullName}, this is LivRise Infrastructure regarding your project enquiry (${lead.enquiryNumber}).`)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 text-[11px] font-mono"
+                        title="Chat on WhatsApp"
+                      >
+                        WhatsApp
+                      </a>
                       <Link
                         href={`/admin/leads/${lead.id}`}
-                        className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-white text-[11px]"
+                        className="inline-block px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 text-white text-[11px]"
                       >
                         Dossier
                       </Link>
-                      {lead.status === 'Won' && (
+                      {(lead.status === 'Won' || lead.status === 'Qualified') && (
                         <button
                           onClick={() => handleConvert(lead.id)}
                           className="px-2.5 py-1 rounded bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 text-[11px]"
